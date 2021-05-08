@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.experts.mapper.TLibraryPerformanceExpertMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.experts.entity.TLibraryPerformanceExpert">
+		<id column="ID_X" property="idX" />
+		<result column="EXP_CODE" property="expCode" />
+		<result column="EXP_NAME" property="expName" />
+		<result column="ID_NUMBER" property="idNumber" />
+		<result column="EXP_LEAVEL" property="expLeavel" />
+		<result column="EXP_TITLE" property="expTitle" />
+		<result column="EDUCATION" property="education" />
+		<result column="GRADUATED_FROM" property="graduatedFrom" />
+		<result column="TEL_NUMBER" property="telNumber" />
+		<result column="EMAIL_ADDRESS" property="emailAddress" />
+		<result column="PERMANENT_RESIDENCE_PROVINCE" property="permanentResidenceProvince" />
+		<result column="PERMANENT_RESIDENCE_CITY" property="permanentResidenceCity" />
+		<result column="PERMANENT_RESIDENCE_COUNTY" property="permanentResidenceCounty" />
+		<result column="MAIN_RESEARCH_DIRECTIONS" property="mainResearchDirections" />
+		<result column="MAIN_WORKS" property="mainWorks" />
+		<result column="RESEARCH_ACHIEVEMENTS" property="researchAchievements" />
+		<result column="PARTIC_PROJECT_NUMBER" property="particProjectNumber" />
+		<result column="MAIN_SERVICE_BRANCH" property="mainServiceBranch" />
+		<result column="INDUSTRY_ZFYS_LEVEL1" property="industryZfysLevel1" />
+		<result column="INDUSTRY_ZFYS_LEVEL2" property="industryZfysLevel2" />
+		<result column="INDUSTRY_GMJJ_LEVEL1" property="industryGmjjLevel1" />
+		<result column="INDUSTRY_GMJJ_LEVEL2" property="industryGmjjLevel2" />
+		<result column="SERV_REG_ASSE" property="servRegAsse" />
+		<result column="AUTHORITY_OF_EXPERTS" property="authorityOfExperts" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="EXP_STATUS" property="expStatus" />
+		<result column="CREATEOR2" property="createor2" />
+		<result column="CREATE_TIME2" property="createTime2" />
+		<result column="DATA_RIGHTS" property="dataRights" />
+		<result column="EXP_SING_IMG" property="expSingImg" />
+		<result column="DATA_STAUTS" property="dataStauts" />
+		<result column="INSCREASE_DESC" property="inscreaseDesc" />
+		<result column="REDUCE_DESC" property="reduceDesc" />
+	</resultMap>
+
+
+
+<!--==============================================================================================================-->
+		<!--组建专家组  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+	<!--1.分页查询专家信息  必须约束的条件：专家的状态(expStatus)为“正常”(1)；【专家的“数据状态”(dataStauts)为在库(1)这个约束暂时不要】-->
+	<select id="queryLivePage" resultMap="BaseResultMap">
+		select * from t_library_performance_expert
+		<where>
+			  EXP_STATUS='1'
+			<!--专家编号-->
+			<if test="tLibraryPerformanceExpert.expCode!=null and tLibraryPerformanceExpert.expCode!=''">
+				and EXP_CODE =#{tLibraryPerformanceExpert.expCode}
+			</if>
+
+			<!--专家姓名-->
+			<if test="tLibraryPerformanceExpert.expName!=null and tLibraryPerformanceExpert.expName!=''">
+				and EXP_NAME like concat('%',#{tLibraryPerformanceExpert.expName},'%')
+			</if>
+
+			<!--主要研究方向-->
+			<if test="tLibraryPerformanceExpert.mainResearchDirections!=null and tLibraryPerformanceExpert.mainResearchDirections!=''">
+				and MAIN_RESEARCH_DIRECTIONS like concat('%',#{tLibraryPerformanceExpert.mainResearchDirections},'%')
+			</if>
+			<!--综合查询字段：专家编号，专家姓名，主要研究方向-->
+			<if test="search!=null and search!=''">
+				and concat(EXP_CODE,EXP_NAME,MAIN_RESEARCH_DIRECTIONS)
+				like concat('%',#{search},'%')
+			</if>
+
+			<!--不包含该项目下已经存在的 专家编号数组-->
+			<if test="notIncludedExpCodes!=null and notIncludedExpCodes.size()>0">
+			and EXP_CODE not in
+				<foreach collection="notIncludedExpCodes" item="expCodes" open="(" separator="," close=")">
+					#{expCodes}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+
+
+<!--==============================================================================================================-->
+		<!--组建专家组  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+</mapper>

@@ -1,0 +1,1560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.project.approval.mapper.TProPerformanceInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.project.approval.entity.TProPerformanceInfo">
+		<id column="ID_A" property="idA" />
+		<result column="PRO_STATUS" property="proStatus" />
+		<result column="PRO_CODE" property="proCode" />
+		<result column="PRO_NAME" property="proName" />
+		<result column="PRO_PARTEN_ID" property="proPartenId" />
+		<result column="PRO_PARTEN_NAME" property="proPartenName" />
+		<result column="PRO_MANAGER_ID" property="proManagerId" />
+		<result column="PRO_MANAGER_NAME" property="proManagerName" />
+		<result column="PRO_ISDISMANT" property="proIsdismant" />
+		<result column="PRO_IS_SECRET" property="proIsSecret" />
+		<result column="PRO_SECRETARY_ID" property="proSecretaryId" />
+		<result column="PRO_SECRETARY_NAME" property="proSecretaryName" />
+		<result column="PRO_INDEP_REVIEW_ID" property="proIndepReviewId" />
+		<result column="PRO_INDEP_REVIEW_NAME" property="proIndepReviewName" />
+		<result column="BUD_FUNCT_CLASS_ID" property="budFunctClassId" />
+		<result column="BUD_FUNCT_CLASS_NAME" property="budFunctClassName" />
+		<result column="PRO_LEVEL4_CLASS_ID" property="proLevel4ClassId" />
+		<result column="PRO_LEVEL4_CLASS_NAME" property="proLevel4ClassName" />
+		<result column="NATION_ECO_INDUST_CLASS_ID" property="nationEcoIndustClassId" />
+		<result column="NATION_ECO_INDUST_CLASS_NAME" property="nationEcoIndustClassName" />
+		<result column="RISK_LEVEL" property="riskLevel" />
+		<result column="PARENT_PRO_CODE" property="parentProCode" />
+		<result column="PARENT_PRO_NAME" property="parentProName" />
+		<result column="BUSSINESS_TYPE" property="bussinessType" />
+		<result column="EVALUATION_OBJ" property="evaluationObj" />
+		<result column="IS_SETUP_WORKING_GROUP" property="isSetupWorkingGroup" />
+		<result column="PRO_BASE_INFO" property="proBaseInfo" />
+		<result column="PER_EVAL_OBJ" property="perEvalObj" />
+		<result column="PRO_APPROVAL_TIME" property="proApprovalTime" />
+		<result column="PRO_APPROVALER" property="proApprovaler" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATER" property="updater" />
+		<result column="DEVELOPMENT_STATUS" property="developmentStatus" />
+		<result column="INDEX_DSEIGN_STATUS" property="indexDseignStatus" />
+		<result column="WORKING_DESIGN_STATUS" property="workingDesignStatus" />
+		<result column="RESEARCH_SCHEDULE_STATUS_Y" property="researchScheduleStatusY" />
+		<result column="RESEARCH_SCHEDULE_STATUS_C" property="researchScheduleStatusC" />
+		<result column="RESEARCH_OUTLINE_STATUS_Y" property="researchOutlineStatusY" />
+		<result column="RESEARCH_OUTLINE_STATUS_C" property="researchOutlineStatusC" />
+		<result column="RESEARCH_LETTER_STATUS_Y" property="researchLetterStatusY" />
+		<result column="RESEARCH_LETTER_STATUS_C" property="researchLetterStatusC" />
+		<result column="QUES_CHECK_STATUS_Y" property="quesCheckStatusY" />
+		<result column="QUES_CHECK_STATUS_C" property="quesCheckStatusC" />
+		<result column="WORKING_WRITE_STATUS_Y" property="workingWriteStatusY" />
+		<result column="WORKING_WRITE_STATUS_C" property="workingWriteStatusC" />
+		<result column="PERPAR_WORKPLAN_STATUS" property="perparWorkplanStatus" />
+		<result column="PRELIM_EVAL_CONC_STATUS" property="prelimEvalConcStatus" />
+		<result column="EVAL_REPORT_STATUS" property="evalReportStatus" />
+		<result column="WORK_SUMMARY_STATUS" property="workSummaryStatus" />
+		<result column="ARCHIVES_CLASS" property="archivesClass" />
+		<result column="JOB_REQUIREMENTS" property="jobRequirements" />
+		<result column="OTHER_DESC" property="otherDesc" />
+		<result column="IS_TASK_ASSIGNED" property="isTaskAssigned" />
+		<result column="ARCHIVES_CLASS_STATUS" property="archivesClassStatus" />
+		<result column="EXPERT_GROUP_ISFORMED" property="expertGroupIsformed" />
+		<result column="systemDseigntor" property="systemDseigntor" />
+		<result column="systemDseignTime" property="systemDseignTime" />
+		<result column="systemDseignStatus" property="systemDseignStatus" />
+		<result column="versionNO" property="versionNO"/><!--版本-->
+		<result column="workingGroupTime" property="workingGroupTime" /> <!-- 组建工作组时间 -->
+
+		<!-- author:田鑫艳   TPerformanceWorkingGroup绩效工作组表 主要是为了得到外勤主管对象   一对一查询  -->
+		<association property="performanceWorkingGroup" javaType="com.common.business.workgroup.establish.entity.TPerformanceWorkingGroup">
+			<id column="ID_B" property="idB" />
+			<result column="ID_A" property="idA" />
+			<result column="GROUP_MEMBER_ID" property="groupMemberId" />
+			<result column="GROUP_MEMBER_NAME" property="groupMemberName" />
+			<result column="GROUP_MEMBER_CODE" property="groupMemberCode" />
+			<result column="BRANCH_OFFICE_ID" property="branchOfficeId" />
+			<result column="BRANCH_OFFICE_NAME" property="branchOfficeName" />
+			<result column="USER_LEAVEL" property="userLeavel" />
+			<result column="GRADUATED_FROM" property="graduatedFrom" />
+			<result column="EDUCATION" property="education" />
+			<result column="MAJOR" property="major" />
+			<result column="IS_QUALIFIED_MAIN_REVIEWER" property="isQualifiedMainReviewer" />
+			<result column="PROJECT_TYPE" property="projectType" />
+			<result column="PREVIOUS_PROJECT_ROLE" property="previousProjectRole" />
+			<result column="YEARS_EXPERIENCE" property="yearsExperience" />
+			<result column="REMARK" property="remark" />
+			<result column="IS_WORK_CHARGE" property="isWorkCharge" />
+			<result column="CREATEOR" property="createor" />
+			<result column="CREATE_TIME" property="createTime" />
+			<result column="UPDATEOR" property="updateor" />
+			<result column="UPDATE_TIME" property="updateTime" />
+		</association>
+
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID_A,
+		PRO_STATUS,
+		PRO_CODE,
+		PRO_NAME,
+		PRO_PARTEN_ID,
+		PRO_PARTEN_NAME,
+		PRO_MANAGER_ID,
+		PRO_MANAGER_NAME,
+		PRO_ISDISMANT,
+		PRO_IS_SECRET,
+		PRO_SECRETARY_ID,
+		PRO_SECRETARY_NAME,
+		PRO_INDEP_REVIEW_ID,
+		PRO_INDEP_REVIEW_NAME,
+		BUD_FUNCT_CLASS_ID,
+		BUD_FUNCT_CLASS_NAME,
+		PRO_LEVEL4_CLASS_ID,
+		PRO_LEVEL4_CLASS_NAME,
+		NATION_ECO_INDUST_CLASS_ID,
+		NATION_ECO_INDUST_CLASS_NAME,
+		RISK_LEVEL,
+		PARENT_PRO_CODE,
+		PARENT_PRO_NAME,
+		BUSSINESS_TYPE,
+		EVALUATION_OBJ,
+		IS_SETUP_WORKING_GROUP,
+		PRO_BASE_INFO,
+		PER_EVAL_OBJ,
+		PRO_APPROVAL_TIME,
+		PRO_APPROVALER,
+		UPDATE_TIME,
+		UPDATER,
+		EXPERT_GROUP_ISFORMED,
+		DEVELOPMENT_STATUS,
+		INDEX_DSEIGN_STATUS,
+		WORKING_DESIGN_STATUS,
+		RESEARCH_SCHEDULE_STATUS_Y,
+		RESEARCH_SCHEDULE_STATUS_C,
+		RESEARCH_OUTLINE_STATUS_Y,
+		RESEARCH_OUTLINE_STATUS_C,
+		RESEARCH_LETTER_STATUS_Y,
+		RESEARCH_LETTER_STATUS_C,
+		QUES_CHECK_STATUS_Y,
+		QUES_CHECK_STATUS_C,
+		WORKING_WRITE_STATUS_Y,
+		WORKING_WRITE_STATUS_C,
+		PERPAR_WORKPLAN_STATUS,
+		PRELIM_EVAL_CONC_STATUS,
+		EVAL_REPORT_STATUS,
+		WORK_SUMMARY_STATUS,
+		ARCHIVES_CLASS,
+		JOB_REQUIREMENTS,
+		OTHER_DESC,
+		IS_TASK_ASSIGNED,
+		ARCHIVES_CLASS_STATUS
+	</sql>
+	<!--<sql id="Base_Column_List_As">
+		ID_A As idA,
+		PRO_STATUS As proStatus,
+		PRO_CODE As proCode,
+		PRO_NAME As proName,
+		PRO_PARTEN_ID As proPartenId,
+		PRO_PARTEN_NAME As proPartenName,
+		PRO_MANAGER_ID As proManagerId,
+		PRO_MANAGER_NAME As proManagerName,
+		PRO_ISDISMANT As proIsdismant,
+		PRO_SECRETARY_ID As proSecretaryId,
+		PRO_SECRETARY_NAME As proSecretaryName,
+		PRO_INDEP_REVIEW_ID As proIndepReviewId,
+		PRO_INDEP_REVIEW_NAME As proIndepReviewName,
+		BUD_FUNCT_CLASS_ID As budFunctClassId,
+		BUD_FUNCT_CLASS_NAME As budFunctClassName,
+		PRO_LEVEL4_CLASS_ID As proLevel4ClassId,
+		PRO_LEVEL4_CLASS_NAME As proLevel4ClassName,
+		NATION_ECO_INDUST_CLASS_ID As nationEcoIndustClassId,
+		NATION_ECO_INDUST_CLASS_NAME As nationEcoIndustClassName,
+		RISK_LEVEL As riskLevel,
+		PARENT_PRO_CODE As parentProCode,
+		PARENT_PRO_NAME As parentProName,
+		BUSSINESS_TYPE As bussinessType,
+		IS_SETUP_WORKING_GROUP As isSetupWorkingGroup,
+		PRO_BASE_INFO As proBaseInfo,
+		PER_EVAL_OBJ As perEvalObj,
+		PRO_APPROVAL_TIME As proApprovalTime,
+		PRO_APPROVALER As proApprovaler,
+		UPDATE_TIME As updateTime,
+		UPDATER As updater,
+		EXPERT_GROUP_ISFORMED As expertGroupIsformed,
+		DEVELOPMENT_STATUS As developmentStatus,
+		INDEX_DSEIGN_STATUS As indexDseignStatus,
+		WORKING_DESIGN_STATUS As workingDesignStatus,
+		RESEARCH_SCHEDULE_STATUS_Y As researchScheduleStatusY,
+		RESEARCH_SCHEDULE_STATUS_C As researchScheduleStatusC,
+		RESEARCH_OUTLINE_STATUS_Y As researchOutlineStatusY,
+		RESEARCH_OUTLINE_STATUS_C As researchOutlineStatusC,
+		RESEARCH_LETTER_STATUS_Y As researchLetterStatusY,
+		RESEARCH_LETTER_STATUS_C As researchLetterStatusC,
+		QUES_CHECK_STATUS_Y As quesCheckStatusY,
+		QUES_CHECK_STATUS_C As quesCheckStatusC,
+		WORKING_WRITE_STATUS_Y As workingWriteStatusY,
+		WORKING_WRITE_STATUS_C As workingWriteStatusC,
+		PERPAR_WORKPLAN_STATUS As perparWorkplanStatus,
+		PRELIM_EVAL_CONC_STATUS As prelimEvalConcStatus,
+		EVAL_REPORT_STATUS As evalReportStatus,
+		WORK_SUMMARY_STATUS As workSummaryStatus,
+		ARCHIVES_CLASS As archivesClass,
+		ARCHIVES_CLASS_STATUS As archivesClassStatus
+	</sql>-->
+	<sql id="Base_Query_Condition">
+		<if test="idA != null and idA != ''">
+			AND ID_A = #{idA,jdbcType=INTEGER}
+		</if>
+		<if test="proStatus != null and proStatus != ''">
+			AND PRO_STATUS = #{proStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="proCode != null and proCode != ''">
+			AND PRO_CODE = #{proCode,jdbcType=VARCHAR}
+		</if>
+		<if test="proName != null and proName != ''">
+			AND PRO_NAME = #{proName,jdbcType=VARCHAR}
+		</if>
+		<if test="proPartenId != null and proPartenId != ''">
+			AND PRO_PARTEN_ID = #{proPartenId,jdbcType=VARCHAR}
+		</if>
+		<if test="proPartenName != null and proPartenName != ''">
+			AND PRO_PARTEN_NAME = #{proPartenName,jdbcType=VARCHAR}
+		</if>
+		<if test="proManagerId != null and proManagerId != ''">
+			AND PRO_MANAGER_ID = #{proManagerId,jdbcType=VARCHAR}
+		</if>
+		<if test="proManagerName != null and proManagerName != ''">
+			AND PRO_MANAGER_NAME = #{proManagerName,jdbcType=VARCHAR}
+		</if>
+		<if test="proIsSecret != null and proIsSecret != ''">
+			AND PRO_ISDISMANT = #{proIsSecret,jdbcType=VARCHAR}
+		</if>
+		<if test="proIsdismant != null and proIsdismant != ''">
+			AND PRO_IS_SECRET = #{proIsdismant,jdbcType=VARCHAR}
+		</if>
+		<if test="proSecretaryId != null and proSecretaryId != ''">
+			AND PRO_SECRETARY_ID = #{proSecretaryId,jdbcType=VARCHAR}
+		</if>
+		<if test="proSecretaryName != null and proSecretaryName != ''">
+			AND PRO_SECRETARY_NAME = #{proSecretaryName,jdbcType=VARCHAR}
+		</if>
+		<if test="proIndepReviewId != null and proIndepReviewId != ''">
+			AND PRO_INDEP_REVIEW_ID = #{proIndepReviewId,jdbcType=VARCHAR}
+		</if>
+		<if test="proIndepReviewName != null and proIndepReviewName != ''">
+			AND PRO_INDEP_REVIEW_NAME = #{proIndepReviewName,jdbcType=VARCHAR}
+		</if>
+		<if test="budFunctClassId != null and budFunctClassId != ''">
+			AND BUD_FUNCT_CLASS_ID = #{budFunctClassId,jdbcType=VARCHAR}
+		</if>
+		<if test="budFunctClassName != null and budFunctClassName != ''">
+			AND BUD_FUNCT_CLASS_NAME = #{budFunctClassName,jdbcType=VARCHAR}
+		</if>
+		<if test="proLevel4ClassId != null and proLevel4ClassId != ''">
+			AND PRO_LEVEL4_CLASS_ID = #{proLevel4ClassId,jdbcType=VARCHAR}
+		</if>
+		<if test="proLevel4ClassName != null and proLevel4ClassName != ''">
+			AND PRO_LEVEL4_CLASS_NAME = #{proLevel4ClassName,jdbcType=VARCHAR}
+		</if>
+		<if test="nationEcoIndustClassId != null and nationEcoIndustClassId != ''">
+			AND NATION_ECO_INDUST_CLASS_ID = #{nationEcoIndustClassId,jdbcType=VARCHAR}
+		</if>
+		<if test="nationEcoIndustClassName != null and nationEcoIndustClassName != ''">
+			AND NATION_ECO_INDUST_CLASS_NAME = #{nationEcoIndustClassName,jdbcType=VARCHAR}
+		</if>
+		<if test="riskLevel != null and riskLevel != ''">
+			AND RISK_LEVEL = #{riskLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="parentProCode != null and parentProCode != ''">
+			AND PARENT_PRO_CODE = #{parentProCode,jdbcType=VARCHAR}
+		</if>
+		<if test="parentProName != null and parentProName != ''">
+			AND PARENT_PRO_NAME = #{parentProName,jdbcType=VARCHAR}
+		</if>
+		<if test="bussinessType != null and bussinessType != ''">
+			AND BUSSINESS_TYPE = #{bussinessType,jdbcType=VARCHAR}
+		</if>
+		<if test="evaluationObj != null and evaluationObj != ''">
+			AND EVALUATION_OBJ = #{evaluationObj,jdbcType=VARCHAR}
+		</if>
+		<if test="isSetupWorkingGroup != null and isSetupWorkingGroup != ''">
+			AND IS_SETUP_WORKING_GROUP = #{isSetupWorkingGroup,jdbcType=VARCHAR}
+		</if>
+		<if test="proBaseInfo != null and proBaseInfo != ''">
+			AND PRO_BASE_INFO = #{proBaseInfo,jdbcType=VARCHAR}
+		</if>
+		<if test="perEvalObj != null and perEvalObj != ''">
+			AND PER_EVAL_OBJ = #{perEvalObj,jdbcType=VARCHAR}
+		</if>
+		<if test="proApprovalTime != null and proApprovalTime != ''">
+			AND PRO_APPROVAL_TIME = #{proApprovalTime,jdbcType=DATE}
+		</if>
+		<if test="proApprovaler != null and proApprovaler != ''">
+			AND PRO_APPROVALER = #{proApprovaler,jdbcType=VARCHAR}
+		</if>
+		<if test="updateTime != null and updateTime != ''">
+			AND UPDATE_TIME = #{updateTime,jdbcType=DATE}
+		</if>
+		<if test="updater != null and updater != ''">
+			AND UPDATER = #{updater,jdbcType=VARCHAR}
+		</if>
+		<if test="expertGroupIsformed != null and expertGroupIsformed != ''">
+			AND EXPERT_GROUP_ISFORMED = #{expertGroupIsformed,jdbcType=VARCHAR}
+		</if>
+		<if test="developmentStatus != null and developmentStatus != ''">
+			AND DEVELOPMENT_STATUS = #{developmentStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="indexDseignStatus != null and indexDseignStatus != ''">
+			AND INDEX_DSEIGN_STATUS = #{indexDseignStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="workingDesignStatus != null and workingDesignStatus != ''">
+			AND WORKING_DESIGN_STATUS = #{workingDesignStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="researchScheduleStatusY != null and researchScheduleStatusY != ''">
+			AND RESEARCH_SCHEDULE_STATUS_Y = #{researchScheduleStatusY,jdbcType=VARCHAR}
+		</if>
+		<if test="researchScheduleStatusC != null and researchScheduleStatusC != ''">
+			AND RESEARCH_SCHEDULE_STATUS_C = #{researchScheduleStatusC,jdbcType=VARCHAR}
+		</if>
+		<if test="researchOutlineStatusY != null and researchOutlineStatusY != ''">
+			AND RESEARCH_OUTLINE_STATUS_Y = #{researchOutlineStatusY,jdbcType=VARCHAR}
+		</if>
+		<if test="researchOutlineStatusC != null and researchOutlineStatusC != ''">
+			AND RESEARCH_OUTLINE_STATUS_C = #{researchOutlineStatusC,jdbcType=VARCHAR}
+		</if>
+		<if test="researchLetterStatusY != null and researchLetterStatusY != ''">
+			AND RESEARCH_LETTER_STATUS_Y = #{researchLetterStatusY,jdbcType=VARCHAR}
+		</if>
+		<if test="researchLetterStatusC != null and researchLetterStatusC != ''">
+			AND RESEARCH_LETTER_STATUS_C = #{researchLetterStatusC,jdbcType=VARCHAR}
+		</if>
+		<if test="quesCheckStatusY != null and quesCheckStatusY != ''">
+			AND QUES_CHECK_STATUS_Y = #{quesCheckStatusY,jdbcType=VARCHAR}
+		</if>
+		<if test="quesCheckStatusC != null and quesCheckStatusC != ''">
+			AND QUES_CHECK_STATUS_C = #{quesCheckStatusC,jdbcType=VARCHAR}
+		</if>
+		<if test="workingWriteStatusY != null and workingWriteStatusY != ''">
+			AND WORKING_WRITE_STATUS_Y = #{workingWriteStatusY,jdbcType=VARCHAR}
+		</if>
+		<if test="workingWriteStatusC != null and workingWriteStatusC != ''">
+			AND WORKING_WRITE_STATUS_C = #{workingWriteStatusC,jdbcType=VARCHAR}
+		</if>
+		<if test="perparWorkplanStatus != null and perparWorkplanStatus != ''">
+			AND PERPAR_WORKPLAN_STATUS = #{perparWorkplanStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="prelimEvalConcStatus != null and prelimEvalConcStatus != ''">
+			AND PRELIM_EVAL_CONC_STATUS = #{prelimEvalConcStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="evalReportStatus != null and evalReportStatus != ''">
+			AND EVAL_REPORT_STATUS = #{evalReportStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="workSummaryStatus != null and workSummaryStatus != ''">
+			AND WORK_SUMMARY_STATUS = #{workSummaryStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="archivesClass != null and archivesClass != ''">
+			AND ARCHIVES_CLASS = #{archivesClass,jdbcType=VARCHAR}
+		</if>
+		<if test="jobRequirements != null and jobRequirements != ''">
+			AND JOB_REQUIREMENTS = #{jobRequirements,jdbcType=VARCHAR}
+		</if>
+		<if test="otherDesc != null and otherDesc != ''">
+			AND OTHER_DESC = #{otherDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="isTaskAssigned != null and isTaskAssigned != ''">
+			AND IS_TASK_ASSIGNED = #{isTaskAssigned,jdbcType=VARCHAR}
+		</if>
+		<if test="archivesClassStatus != null and archivesClassStatus != ''">
+			AND ARCHIVES_CLASS_STATUS = #{archivesClassStatus,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<!--前端页面查询条件-->
+	<sql id="Base_Search_Condition">
+		<!--综合查询的字段 ：主项目名，子项目名，项目负责人，项目经理，风险级别-->
+		<if test="search!=null and search!=''">
+			and concat(p.PARENT_PRO_NAME,p.PRO_NAME,p.PRO_PARTEN_NAME,p.PRO_MANAGER_NAME,p.RISK_LEVEL)
+			like concat('%',#{search},'%')
+		</if>
+		<!--主项目名称-->
+		<if test="tProPerformanceInfo.parentProName!=null and tProPerformanceInfo.parentProName!=''">
+			and p.PARENT_PRO_NAME like concat('%',#{tProPerformanceInfo.parentProName},'%')
+		</if>
+		<!--风险等级-->
+		<if test="tProPerformanceInfo.riskLevel != null and tProPerformanceInfo.riskLevel !=''">
+			and p.RISK_LEVEL LIKE concat('%',#{tProPerformanceInfo.riskLevel},'%')
+		</if>
+	</sql>
+	<select id="select" resultMap="BaseResultMap" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>
+	<select id="selectReturnList" resultMap="BaseResultMap" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>
+	<select id="selectPageList" resultMap="BaseResultMap" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9
+			<if test="tProPerformanceInfo.proManagerId != null and tProPerformanceInfo.proManagerId != ''">
+				AND PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId,jdbcType=VARCHAR}
+			</if>
+			<if test="tProPerformanceInfo.proCode != null and tProPerformanceInfo.proCode !=''">
+				and PRO_CODE LIKE concat('%',#{tProPerformanceInfo.proCode},'%')
+			</if>
+			<if test="tProPerformanceInfo.proName != null and tProPerformanceInfo.proName !=''">
+				and PRO_NAME LIKE concat('%',#{tProPerformanceInfo.proName},'%')
+			</if>
+			<if test="tProPerformanceInfo.riskLevel != null and tProPerformanceInfo.riskLevel !=''">
+				and RISK_LEVEL LIKE concat('%',#{tProPerformanceInfo.riskLevel},'%')
+			</if>
+			
+			<!--<include refid="Base_Query_Condition" />-->
+		</where>
+		ORDER BY UPDATE_TIME desc
+	</select>
+	<select id="selectApprovalPageList" resultMap="BaseResultMap" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9 AND PRO_STATUS != 0
+			<if test="tProPerformanceInfo.proCode != null and tProPerformanceInfo.proCode !=''">
+				and PRO_CODE LIKE concat('%',#{tProPerformanceInfo.proCode},'%')
+			</if>
+			<if test="tProPerformanceInfo.proName != null and tProPerformanceInfo.proName !=''">
+				and PRO_NAME LIKE concat('%',#{tProPerformanceInfo.proName},'%')
+			</if>
+			<if test="tProPerformanceInfo.riskLevel != null and tProPerformanceInfo.riskLevel !=''">
+				and RISK_LEVEL LIKE concat('%',#{tProPerformanceInfo.riskLevel},'%')
+			</if>
+			ORDER BY UPDATE_TIME desc
+			<!--<include refid="Base_Query_Condition" />-->
+		</where>
+	</select>
+	<select id="selectLedgerPageList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9
+			<if test="tProPerformanceInfo.proManagerId != null and tProPerformanceInfo.proManagerId != ''">
+				AND PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId,jdbcType=VARCHAR}
+			</if>
+			<if test="tProPerformanceInfo.proCode != null and tProPerformanceInfo.proCode !=''">
+				and PRO_CODE LIKE concat('%',#{tProPerformanceInfo.proCode},'%')
+			</if>
+			<if test="tProPerformanceInfo.proName != null and tProPerformanceInfo.proName !=''">
+				and PRO_NAME LIKE concat('%',#{tProPerformanceInfo.proName},'%')
+			</if>
+			<if test="tProPerformanceInfo.riskLevel != null and tProPerformanceInfo.riskLevel !=''">
+				and RISK_LEVEL LIKE concat('%',#{tProPerformanceInfo.riskLevel},'%')
+			</if>
+		</where>
+		ORDER BY UPDATE_TIME desc
+
+	</select>
+
+	<select id="selectLikeLedgerPageList" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9 AND PRO_STATUS != 0
+			AND PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			<if test="search != null || search != ''">
+				AND concat(
+				IFNULL('PRO_CODE',''),
+				IFNULL('PRO_NAME',''),
+				IFNULL('RISK_LEVEL',''),
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+		ORDER BY UPDATE_TIME desc
+	</select>
+
+	<select id="countLikeLedgerPage" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT
+		count(1)
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9 AND PRO_STATUS != 0
+			AND PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			<if test="search != null || search != ''">
+				AND concat(
+				IFNULL('PRO_CODE',''),
+				IFNULL('PRO_NAME',''),
+				IFNULL('RISK_LEVEL',''),
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="selectLikePageList" resultMap="BaseResultMap"  parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9
+			AND PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			<if test="search != null || search != ''">
+				AND concat(IFNULL('PRO_CODE',''),',',IFNULL('PRO_NAME',''),',',IFNULL('RISK_LEVEL',''),',',
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),',',IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+		ORDER BY UPDATE_TIME desc
+	</select>
+	<select id="countLikePage" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT
+		count(1)
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND PRO_STATUS != 9
+			AND PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			AND concat(IFNULL('PRO_CODE',''),',',IFNULL('PRO_NAME',''),',',IFNULL('RISK_LEVEL',''),',',
+			IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),',',IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+		</where>
+
+	</select>
+	<!--<select id="page" resultType="map" >
+		SELECT
+		<include refid="Base_Column_List_As" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>-->
+
+<!--==============================================================================================================-->
+		<!--组建专家组  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+	<!--精确查询和综合查询的某些字段-->
+	<sql id="querySomeIfTest">
+		<!--主项目名称-->
+		<if test="proPerformanceInfo.parentProName!=null and proPerformanceInfo.parentProName!=''">
+			and p.PARENT_PRO_NAME like concat('%',#{proPerformanceInfo.parentProName},'%')
+		</if>
+		<!--风险等级-->
+		<if test="proPerformanceInfo.riskLevel!=null and proPerformanceInfo.riskLevel!=''">
+			and p.RISK_LEVEL like concat('%',#{proPerformanceInfo.riskLevel},'%')
+		</if>
+		<!--综合查询的字段 ：子项目名，风险级别，预算支出功能分类，国民经济行业分类，立项时间-->
+		<if test="search!=null and search!=''">
+			and concat(p.PRO_NAME,p.RISK_LEVEL,p.BUD_FUNCT_CLASS_NAME,p.NATION_ECO_INDUST_CLASS_NAME,p.PRO_APPROVAL_TIME)
+			like concat('%',#{search},'%')
+		</if>
+	</sql>
+
+	<sql id="whereColumns">
+		<where><!--约束条件：
+			已经立项:t_pro_performance_info.PRO_STATUS='1'     0-暂存  1-已立项  2-已完结
+			已经组建工作组：t_pro_performance_info.IS_SETUP_WORKING_GROUP='Y'      Y-是，组建工作组完成后更新为Y   N-否（默认）
+			已经组建专家组：t_pro_performance_info.EXPERT_GROUP_ISFORMED='1'       0-未组建（默认）  1-已组建
+			是外勤主管：t_performance_working_group.IS_WORK_CHARGE='Y'            Y-是  N-否（默认）
+			当前登录人是该项目经理：因为当前经理才可以组建专家组和修改专家组-->
+			p.EXPERT_GROUP_ISFORMED='1' and g.IS_WORK_CHARGE='Y'
+			and p.IS_SETUP_WORKING_GROUP= 'Y' and p.PRO_STATUS='1'
+			and p.PRO_MANAGER_ID=#{proManagerId}
+			<!--综合查询的字段 ：主项目名，子项目名，项目负责人，项目经理，风险级别-->
+			<if test="search!=null and search!=''">
+				and concat(p.PARENT_PRO_NAME,p.PRO_NAME,p.PRO_PARTEN_NAME,p.PRO_MANAGER_NAME,p.RISK_LEVEL)
+				like concat('%',#{search},'%')
+			</if>
+			<!--主项目名称-->
+			<if test="tProPerformanceInfo.parentProName!=null and tProPerformanceInfo.parentProName!=''">
+				and p.PARENT_PRO_NAME like concat('%',#{tProPerformanceInfo.parentProName},'%')
+			</if>
+			<!--风险等级-->
+			<if test="tProPerformanceInfo.riskLevel!=null and tProPerformanceInfo.riskLevel!=''">
+				and p.RISK_LEVEL like concat('%',#{tProPerformanceInfo.riskLevel},'%')
+			</if>
+
+			<!--主项目编码，目的是为了查询指定的项目信息-->
+			<if test="parentProCode!=null and parentProCode!=''">
+				and p.PARENT_PRO_CODE like concat('%',#{parentProCode},'%')
+			</if>
+		</where>
+	</sql>
+
+
+	<!--1.查询所有已经创建好专家组都的数据 是指当前经理下-->
+	<select id="queryExceptTPerformanceInfo" resultMap="BaseResultMap">
+		select p.*,g.*
+		from t_pro_performance_info p left join t_performance_working_group g
+		on p.ID_A=g.ID_A
+		<include refid="whereColumns"/>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--2.查询该 主/子项目 所有匹配的字段和外勤主管 返回的是集合
+	约束条件：项目立项、已经组建工作组、明确工作任务中有“组建专家组字样”且已经勾选，当前登录人是该项目的项目经理，查询外勤主管
+	查询的条件：主项目编号
+	-->
+	<select id="selectExceptProjectInfo" resultMap="BaseResultMap">
+		select distinct p.*,g.*
+		from  t_performance_working_group g inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A inner join t_performance_task_allocation a
+		on p.ID_A=a.ID_A
+		where p.PRO_STATUS='1' and p.IS_SETUP_WORKING_GROUP='Y'
+		and p.PRO_MANAGER_ID=#{userId}
+		and p.PARENT_PRO_CODE=#{parentProCode} and g.IS_WORK_CHARGE='Y'
+		<if test="isExpert!=null">
+			and a.TASK_DESC like '组建专家组' and a.HAVE_BEEN_CHOOSE='1'
+		</if>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--3.查询所有未组建专家组项目信息
+	约束条件：项目已经立项，已经组建工作组，未组建专家组，当前登录人是项目经理，分配任务时有“组建专家组”且是否选择那一栏为选择-->
+	<select id="selectNoExcepertGroupInfo" resultMap="proPerformanceInfoResultMap">
+		select distinct
+		p.ID_A,
+		p.PARENT_PRO_CODE,
+		p.PARENT_PRO_NAME,
+		p.NATION_ECO_INDUST_CLASS_NAME,
+		p.RISK_LEVEL,
+		p.PRO_ISDISMANT,
+		p.PRO_SECRETARY_ID,
+		p.PRO_SECRETARY_NAME,
+		p.PRO_MANAGER_ID,
+		p.PRO_MANAGER_NAME,
+		p.EXPERT_GROUP_ISFORMED
+		from t_pro_performance_info p left join t_performance_task_allocation a
+		on p.ID_A=a.ID_A
+		where p.PRO_STATUS='1' and p.IS_SETUP_WORKING_GROUP='Y' and p.EXPERT_GROUP_ISFORMED='0'
+		and p.PRO_MANAGER_ID=#{proManagerId} and a.TASK_DESC like '组建专家组' and a.HAVE_BEEN_CHOOSE='1'
+		GROUP BY p.PARENT_PRO_CODE
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--4.查询主项目的信息 ，主子项目都是一样的-->
+	<select id="selectProjectMainInfo" resultMap="BaseResultMap">
+		select * from t_pro_performance_info where ID_A=#{idA}
+	</select>
+
+	<!--5.组建专家组后，修改主子项目信息中的 是否组建专家组的字段改为 是 1 （代表已经组建）-->
+	<update id="updateExpertGroupIsformed">
+		update t_pro_performance_info set EXPERT_GROUP_ISFORMED=#{expertGroupIsformed} where ID_A=#{idA}
+	</update>
+
+	<!--
+	根据主项目编号查询主子项目信息：当前登录用户为空的情况下
+	约束条件：项目已经立项、项目已经组建工作组
+	-->
+	<select id="selectInfoByProCode" resultMap="BaseResultMap">
+		select distinct p.*
+		from t_pro_performance_info p
+		where
+			p.PRO_STATUS='1' and p.IS_SETUP_WORKING_GROUP='Y'
+			and PARENT_PRO_CODE=#{parentProCode}
+
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+<!--==============================================================================================================-->
+		<!--组建专家组  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+
+<!--==============================================================================================================-->
+		<!--工作组台账  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+	<!---查询所有创建工作组的项目-->
+	<select id="selectWorkInfo" resultMap="BaseResultMap">
+		select p.*
+		from  t_performance_working_group g inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		<!--约束条件：
+		已经立项:t_pro_performance_info.PRO_STATUS='1'     0-暂存  1-已立项  2-已完结
+		已经组建工作组：t_pro_performance_info.IS_SETUP_WORKING_GROUP='Y'
+		-->
+		<where>
+			p.IS_SETUP_WORKING_GROUP= 'Y' and p.PRO_STATUS='1'
+			<!--项目经理 p.PRO_MANAGER_ID、项目负责合伙人 p.PRO_PARTEN_ID、
+				项目秘书 p.PRO_SECRETARY_ID、项目独立复核人 p.PRO_INDEP_REVIEW_ID、
+				组员可以查看台账-->
+			<if test="userId!=null and userId!='' ">
+				and (
+				 g.GROUP_MEMBER_ID=#{userId}
+				or p.PRO_MANAGER_ID=#{userId}
+				or p.PRO_PARTEN_ID=#{userId}
+				or p.PRO_SECRETARY_ID=#{userId}
+				or p.PRO_INDEP_REVIEW_ID=#{userId})
+			</if>
+			<include refid="querySomeIfTest"/>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+<!--==============================================================================================================-->
+		<!--工作组台账  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+
+
+	<!-- 项目主子表的查询映射结果，resultMap的id具有唯一性，{1，a},{1,b} 在判断的时候，因为1相同，所以会把{1，b}给去掉，解决办法：
+	 	将id换成result 或者起别名
+	 	（说明：此映射结果集，针对“资料收集上传”和“资料收集审核”的主页面显示）
+	 -->
+	<resultMap id="proPerformanceInfoResultMap" type="com.common.business.project.approval.entity.TProPerformanceInfo">
+		<result column="ID_A" property="idA" />
+		<result column="PRO_STATUS" property="proStatus" />
+		<result column="PRO_CODE" property="proCode" />
+		<result column="PRO_NAME" property="proName" />
+		<result column="PRO_PARTEN_ID" property="proPartenId" />
+		<result column="PRO_PARTEN_NAME" property="proPartenName" />
+		<result column="PRO_MANAGER_ID" property="proManagerId" />
+		<result column="PRO_MANAGER_NAME" property="proManagerName" />
+		<result column="PRO_ISDISMANT" property="proIsdismant" />
+		<result column="PRO_SECRETARY_ID" property="proSecretaryId" />
+		<result column="PRO_SECRETARY_NAME" property="proSecretaryName" />
+		<result column="PRO_INDEP_REVIEW_ID" property="proIndepReviewId" />
+		<result column="PRO_INDEP_REVIEW_NAME" property="proIndepReviewName" />
+		<result column="BUD_FUNCT_CLASS_ID" property="budFunctClassId" />
+		<result column="BUD_FUNCT_CLASS_NAME" property="budFunctClassName" />
+		<result column="PRO_LEVEL4_CLASS_ID" property="proLevel4ClassId" />
+		<result column="PRO_LEVEL4_CLASS_NAME" property="proLevel4ClassName" />
+		<result column="NATION_ECO_INDUST_CLASS_ID" property="nationEcoIndustClassId" />
+		<result column="NATION_ECO_INDUST_CLASS_NAME" property="nationEcoIndustClassName" />
+		<result column="RISK_LEVEL" property="riskLevel" />
+		<result column="PARENT_PRO_CODE" property="parentProCode" />
+		<result column="PARENT_PRO_NAME" property="parentProName" />
+		<result column="BUSSINESS_TYPE" property="bussinessType" />
+		<result column="EVALUATION_OBJ" property="evaluationObj" />
+		<result column="IS_SETUP_WORKING_GROUP" property="isSetupWorkingGroup" />
+		<result column="PRO_BASE_INFO" property="proBaseInfo" />
+		<result column="PER_EVAL_OBJ" property="perEvalObj" />
+		<result column="PRO_APPROVAL_TIME" property="proApprovalTime" />
+		<result column="PRO_APPROVALER" property="proApprovaler" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="UPDATER" property="updater" />
+		<result column="DEVELOPMENT_STATUS" property="developmentStatus" />
+		<result column="INDEX_DSEIGN_STATUS" property="indexDseignStatus" />
+		<result column="WORKING_DESIGN_STATUS" property="workingDesignStatus" />
+		<result column="RESEARCH_SCHEDULE_STATUS_Y" property="researchScheduleStatusY" />
+		<result column="RESEARCH_SCHEDULE_STATUS_C" property="researchScheduleStatusC" />
+		<result column="RESEARCH_OUTLINE_STATUS_Y" property="researchOutlineStatusY" />
+		<result column="RESEARCH_OUTLINE_STATUS_C" property="researchOutlineStatusC" />
+		<result column="RESEARCH_LETTER_STATUS_Y" property="researchLetterStatusY" />
+		<result column="RESEARCH_LETTER_STATUS_C" property="researchLetterStatusC" />
+		<result column="QUES_CHECK_STATUS_Y" property="quesCheckStatusY" />
+		<result column="QUES_CHECK_STATUS_C" property="quesCheckStatusC" />
+		<result column="WORKING_WRITE_STATUS_Y" property="workingWriteStatusY" />
+		<result column="WORKING_WRITE_STATUS_C" property="workingWriteStatusC" />
+		<result column="PERPAR_WORKPLAN_STATUS" property="perparWorkplanStatus" />
+		<result column="PRELIM_EVAL_CONC_STATUS" property="prelimEvalConcStatus" />
+		<result column="EVAL_REPORT_STATUS" property="evalReportStatus" />
+		<result column="WORK_SUMMARY_STATUS" property="workSummaryStatus" />
+		<result column="ARCHIVES_CLASS" property="archivesClass" />
+		<result column="JOB_REQUIREMENTS" property="jobRequirements" />
+		<result column="OTHER_DESC" property="otherDesc" />
+		<result column="IS_TASK_ASSIGNED" property="isTaskAssigned" />
+		<result column="ARCHIVES_CLASS_STATUS" property="archivesClassStatus" />
+		<result column="EXPERT_GROUP_ISFORMED" property="expertGroupIsformed" />
+		<result column="informationVersionNO" property="informationVersionNO"/><!--资料最新版本-->
+		<result column="idR" property="idR"/><!--资料项目清单关系表ID_R 调研安排关系表ID_R-->
+		<result column="fileUpdateor" property="fileUpdateor"/><!--资料上传人-->
+		<result column="versionNO" property="versionNO"/><!--版本-->
+		<result column="createTime" property="createTime"/><!--拟定时间-->
+		<result column="createStauts" property="createStauts"/><!--版本状态-->
+
+		<!-- author:田鑫艳   TPerformanceWorkingGroup绩效工作组表 主要是为了得到外勤主管对象   一对一查询  -->
+		<association property="performanceWorkingGroup" javaType="com.common.business.workgroup.establish.entity.TPerformanceWorkingGroup">
+			<id column="ID_B" property="idB" />
+			<result column="ID_A" property="idA" />
+			<result column="GROUP_MEMBER_ID" property="groupMemberId" />
+			<result column="GROUP_MEMBER_NAME" property="groupMemberName" />
+			<result column="GROUP_MEMBER_CODE" property="groupMemberCode" />
+			<result column="BRANCH_OFFICE_ID" property="branchOfficeId" />
+			<result column="BRANCH_OFFICE_NAME" property="branchOfficeName" />
+			<result column="USER_LEAVEL" property="userLeavel" />
+			<result column="GRADUATED_FROM" property="graduatedFrom" />
+			<result column="EDUCATION" property="education" />
+			<result column="MAJOR" property="major" />
+			<result column="IS_QUALIFIED_MAIN_REVIEWER" property="isQualifiedMainReviewer" />
+			<result column="PROJECT_TYPE" property="projectType" />
+			<result column="PREVIOUS_PROJECT_ROLE" property="previousProjectRole" />
+			<result column="YEARS_EXPERIENCE" property="yearsExperience" />
+			<result column="REMARK" property="remark" />
+			<result column="IS_WORK_CHARGE" property="isWorkCharge" />
+			<result column="CREATEOR" property="createor" />
+			<result column="CREATE_TIME" property="createTime" />
+			<result column="UPDATEOR" property="updateor" />
+			<result column="UPDATE_TIME" property="updateTime" />
+		</association>
+
+	</resultMap>
+
+
+	<!--资料收集上传  开始   author: 田鑫艳-->
+
+	<!--1.资料收集主页面分页显示 资料收集上传主页面的信息
+		条件：项目已经立项 PRO_STATUS=1、
+		资料清单拟定中，资料收集人是当前登录人DATA_COLLECTOR_ID、
+		资料清单关系表中，版本状态 已完成 CREATE_STAUTS=2、单据状态 正常 RELATION_STATUS是1-->
+	<select id="queryInformationPerformanceInfo" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*,r.VERSION_NO as informationVersionNO,r.ID_R as idR
+		from   t_pro_performance_info p right JOIN  relation_pro_list r
+		on r.ID_A=p.ID_A
+		left join t_development_information_list d
+		on r.ID_R=d.ID_R
+		where
+		r.CREATE_STAUTS='2' and p.PRO_STATUS='1' and d.DATA_COLLECTOR_ID=#{userId} and r.RELATION_STATUS='1'
+		<where>
+
+			<!--子项目名称-->
+			<if test="proPerformanceInfo.proName!=null and proPerformanceInfo.proName!=''">
+				and p.PRO_NAME like concat('%',#{tProPerformanceInfo.proName},'%')
+			</if>
+			<!--风险等级-->
+			<if test="proPerformanceInfo.riskLevel!=null and proPerformanceInfo.riskLevel!=''">
+				and p.RISK_LEVEL like concat('%',#{tProPerformanceInfo.riskLevel},'%')
+			</if>
+			<!--综合查询的字段 ：子项目名，风险级别，预算支出功能分类，国民经济行业分类，立项时间-->
+			<if test="search!=null and search!=''">
+				and concat(p.PRO_NAME,p.RISK_LEVEL,p.BUD_FUNCT_CLASS_NAME,p.NATION_ECO_INDUST_CLASS_NAME,p.PRO_APPROVAL_TIME)
+				like concat('%',#{search},'%')
+			</if>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+
+	</select>
+	<!--资料收集上传  结束   author: 田鑫艳-->
+
+	<!--资料收集审核  开始   author: 田鑫艳-->
+	<!--1.资料收集审核 分页查询 资料收集审核的数据
+	约束条件：项目立项、已经通过审批、每个模块下已经有资料上传(可能有的模块没有上传完)、当前登录人是项目主管、拟定单的状态是正常1
+	g.GROUP_MEMBER_ID=u.id 相对应，应该会变
+	-->
+	<!--针对于 资料收集审核 和 政策法规的数据来源是项目的情况下 需要查询的数据信息-->
+	<sql id="fileAndPolicySelect">
+		select DISTINCT p.*,r.VERSION_NO as informationVersionNO,r.ID_R as idR
+		from t_performance_working_group g  inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		inner join rc_user u
+		on g.GROUP_MEMBER_ID=u.id
+		right join  relation_pro_list r
+		on r.ID_A=p.ID_A
+		inner join t_development_information_list d
+		on r.ID_R=d.ID_R
+	</sql>
+
+	<!--
+
+	项目立项、已经通过审批、每个模块下已经有资料上传(可能有的模块没有上传完)、当前登录人是项目主管、拟定单的状态是正常1
+	g.GROUP_MEMBER_ID=u.id 相对应，应该会变
+	r.CREATE_STAUTS='2' 拟定关系表已经审批
+	r.RELATION_STATUS='1' 拟定关系表的单据状态为正常
+	p.PRO_STATUS='1' 项目已经立项
+	d.TASK_STAUTS ='1' 拟定单表的任务状态为 1-已经上传
+	u.id=#{userId} and g.IS_WORK_CHARGE='Y' 当前登录人是外勤主管
+	-->
+	<select id="pageForFileCertificInfos" resultMap="proPerformanceInfoResultMap">
+		<include refid="fileAndPolicySelect"/>
+		<where>
+			r.CREATE_STAUTS='2' and p.PRO_STATUS='1'and d.TASK_STAUTS ='1'
+			and u.id=#{userId} and g.IS_WORK_CHARGE='Y' and r.RELATION_STATUS='1'
+			<!--子项目名称-->
+			<if test="proPerformanceInfo.proName!=null and proPerformanceInfo.proName!=''">
+				and p.PRO_NAME like concat('%',#{tProPerformanceInfo.proName},'%')
+			</if>
+			<!--风险等级-->
+			<if test="proPerformanceInfo.riskLevel!=null and proPerformanceInfo.riskLevel!=''">
+				and p.RISK_LEVEL like concat('%',#{tProPerformanceInfo.riskLevel},'%')
+			</if>
+			<!--综合查询的字段 ：子项目名，风险级别，预算支出功能分类，国民经济行业分类，立项时间-->
+			<if test="search!=null and search!=''">
+				and concat(p.PRO_NAME,p.RISK_LEVEL,p.BUD_FUNCT_CLASS_NAME,p.NATION_ECO_INDUST_CLASS_NAME,p.PRO_APPROVAL_TIME)
+				like concat('%',#{search},'%')
+			</if>
+
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+
+	</select>
+	<!--资料收集审核  结束   author: 田鑫艳-->
+
+	<!--拟定调研安排  开始   author: 田鑫艳-->
+	<!--1.拟定调研安排 主页面分页显示：
+	约束条件：当前登录人是项目主管/或者组员、明确工作任务时有“拟定调研安排” 且已经勾选、已经立项、已经创建工作组、跟拟定关系表相关联
+	-->
+	<select id="pageForResearchSchedule" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*,s.VERSION_NO as versionNO,s.CREATE_TIME as createTime,s.CREATE_STAUTS as createStauts,s.ID_R as idR
+		from rc_user u
+		inner join t_performance_working_group g
+		on g.GROUP_MEMBER_ID=u.id
+		inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		inner join relation_pro_research_schedule s
+		on s.ID_A=p.ID_A
+		inner join t_performance_task_allocation a
+		on a.ID_A=s.ID_A
+		<where>
+			u.id=#{userId}
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			<!--子项目名称-->
+			<if test="proPerformanceInfo.parentProName!=null and proPerformanceInfo.parentProName!=''">
+				and p.PARENT_PRO_NAME like concat('%',#{proPerformanceInfo.parentProName},'%')
+			</if>
+			<!--风险等级-->
+			<if test="proPerformanceInfo.riskLevel!=null and proPerformanceInfo.riskLevel!=''">
+				and p.RISK_LEVEL like concat('%',#{proPerformanceInfo.riskLevel},'%')
+			</if>
+			<!--综合查询的字段 ：子项目名，风险级别，预算支出功能分类，国民经济行业分类，立项时间-->
+			<if test="search!=null and search!=''">
+				and concat(p.PRO_NAME,p.RISK_LEVEL,p.BUD_FUNCT_CLASS_NAME,p.NATION_ECO_INDUST_CLASS_NAME,p.PRO_APPROVAL_TIME)
+				like concat('%',#{search},'%')
+			</if>
+			<!--是 0-预调研 还是 1-编制评价方案-->
+			<if test="preOrScheme!=null">
+				and s.PRE_OR_SCHEME=#{preOrScheme}
+				<if test="0==preOrScheme">
+					and a.TASK_CODE like 'TS030501'
+					and a.TASK_DESC like '拟定调研安排'
+					and a.HAVE_BEEN_CHOOSE='1'
+				</if>
+				<if test="1==preOrScheme">
+					and a.TASK_CODE like 'TS030601'
+					and a.TASK_DESC like '拟定调研安排'
+					and a.HAVE_BEEN_CHOOSE='1'
+				</if>
+			</if>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--2.分页显示 选择要拟定调研安排/提纲的项目
+	约束条件：当前登录人是组员该项目的组员、已经立项、已经组建工作组、明确工作任务中有 拟定调研安排/提纲且已经勾选，并且对于审核状态为2-已审核的可以再次拟定该项目
+	-->
+	<select id="chooseRecarchProject" resultMap="BaseResultMap">
+		select DISTINCT p.*
+		from rc_user u
+		inner join t_performance_working_group g
+		on g.GROUP_MEMBER_ID=u.id
+		inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		inner join t_performance_task_allocation a
+		on p.ID_A=a.ID_A
+		<where>
+			u.id=#{userId}
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			and p.ID_A not in(
+			select ID_A from
+			<!--module  1-拟定调研安排  -->
+			<if test="module!=null and module==1">
+				relation_pro_research_schedule s
+			</if>
+			<!--module  2-拟定调研提纲  -->
+			<if test="module!=null and module==1">
+				relation_pro_research_outline s
+			</if>
+			where s.CREATE_STAUTS !=2
+			group by ID_A
+			)
+			<include refid="querySomeIfTest"/>
+			<!--是 0-预调研 还是 1-编制评价方案-->
+			<if test="preOrScheme!=null and module!=null">
+				<choose>
+					<!--module 1-拟定调研安排-->
+					<when test="module==1">
+						<if test="0==preOrScheme">
+							and a.TASK_CODE like 'TS030501'
+							and a.TASK_DESC like '拟定调研安排'
+							and a.HAVE_BEEN_CHOOSE='1'
+						</if>
+						<if test="1==preOrScheme">
+							and a.TASK_CODE like 'TS030601'
+							and a.TASK_DESC like '拟定调研安排'
+							and a.HAVE_BEEN_CHOOSE='1'
+						</if>
+					</when>
+					<!--module 2-拟定调研提纲-->
+					<when test="module==2">
+						<if test="0==preOrScheme">
+							and a.TASK_CODE like 'TS030502'
+							and a.TASK_DESC like '拟定调研提纲'
+							and a.HAVE_BEEN_CHOOSE='1'
+						</if>
+						<if test="1==preOrScheme">
+							and a.TASK_CODE like 'TS030602'
+							and a.TASK_DESC like '拟定调研提纲'
+							and a.HAVE_BEEN_CHOOSE='1'
+						</if>
+					</when>
+				</choose>
+			</if>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--3.根据主子项目id值查询该项目的项目经理ID-->
+	<select id="queryManagerId" resultType="java.lang.String">
+		select PRO_MANAGER_ID
+		from
+		where ID_A=#{idA}
+	</select>
+
+	<!--1.审核调研 安排/提纲  分页显示数据
+		约束条件:审核人是当前登录人，版本状态为1-审批中
+	-->
+	<select id="scheduleOutlinePage" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*,s.VERSION_NO as versionNO,s.CREATE_TIME as createTime,s.CREATE_STAUTS as createStauts,s.ID_R as idR
+		from rc_user u
+		inner join t_performance_working_group g
+		on g.GROUP_MEMBER_ID=u.id
+		inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		<choose>
+			<!--module  1-拟定调研安排  -->
+			<when test="module!=null and module==1">
+				inner join relation_pro_research_schedule s
+			</when>
+
+			<!--module  2-拟定调研提纲  -->
+			<when test="module!=null and module==2">
+				inner join relation_pro_research_outline s
+			</when>
+		</choose>
+		on s.ID_A=p.ID_A
+		<where>
+			s.CURR_CHECK_ID=#{userId}
+			and s.CREATE_STAUTS='1'
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			<!--精确和综合查询-->
+			<include refid="querySomeIfTest"/>
+			<if test="preOrScheme!=null">
+				<!--是 0-预调研 还是 1-编制评价方案-->
+				and s.PRE_OR_SCHEME=#{preOrScheme}
+			</if>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+	<!--拟定调研安排  结束   author: 田鑫艳-->
+
+	<!--1.拟定调研提纲 分页显示数据
+	约束条件：约束条件：当前登录人是项目主管/或者组员、明确工作任务时有“拟定调研提纲” 且已经勾选、已经立项、已经创建工作组、跟拟定关系表相关联
+	-->
+	<select id="pageForOutlineSchedule" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*,s.VERSION_NO as versionNO,s.CREATE_TIME as createTime,s.CREATE_STAUTS as createStauts,s.ID_R as idR
+		from rc_user u
+		inner join t_performance_working_group g
+		on g.GROUP_MEMBER_ID=u.id
+		inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		inner join relation_pro_research_outline s
+		on s.ID_A=p.ID_A
+		inner join t_performance_task_allocation a
+		on a.ID_A=s.ID_A
+		<where>
+			u.id=#{userId}
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			<!--子项目名称-->
+			<if test="proPerformanceInfo.parentProName!=null and proPerformanceInfo.parentProName!=''">
+				and p.PARENT_PRO_NAME like concat('%',#{proPerformanceInfo.parentProName},'%')
+			</if>
+			<!--风险等级-->
+			<if test="proPerformanceInfo.riskLevel!=null and proPerformanceInfo.riskLevel!=''">
+				and p.RISK_LEVEL like concat('%',#{proPerformanceInfo.riskLevel},'%')
+			</if>
+			<!--综合查询的字段 ：子项目名，风险级别，预算支出功能分类，国民经济行业分类，立项时间-->
+			<if test="search!=null and search!=''">
+				and concat(p.PRO_NAME,p.RISK_LEVEL,p.BUD_FUNCT_CLASS_NAME,p.NATION_ECO_INDUST_CLASS_NAME,p.PRO_APPROVAL_TIME)
+				like concat('%',#{search},'%')
+			</if>
+			<!--是 0-预调研 还是 1-编制评价方案-->
+			<if test="preOrScheme!=null">
+				and s.PRE_OR_SCHEME=#{preOrScheme}
+				<if test="0==preOrScheme">
+					and a.TASK_CODE like 'TS030502'
+					and a.TASK_DESC like '拟定调研提纲'
+					and a.HAVE_BEEN_CHOOSE='1'
+				</if>
+				<if test="1==preOrScheme">
+					and a.TASK_CODE like 'TS030602'
+					and a.TASK_DESC like '拟定调研提纲'
+					and a.HAVE_BEEN_CHOOSE='1'
+				</if>
+			</if>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+
+
+    <!--1.编写工作总结 主页面显示
+    约束条件：当前登录人是外勤主管
+    显示当前登录人所编写的工作总结数据
+    -->
+	<select id="summaryPage" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*,s.VERSION_NO as versionNO,s.CREATE_TIME as createTime,s.CREATE_STAUTS as createStauts,s.ID_R as idR
+		from rc_user u
+		inner join t_performance_working_group g
+		on g.GROUP_MEMBER_ID=u.id
+		inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		inner join relation_work_summary_info s
+		on s.ID_A=p.ID_A
+		<where>
+			u.id=#{userId}
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			<include refid="querySomeIfTest"/>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--2-选择需要编写工作总结的项目(分页显示)
+	约束条件：编写评价报告审核通过的情况下才可以编写工作总结(r.CREATE_STAUTS='2')、当前登录人是外勤主管、第一版审核通过的情况下可以再次选择该项目进行发起第二版
+	-->
+	<select id="chooseSummaryProject" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*
+		from rc_user u
+		inner join t_performance_working_group g
+		on g.GROUP_MEMBER_ID=u.id
+		inner join t_pro_performance_info p
+		on p.ID_A=g.ID_A
+		inner join  relation_eval_report_info r
+		on r.ID_A=p.ID_A
+		<where>
+			u.id=#{userId}
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			and r.CREATE_STAUTS='2'
+			and p.ID_A not in(
+			select ID_A from
+				relation_pro_research_schedule s
+			where s.CREATE_STAUTS !=2
+			group by ID_A
+			)
+			<!--精确查询和综合查询-->
+			<include refid="querySomeIfTest"/>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+	<!--1-审核工作总结 主页面显示
+	约束条件:审核人是当前登录人，版本状态为1-审批中,项目已经立项、已经组建工作组
+	-->
+	<select id="summaryCheckPage" resultMap="proPerformanceInfoResultMap">
+		select DISTINCT p.*,s.VERSION_NO as versionNO,s.CREATE_TIME as createTime,s.CREATE_STAUTS as createStauts,s.ID_R as idR
+		from t_pro_performance_info p
+		inner join relation_work_summary_info s
+		on s.ID_A=p.ID_A
+		<where>
+			s.CURR_CHECK_ID=#{userId}
+			and s.CREATE_STAUTS='1'
+			and p.IS_SETUP_WORKING_GROUP='Y'
+			and p.PRO_STATUS="1"
+			<!--精确和综合查询-->
+			<include refid="querySomeIfTest"/>
+		</where>
+		order by p.UPDATE_TIME desc,p.PRO_APPROVAL_TIME desc,p.PARENT_PRO_CODE,p.ID_A
+	</select>
+
+
+   <!--政法数据库 入库/修改 申请，针对于数据来源是项目的
+   约束条件：
+   		项目立项 p.PRO_STATUS='1'
+		拟定单的状态是正常1且已经通过审批 r.RELATION_STATUS='1' and r.CREATE_STAUTS='2'
+		每个模块下已经有资料上传(可能有的模块没有上传完) d.TASK_STAUTS =1、
+		当前登录人属于该项目u.id=63 跟员工表和用户表做关联
+   -->
+	<select id="chooseProject" resultMap="proPerformanceInfoResultMap">
+		<include refid="fileAndPolicySelect"/>
+		<where>
+			NOT EXISTS (
+			SELECT
+			1
+			FROM
+			relation_pro_list
+			WHERE
+			ID_A = r.ID_A
+			AND VERSION_NO > r.VERSION_NO
+			)
+			and r.RELATION_STATUS='1' and r.CREATE_STAUTS='2' and p.PRO_STATUS='1'and d.TASK_STAUTS =1
+			and u.id=#{userId}
+			<!--子项目名称-->
+			<if test="proPerformanceInfo.proName!=null and proPerformanceInfo.proName!=''">
+				and p.PRO_NAME like concat('%',#{proPerformanceInfo.proName},'%')
+			</if>
+			<!--风险等级-->
+			<if test="proPerformanceInfo.riskLevel!=null and proPerformanceInfo.riskLevel!=''">
+				and p.RISK_LEVEL like concat('%',#{proPerformanceInfo.riskLevel},'%')
+			</if>
+			<!--综合查询的字段 ：子项目名，风险级别，预算支出功能分类，国民经济行业分类，立项时间-->
+			<if test="search!=null and search!=''">
+				and concat(p.PRO_NAME,p.RISK_LEVEL,p.BUD_FUNCT_CLASS_NAME,p.NATION_ECO_INDUST_CLASS_NAME,p.PRO_APPROVAL_TIME)
+				like concat('%',#{search},'%')
+			</if>
+		</where>
+	</select>
+
+
+
+
+
+
+
+
+
+
+	<!--==============================================================================================================-->
+	<!--组建工作组  开始   author: 安达-->
+	<!--==============================================================================================================-->
+	<!---查询已经立项,但是未组建工作组的项目-->
+	<select id="findToEstablishedList" resultMap="BaseResultMap">
+		select p.*
+		from t_pro_performance_info p
+		<!--约束条件：
+		已经立项:t_pro_performance_info.PRO_STATUS='1'     0-暂存  1-已立项  2-已完结
+		IS_SETUP_WORKING_GROUP ='N' 未组建工作组
+		PRO_MANAGER_ID
+		-->
+		<where>
+			p.IS_SETUP_WORKING_GROUP ='N'  and  p.PRO_STATUS='1'
+			and p.PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			<include refid="Base_Search_Condition" />
+		</where>
+		group by PARENT_PRO_CODE
+		ORDER BY p.UPDATE_TIME
+	</select>
+	<!---查询已组建工作组或者组件中的项目-->
+	<select id="findHavingEstablishedList" resultMap="BaseResultMap">
+		select  distinct t2.UPDATE_TIME as workingGroupTime , p.* from t_pro_performance_info p left join t_performance_working_group t2 on p.ID_A                                                =t2.ID_A
+		<!--约束条件：
+		已经立项:t_pro_performance_info.PRO_STATUS='1'     0-暂存  1-已立项  2-已完结
+		已经组建工作组：t_pro_performance_info.IS_SETUP_WORKING_GROUP='Y'
+		根据主项目编码聚合，因为只查询主项目
+		-->
+		<where>
+			p.IS_SETUP_WORKING_GROUP  !='N' and p.PRO_STATUS='1'
+			and p.PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			<include refid="Base_Search_Condition" />
+		</where>
+		order by  t2.UPDATE_TIME  desc
+	</select>
+	<!---查询已组建工作组的项目-->
+	<select id="findHadEstablishedList" resultMap="BaseResultMap">
+		select p.*
+		from t_pro_performance_info p
+		<!--约束条件：
+		已经立项:t_pro_performance_info.PRO_STATUS='1'     0-暂存  1-已立项  2-已完结
+		已经组建工作组：t_pro_performance_info.IS_SETUP_WORKING_GROUP='Y'
+		根据主项目编码聚合，因为只查询主项目
+		-->
+		<where>
+			p.IS_SETUP_WORKING_GROUP= 'Y' and p.PRO_STATUS='1'
+			and p.PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId}
+			<include refid="Base_Search_Condition" />
+		</where>
+	</select>
+	<!--==============================================================================================================-->
+	<!--工组建工作组  结束   author: 安达-->
+	<!--==============================================================================================================-->
+
+	<select id="findByCloumn" resultMap="BaseResultMap" parameterType="string">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_PRO_PERFORMANCE_INFO
+		<where>
+			AND ${cloumn} = #{val}
+		</where>
+	</select>
+
+
+	<select id="findRelationProPage" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		ppi.*
+		FROM
+		T_PRO_PERFORMANCE_INFO ppi, T_PERFORMANCE_WORKING_GROUP pwg, T_PERFORMANCE_TASK_ALLOCATION tpta
+		<where>
+			AND ppi.ID_A = PWG.ID_A
+			AND tpta.ID_A = pwg.ID_A
+			AND ppi.ID_A NOT IN ( SELECT ID_A FROM relation_pro_list rpl WHERE CREATE_UASE_ID = #{tProPerformanceInfo.proManagerId} AND CREATE_STAUTS != 2 AND RELATION_STATUS != 9 )
+			AND tpta.TASK_CODE = 'TS0201'
+			AND tpta.HAVE_BEEN_CHOOSE = 1
+			AND pwg.IS_WORK_CHARGE='Y'
+			AND ppi.PRO_STATUS = 1
+			AND ( ppi.PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId} OR ( pwg.GROUP_MEMBER_ID = #{tProPerformanceInfo.proManagerId} AND pwg.IS_WORK_CHARGE = 'Y' ) )
+			<if test="search != null || search != ''">
+				AND concat(
+				IFNULL('ppi.PRO_CODE',''),
+				IFNULL('ppi.PRO_NAME',''),
+				IFNULL('ppi.RISK_LEVEL',''),
+				IFNULL('ppi.NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('ppi.BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+		ORDER BY ppi.PRO_APPROVAL_TIME desc
+	</select>
+
+	<select id="chooseResearchPro" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		TPPI.*
+		FROM
+		T_PRO_PERFORMANCE_INFO TPPI , T_PERFORMANCE_TASK_ALLOCATION TPTA , T_PERFORMANCE_WORKING_GROUP pwg
+		<where>
+			AND TPPI.ID_A = TPTA.ID_A
+			AND pwg.ID_A = TPPI.ID_A
+			AND pwg.IS_WORK_CHARGE='Y'
+			AND TPPI.PRO_STATUS != 9 
+			AND TPPI.PRO_STATUS = 1
+			AND TPTA.HAVE_BEEN_CHOOSE = 1
+			AND TPPI.IS_TASK_ASSIGNED = 2
+			AND TPTA.TASK_CODE = 'TS0305' AND TPTA.TASK_DESC = '预调研'
+			AND TPPI.ID_A NOT IN (SELECT ID_A FROM relation_pro_research_letter WHERE CREATE_UASE_ID = #{tProPerformanceInfo.proManagerId} AND CREATE_STAUTS != 2 AND RELATION_STATUS != 9 AND PRE_OR_SCHEME = #{preOrScheme})
+			<if test="tProPerformanceInfo.proManagerId != null and tProPerformanceInfo.proManagerId != ''">
+				AND ( TPPI.PRO_MANAGER_ID = #{tProPerformanceInfo.proManagerId} OR ( pwg.GROUP_MEMBER_ID = #{tProPerformanceInfo.proManagerId} AND pwg.IS_WORK_CHARGE = 'Y' ) )
+			</if>
+			<if test="search != null and search != ''">
+				AND concat(
+				IFNULL('PRO_CODE',''),
+				IFNULL('PRO_NAME',''),
+				IFNULL('RISK_LEVEL',''),
+				IFNULL('PRO_MANAGER_NAME',''),
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+		ORDER BY TPPI.UPDATE_TIME desc
+	</select>
+	<select id="choosePreparEvalWorkPro" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		TPPI.*
+		FROM
+		T_PRO_PERFORMANCE_INFO TPPI , T_PERFORMANCE_TASK_ALLOCATION TPTA , T_PERFORMANCE_WORKING_GROUP pwg , RELATION_PRO_WORKING_MANUSCRIPT_DESIGN rpwmd
+		<where>
+			AND TPPI.ID_A = TPTA.ID_A
+			AND pwg.ID_A = TPPI.ID_A
+			AND rpwmd.ID_A = TPPI.ID_A
+			AND pwg.IS_WORK_CHARGE='Y'
+			AND TPPI.PRO_STATUS != 9 
+			AND TPPI.PRO_STATUS = 1
+			AND TPTA.HAVE_BEEN_CHOOSE = 1
+			AND TPPI.IS_TASK_ASSIGNED = 2
+			AND rpwmd.CREATE_STAUTS = 2
+			AND TPTA.TASK_CODE = 'TS030605' AND TPTA.TASK_DESC = '编制评价工作方案'
+			AND TPPI.ID_A NOT IN (SELECT ID_A FROM relation_pro_prepar_eval_work_plan WHERE CREATE_UASE_ID = #{user.id} AND CREATE_STAUTS != 2 AND RELATION_STATUS != 9)
+			<if test="user.id != null and user.id != ''">
+				AND ( TPPI.PRO_MANAGER_ID = #{user.id} OR ( pwg.GROUP_MEMBER_ID = #{user.id} AND pwg.IS_WORK_CHARGE = 'Y' ) )
+			</if>
+			<if test="search != null and search != ''">
+				AND concat(
+				IFNULL('PRO_CODE',''),
+				IFNULL('PRO_NAME',''),
+				IFNULL('RISK_LEVEL',''),
+				IFNULL('PRO_MANAGER_NAME',''),
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+		ORDER BY TPPI.UPDATE_TIME desc
+	</select>
+
+	<select id="chooseEvalReportPro" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		TPPI.*
+		FROM
+		T_PRO_PERFORMANCE_INFO TPPI , T_PERFORMANCE_TASK_ALLOCATION TPTA , T_PERFORMANCE_WORKING_GROUP pwg , RELATION_PRO_WORKING_MANUSCRIPT_DESIGN rpwmd
+		<where>
+			AND TPPI.ID_A = TPTA.ID_A
+			AND pwg.ID_A = TPPI.ID_A
+			AND rpwmd.ID_A = TPPI.ID_A
+			AND pwg.IS_WORK_CHARGE='Y'
+			AND TPPI.PRO_STATUS != 9
+			AND TPPI.PRO_STATUS = 1
+			AND TPTA.HAVE_BEEN_CHOOSE = 1
+			AND TPPI.IS_TASK_ASSIGNED = 2
+			AND rpwmd.CREATE_STAUTS = 2
+			AND TPTA.TASK_CODE = 'TS0501' AND TPTA.TASK_DESC = '编写评价报告'
+			AND TPPI.ID_A NOT IN (SELECT ID_A FROM relation_eval_report_info WHERE CREATE_UASE_ID = #{user.id} AND CREATE_STAUTS != 2 AND RELATION_STATUS != 9)
+			<if test="user.id != null and user.id != ''">
+				AND ( TPPI.PRO_MANAGER_ID = #{user.id} OR ( pwg.GROUP_MEMBER_ID = #{user.id} AND pwg.IS_WORK_CHARGE = 'Y' ) )
+			</if>
+			<if test="search != null and search != ''">
+				AND concat(
+				IFNULL('PRO_CODE',''),
+				IFNULL('PRO_NAME',''),
+				IFNULL('RISK_LEVEL',''),
+				IFNULL('PRO_MANAGER_NAME',''),
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+		ORDER BY TPPI.UPDATE_TIME desc
+	</select>
+
+	<select id="selectProByGroup" resultMap="BaseResultMap" >
+		SELECT
+		TPPI.*
+		FROM
+		T_PRO_PERFORMANCE_INFO TPPI , T_PERFORMANCE_TASK_ALLOCATION TPTA , T_PERFORMANCE_WORKING_GROUP pwg
+		<where>
+			AND TPPI.ID_A = TPTA.ID_A
+			AND pwg.ID_A = TPPI.ID_A
+			AND pwg.IS_WORK_CHARGE='Y'
+			AND TPPI.PRO_STATUS != 9
+			AND TPPI.PRO_STATUS = 1
+			AND TPTA.HAVE_BEEN_CHOOSE = 1
+			AND TPPI.IS_TASK_ASSIGNED = 2
+			AND TPTA.TASK_CODE = 'TS030504' 
+			AND TPPI.ID_A NOT IN (SELECT ID_A FROM relation_pro_questionnaire WHERE CREATE_UASE_ID = #{user.id} AND CREATE_STAUTS != 2 AND RELATION_STATUS != 9 AND PRE_OR_SCHEME = #{preOrScheme})
+			<if test="user.id != null and user.id != ''">
+				AND ( TPPI.PRO_MANAGER_ID = #{user.id} OR ( pwg.GROUP_MEMBER_ID = #{user.id} AND pwg.IS_WORK_CHARGE = 'Y' ) )
+			</if>
+			<!--<if test="search != null and search != ''">
+				AND concat(
+				IFNULL('PRO_CODE',''),
+				IFNULL('PRO_NAME',''),
+				IFNULL('RISK_LEVEL',''),
+				IFNULL('PRO_MANAGER_NAME',''),
+				IFNULL('NATION_ECO_INDUST_CLASS_NAME',''),
+				IFNULL('BUD_FUNCT_CLASS_NAME','')) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>-->
+		</where>
+		ORDER BY TPPI.UPDATE_TIME desc
+		<!--select tppi.*
+		from t_performance_working_group tpwg left join t_pro_performance_info tppi
+		ON tppi.ID_A = tpwg.ID_A
+		<where>
+			AND (tpwg.GROUP_MEMBER_ID = #{user.id} or tppi.PRO_MANAGER_ID = #{user.id})
+			AND tppi.PRO_STATUS != 9 AND tppi.PRO_STATUS = 1
+		</where>
+		ORDER BY TPPI.UPDATE_TIME desc-->
+	</select>
+
+
+	<!---指标体系设计列表——所有版本-->
+	<select id="allRelationProIndexPage" resultMap="BaseResultMap">
+		SELECT p.*,t1.CREATE_TIME as systemDseignTime,t1.CREATE_STAUTS as systemDseignStatus,t1.CREATE_UASE_NAME as systemDseigntor ,t1.VERSION_NO as versionNO FROM   t_pro_performance_info p
+		right join relation_pro_index t1 on  p.ID_A = t1.ID_A
+		<!--约束条件：
+		审批人等于当前登陆者:curr_check_id =#{currCheckId}
+		-->
+		<where>
+			<include refid="Base_Search_Condition" />
+			and  p.ID_A in (select ID_A from T_PERFORMANCE_WORKING_GROUP where GROUP_MEMBER_ID=#{currCheckId})
+		</where>
+	</select>
+	<!---指标体系设计列表(待拟定的项目)-->
+	<select id="relationProIndexPage" resultMap="BaseResultMap">
+
+		SELECT p.* FROM   t_pro_performance_info p
+		<!--约束条件：
+		审批人等于当前登陆者:curr_check_id =#{currCheckId}
+		-->
+		<where>
+			<include refid="Base_Search_Condition" />
+			and p.PRO_STATUS = '1'
+			and  p.ID_A in (select ID_A from T_PERFORMANCE_WORKING_GROUP where GROUP_MEMBER_ID=#{currCheckId})
+			and p.ID_A in (select id_a from RELATION_PRO_LIST where CREATE_STAUTS ='2' and RELATION_STATUS='1' )
+			and p.ID_A not in (select id_a from relation_pro_index where CREATE_STAUTS !='2'  )
+		</where>
+	</select>
+	<!---指标体系审核列表(设计了，轮到我审批的项目)-->
+	<select id="relationProIndexCheckPage" resultMap="BaseResultMap">
+		SELECT p.*,t1.CREATE_TIME as systemDseignTime,t1.CREATE_STAUTS as systemDseignStatus,t1.CREATE_UASE_NAME as systemDseigntor,t1.VERSION_NO as versionNO  FROM   t_pro_performance_info p
+		inner join relation_pro_index t1 on  p.ID_A = t1.ID_A
+		<!--约束条件：
+		审批人等于当前登陆者:curr_check_id =#{currCheckId}
+		-->
+		<where>
+			<include refid="Base_Search_Condition" />
+			and  t1.curr_check_id =#{currCheckId}
+		</where>
+	</select>
+	<!---底稿设计审核列表页(设计了，轮到我审批的项目)-->
+	<select id="manuscriptDesignCheckPage" resultMap="BaseResultMap">
+		select p.*,t4.CREATE_TIME as systemDseignTime,t4.CREATE_STAUTS as systemDseignStatus,t4.CREATE_UASE_NAME as systemDseigntor from  t_pro_performance_info p
+		inner join relation_pro_index  t2 on p.ID_A=t2.ID_A inner join T_INDEX_SYSTEM_DSEIGN t3 on t2.ID_R=t3.ID_R inner join RELATION_INDEX_WORKING_MANUSCRIPT_DESIGN t4 on t3.ID_B=t4.ID_B
+		<!--约束条件：
+		审批人等于当前登陆者:curr_check_id =#{currCheckId}
+		-->
+		<where>
+			t4.CURR_CHECK_ID=#{currCheckId}
+			<include refid="Base_Search_Condition" />
+		</where>
+	</select>
+	<!---项目底稿设计列表页-->
+	<select id="proRaftdesignPage" resultMap="BaseResultMap">
+		SELECT p.*,t1.CREATE_TIME as systemDseignTime,t1.CREATE_STAUTS as systemDseignStatus,t1.CREATE_UASE_NAME as systemDseigntor,t1.VERSION_NO as versionNO  FROM relation_pro_index t1
+		inner join  t_pro_performance_info p on  p.ID_A = t1.ID_A  LEFT JOIN RELATION_PRO_WORKING_MANUSCRIPT_DESIGN t3 ON p.ID_A = t3.ID_A
+		<where>
+			<!--约束条件：
+           已经立项的:PRO_STATUS = '1'
+           指标体系设计审批通过的： t1.CREATE_STAUTS='2'
+           工作组成员可看见的：GROUP_MEMBER_ID=#{currCheckId}
+            -->
+			p.PRO_STATUS = '1'  and t1.CREATE_STAUTS='2'  and  p.ID_A in (select ID_A from T_PERFORMANCE_WORKING_GROUP where GROUP_MEMBER_ID=#{currCheckId})
+			<include refid="Base_Search_Condition" />
+		</where>
+	</select>
+
+	<!---项目底稿设计审核列表页-->
+	<select id="proManuscriptDesignCheckPage" resultMap="BaseResultMap">
+		SELECT p.*,t1.CREATE_TIME as systemDseignTime,t1.CREATE_STAUTS as systemDseignStatus,t1.CREATE_UASE_NAME as systemDseigntor,t1.VERSION_NO as versionNO  FROM relation_pro_index t1
+		inner join  t_pro_performance_info p on  p.ID_A = t1.ID_A
+		<!--约束条件：
+		审批人等于当前登陆者:curr_check_id =#{currCheckId}
+		-->
+		<where>
+			<include refid="Base_Search_Condition" />
+			and p.id_a in (select id_a from RELATION_PRO_WORKING_MANUSCRIPT_DESIGN where curr_check_id =#{currCheckId} )
+		</where>
+	</select>
+
+
+
+	<!---底稿填写列表页-->
+	<select id="manuscriptFillPage" resultMap="BaseResultMap">
+		select p.*,t4.WORKING_PAPER_FILL_TIME as systemDseignTime,t4.WORKING_PAPER_FILL_STAUTS as systemDseignStatus,t4.WORKING_PAPER_FILL_USER_NAME as systemDseigntor from  t_pro_performance_info p
+		inner join relation_pro_index  t2 on p.ID_A=t2.ID_A inner join T_INDEX_SYSTEM_DSEIGN t3 on t2.ID_R=t3.ID_R inner join RELATION_INDEX_WORKING_MANUSCRIPT_DESIGN t4 on t3.ID_B=t4.ID_B
+		<where>
+			<!--约束条件：
+           工作组成员可看见的：WORKING_PAPER_FILL_USER_ID=#{currCheckId}
+            -->
+			 and  t4.WORKING_PAPER_FILL_USER_ID=#{currCheckId}
+			<include refid="Base_Search_Condition" />
+		</where>
+	</select>
+	<!---底稿填写审核列表页-->
+	<select id="manuscriptFillCheckPage" resultMap="BaseResultMap">
+		select p.*,t4.CREATE_TIME as systemDseignTime,t4.CREATE_STAUTS as systemDseignStatus,t4.CREATE_UASE_NAME as systemDseigntor from  t_pro_performance_info p
+		inner join relation_pro_index  t2 on p.ID_A=t2.ID_A inner join T_INDEX_SYSTEM_DSEIGN t3 on t2.ID_R=t3.ID_R inner join RELATION_INDEX_WORKING_MANUSCRIPT_DESIGN t4 on t3.ID_B=t4.ID_B
+		<!--约束条件：
+		审批人等于当前登陆者:curr_check_id =#{currCheckId}
+		-->
+		<where>
+			t4.CURR_CHECK_ID=#{currCheckId}
+			<include refid="Base_Search_Condition" />
+		</where>
+	</select>
+
+	
+</mapper>

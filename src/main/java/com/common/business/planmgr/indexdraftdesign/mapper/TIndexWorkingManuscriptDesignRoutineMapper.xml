@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdraftdesign.mapper.TIndexWorkingManuscriptDesignRoutineMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdraftdesign.entity.TIndexWorkingManuscriptDesignRoutine">
+		<id column="ID_C" property="idC" />
+		<result column="ID_R" property="idR" />
+		<result column="MANUSCRIPT_CODE" property="manuscriptCode" />
+		<result column="EVALUATION_PERIOD" property="evaluationPeriod" />
+		<result column="UNIT_NAME" property="unitName" />
+		<result column="KEY_POINTS_DESC" property="keyPointsDesc" />
+		<result column="TOTAL" property="total" />
+		<result column="EXISTING_PROBLEMS" property="existingProblems" />
+		<result column="CAUSE_ANALYSIS" property="causeAnalysis" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkinvarr.mapper.TResearchScheduleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkinvarr.entity.TResearchSchedule">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="RESEARCH_PLACE_PROVINCE" property="researchPlaceProvince" />
+		<result column="RESEARCH_PLACE_CITY" property="researchPlaceCity" />
+		<result column="RESEARCH_PLACE_COUNTY" property="researchPlaceCounty" />
+		<result column="DETAILED_ADDRESS" property="detailedAddress" />
+		<result column="RESEARCH_DATE" property="researchDate" />
+		<result column="RESEARCH_DAYS" property="researchDays" />
+		<result column="SPECIFIC_SHAPE" property="specificShape" />
+		<result column="GROUP_LEADER_ID" property="groupLeaderId" />
+		<result column="GROUP_LEADER" property="groupLeader" />
+		<result column="GROUP_MEMBERS" property="groupMembers" />
+		<result column="SELECTION_BASIS" property="selectionBasis" />
+		<result column="DATA_SOURCES" property="dataSources" />
+	</resultMap>
+
+	<!--1.批量向调研安排表中插入数据-->
+	<insert id="insertBatches" >
+		insert into t_research_schedule
+		(
+		ID_R,
+		RESEARCH_PLACE_PROVINCE,
+		RESEARCH_PLACE_CITY,
+		RESEARCH_PLACE_COUNTY,
+		DETAILED_ADDRESS,
+		RESEARCH_DATE,
+		RESEARCH_DAYS,
+		SPECIFIC_SHAPE,
+		GROUP_LEADER_ID,
+		GROUP_LEADER,
+		GROUP_MEMBERS,
+		SELECTION_BASIS,
+		DATA_SOURCES
+		)
+		values
+		<if test="researchSchedules!=null and researchSchedules.size()>0">
+			<foreach collection="researchSchedules" item="item" separator=",">
+				(
+				#{item.idR},
+				#{item.researchPlaceProvince},
+				#{item.researchPlaceCity},
+				#{item.researchPlaceCounty},
+				#{item.detailedAddress},
+				#{item.researchDate},
+				#{item.researchDays},
+				#{item.specificShape},
+				#{item.groupLeaderId},
+				#{item.groupLeader},
+				#{item.groupMembers},
+				#{item.selectionBasis},
+				#{item.dataSources}
+				)
+			</foreach>
+		</if>
+	</insert>
+
+</mapper>

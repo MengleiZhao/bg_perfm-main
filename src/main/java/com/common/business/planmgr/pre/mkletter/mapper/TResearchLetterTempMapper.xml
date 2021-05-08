@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkletter.mapper.TResearchLetterTempMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkletter.entity.TResearchLetterTemp">
+		<id column="ID_X" property="idX" />
+		<result column="RESEARCH_NAME" property="researchName" />
+		<result column="RESEARCH_CONTENT" property="researchContent" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+	</resultMap>
+	<select id="listForPage" resultMap="BaseResultMap">
+		SELECT * FROM t_research_letter_temp t
+		<where>
+			<!-- 文件名称 -->
+			<if test="researchName != null and researchName != ''">
+				and t.RESEARCH_NAME like concat('%',#{researchName},'%')
+			</if>
+
+			<!-- 内容 -->
+			<if test="researchContent != null and researchContent != ''">
+				and t.RESEARCH_CONTENT like concat('%',#{researchContent},'%')
+			</if>
+
+			<!-- 查询开始时间 -->
+			<if test="beginTime != null and beginTime != ''">
+				and t.CREATE_TIME &gt;=#{beginTime}
+			</if>
+
+			<!-- 查询结束时间 -->
+			<if test="endTime != null and endTime != ''">
+				and t.CREATE_TIME &lt;=#{endTime}
+			</if>
+
+
+		</where>
+	</select>
+</mapper>

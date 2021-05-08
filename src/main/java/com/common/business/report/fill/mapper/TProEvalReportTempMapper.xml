@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.report.fill.mapper.TProEvalReportTempMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.report.fill.entity.TProEvalReportTemp">
+		<id column="ID_X" property="idX" />
+		<result column="REPORT_NAME" property="reportName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATEOR" property="createor" />
+		<result column="REMARK" property="remark" />
+	</resultMap>
+	<select id="listForPage" resultMap="BaseResultMap">
+		SELECT * FROM t_pro_eval_report_temp t
+		<where>
+			<!-- 文件名称 -->
+			<if test="reportName != null and reportName != ''">
+				and t.REPORT_NAME like concat('%',#{reportName},'%')
+			</if>
+
+			<!-- 内容 -->
+			<if test="remark != null and remark != ''">
+				and t.REMARK like concat('%',#{remark},'%')
+			</if>
+
+			<!-- 查询开始时间 -->
+			<if test="beginTime != null and beginTime != ''">
+				and t.CREATE_TIME &gt;=#{beginTime}
+			</if>
+
+			<!-- 查询结束时间 -->
+			<if test="endTime != null and endTime != ''">
+				and t.CREATE_TIME &lt;=#{endTime}
+			</if>
+
+
+		</where>
+	</select>
+</mapper>

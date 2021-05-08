@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.project.approval.mapper.TClassifcationOfNationalEconmyMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.project.approval.entity.TClassifcationOfNationalEconmy">
+		<id column="C_ID" property="cId" />
+		<result column="CLASS_CODE" property="classCode" />
+		<result column="CLASS_NAME" property="className" />
+		<result column="PARAENT_ID" property="paraentId" />
+		<result column="REMARK" property="remark" />
+		<result column="LEVEL" property="level" />
+		<result column="paraentName" property="paraentName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+                C_ID,
+                CLASS_CODE,
+                CLASS_NAME,
+                PARAENT_ID,
+                LEVEL,
+                REMARK
+    </sql>
+	<select id="selectPageList" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List" />
+		FROM T_CLASSIFCATION_OF_NATIONAL_ECONMY
+		<where>
+			<if test="tClassifcationOfNationalEconmy.classCode != null and tClassifcationOfNationalEconmy.classCode !=''">
+				and CLASS_CODE LIKE concat('%',#{tClassifcationOfNationalEconmy.classCode},'%')
+			</if>
+			<if test="tClassifcationOfNationalEconmy.className != null and tClassifcationOfNationalEconmy.className !=''">
+			and CLASS_NAME LIKE concat('%',#{tClassifcationOfNationalEconmy.className},'%')
+			</if>
+		</where>
+
+
+	</select>
+	<select id="selectbudgetClassList" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List" />
+		FROM T_CLASSIFCATION_OF_NATIONAL_ECONMY
+	</select>
+	<select id="selectbudgetClassListLeftJion" resultMap="BaseResultMap" >
+		SELECT  t1.C_ID,
+		t1.CLASS_CODE,
+		t1.CLASS_NAME,
+		t1.PARAENT_ID,
+		t1.LEVEL,
+		t1.REMARK,
+		t2.CLASS_NAME paraentName
+		FROM T_CLASSIFCATION_OF_NATIONAL_ECONMY t1 LEFT JOIN T_CLASSIFCATION_OF_NATIONAL_ECONMY t2 ON t1.PARAENT_ID=t2.C_ID
+		<where>
+			<if test="bId != null and bId != ''">
+				AND t1.C_ID=#{bId}
+			</if>
+
+		</where>
+	</select>
+	<select id="selectListLeftJion" resultMap="BaseResultMap" >
+		SELECT  t1.C_ID,
+		t1.CLASS_CODE,
+		t1.CLASS_NAME,
+		t1.PARAENT_ID,
+		t1.LEVEL,
+		t1.REMARK,
+		t2.CLASS_NAME paraentName
+		FROM T_CLASSIFCATION_OF_NATIONAL_ECONMY t1 LEFT JOIN T_CLASSIFCATION_OF_NATIONAL_ECONMY t2 ON t1.PARAENT_ID=t2.C_ID
+		<where>
+			<if test="fvalue != null and fvalue != ''">
+				AND t1.C_ID=#{fvalue}
+			</if>
+
+		</where>
+	</select>
+</mapper>

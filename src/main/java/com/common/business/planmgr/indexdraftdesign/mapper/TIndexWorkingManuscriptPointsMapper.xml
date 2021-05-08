@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdraftdesign.mapper.TIndexWorkingManuscriptPointsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdraftdesign.entity.TIndexWorkingManuscriptPoints">
+		<id column="ID_D" property="idD" />
+		<result column="ID_C" property="idC" />
+		<result column="POINTS_NAME" property="pointsName" />
+		<result column="IS_DEVELOP_ACTIVITY" property="isDevelopActivity" />
+		<result column="POINTS_YEARS" property="pointsYears" />
+	</resultMap>
+
+</mapper>

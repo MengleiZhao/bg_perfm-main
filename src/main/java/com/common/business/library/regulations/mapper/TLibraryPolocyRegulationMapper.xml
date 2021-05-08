@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.TLibraryPolocyRegulationMapper">
+
+	<!--ADMINISTRATIVE_REGION-->
+	<!-- 通用查询映射结果   fileName  filePath  fileSize   FILE_NAME   FILE_PATH   FILE_SIZE-->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.LibraryPolocyRegulation">
+		<id column="ID_X" property="idX" />
+		<result column="POLOCY_NAME" property="polocyName" />
+		<result column="DOC_NUMBER" property="docNumber" />
+		<result column="UNIT_NAME" property="unitName" />
+		<result column="KEY_WORDS" property="keyWords" />
+		<result column="REMARK" property="remark" />
+		<result column="CONTENT" property="content" />
+		<result column="DATA_RIGHTS" property="dataRights" />
+		<result column="DATA_STAUTS" property="dataStauts" />
+		<result column="APPLICANT_ID" property="applicantId" />
+		<result column="APPLICANT_NAME" property="applicantName" />
+		<result column="APPLY_TIME" property="applyTime" />
+		<result column="APPLY_DESC" property="applyDesc" />
+		<result column="UPT_TYPE" property="uptType" />
+		<result column="CURR_CHECK_ID" property="currCheckId" />
+		<result column="CURR_CHECK_NAME" property="currCheckName" />
+		<result column="RELEASE_TIME" property="releaseTime" />
+		<result column="DATA_SOURCES" property="dataSources" />
+		<result column="ADM_REGION_PROVINCE_ID" property="admRegionProvinceId" />
+		<result column="ADM_REGION_PROVINCE" property="admRegionProvince" />
+		<result column="ADM_REGION_CITY_ID" property="admRegionCityId" />
+		<result column="ADM_REGION_CITY" property="admRegionCity" />
+		<result column="ADM_REGION_COUNTY_ID" property="admRegionCountyId" />
+		<result column="ADM_REGION_COUNTY" property="admRegionCounty" />
+	</resultMap>
+
+	<!--
+	admRegionProvinceId
+	admRegionProvince
+	admRegionCityId
+	admRegionCity
+	admRegionCountyId
+	admRegionCounty
+	-->
+	<!--综合查询和精确查询-->
+	<sql id="queryIfTest">
+		<!--docNumber 文号-->
+		<if test="libraryPolocyRegulation.docNumber!=null and libraryPolocyRegulation.docNumber!=''">
+			and re.DOC_NUMBER like concat('%',#{libraryPolocyRegulation.docNumber},'%')
+		</if>
+		<!--polocyName 政策法规名称-->
+		<if test="libraryPolocyRegulation.polocyName!=null and libraryPolocyRegulation.polocyName!=''">
+			and re.POLOCY_NAME like concat('%',#{libraryPolocyRegulation.polocyName},'%')
+		</if>
+		<!--unitName 发文单位-->
+		<if test="libraryPolocyRegulation.unitName!=null and libraryPolocyRegulation.unitName!=''">
+			and re.UNIT_NAME like concat('%',#{libraryPolocyRegulation.unitName},'%')
+		</if>
+		<!--releaseStartTime releaseEndTime 发布时间[releaseTime]-->
+		<choose>
+			<!--如果开始时间和结束时间都选择了，查询在此区间的政法-->
+			<when test="libraryPolocyRegulation.releaseStartTime!=null and libraryPolocyRegulation.releaseStartTime!=''
+						and libraryPolocyRegulation.releaseEndTime!=null and libraryPolocyRegulation.releaseEndTime!=''">
+				and re.RELEASE_TIME between #{libraryPolocyRegulation.releaseStartTime} and #{libraryPolocyRegulation.releaseEndTime}
+			</when>
+			<!--如果只选择了开始时间，查询大于这个时间的 政法-->
+			<when test="libraryPolocyRegulation.releaseStartTime!=null and libraryPolocyRegulation.releaseStartTime!=''">
+				and re.RELEASE_TIME &gt; #{libraryPolocyRegulation.releaseStartTime}
+			</when>
+			<!--如果只选择了结束时间，查询小于这个时间的 政法-->
+			<when test="libraryPolocyRegulation.releaseEndTime!=null and libraryPolocyRegulation.releaseEndTime!=''">
+				and re.RELEASE_TIME &lt; #{libraryPolocyRegulation.releaseEndTime}
+			</when>
+		</choose>
+		<!--applyStartTime applyEndTime 申请时间[applyTime]-->
+		<choose>
+			<!--如果开始时间和结束时间都选择了，查询在此区间的政法-->
+			<when test="libraryPolocyRegulation.applyStartTime!=null and libraryPolocyRegulation.applyStartTime !=''
+			and libraryPolocyRegulation.applyEndTime!=null and libraryPolocyRegulation.applyEndTime!=''">
+				and re.APPLY_TIME between #{libraryPolocyRegulation.applyStartTime} and #{libraryPolocyRegulation.applyEndTime}
+			</when>
+			<!--如果只选择了开始时间，查询大于这个时间的 政法-->
+			<when test="libraryPolocyRegulation.applyStartTime!=null and libraryPolocyRegulation.applyStartTime !=''">
+				and re.APPLY_TIME &gt; #{libraryPolocyRegulation.releaseStartTime}
+			</when>
+			<!--如果只选择了结束时间，查询小于这个时间的 政法-->
+			<when test="libraryPolocyRegulation.applyEndTime!=null and libraryPolocyRegulation.applyEndTime!=''">
+				and re.APPLY_TIME &lt; #{libraryPolocyRegulation.applyEndTime}
+			</when>
+		</choose>
+		<!--administrativeRegion 行政地区 省市县-->
+		<if test="libraryPolocyRegulation.administrativeRegion!=null and libraryPolocyRegulation.administrativeRegion!=''">
+			and concat(re.ADM_REGION_PROVINCE,re.ADM_REGION_CITY,re.ADM_REGION_COUNTY)
+			like concat('%',#{libraryPolocyRegulation.administrativeRegion},'%')
+		</if>
+		<!--uptType 调整类型 -->
+		<if test="libraryPolocyRegulation.uptType!=null and libraryPolocyRegulation.uptType!=''">
+			and re.UPT_TYPE=#{libraryPolocyRegulation.uptType}
+		</if>
+		<!--dataStauts 状态 -->
+		<if test="libraryPolocyRegulation.dataStauts!=null and libraryPolocyRegulation.dataStauts!=''">
+			and re.DATA_STAUTS=#{libraryPolocyRegulation.dataStauts}
+		</if>
+		<!--search 综合查询:文号、政策法规名称、发文单位、发布时间、行政地区（省市县）、申请时间、调整类型、状态-->
+		<if test="search!=null and search!=''">
+			and concat(re.DOC_NUMBER,re.POLOCY_NAME,re.UNIT_NAME,re.RELEASE_TIME,
+			re.ADM_REGION_PROVINCE,re.ADM_REGION_CITY,re.ADM_REGION_COUNTY,
+			re.APPLY_TIME,re.UPT_TYPE,re.DATA_STAUTS)
+			like concat('%',#{search},'%')
+		</if>
+	</sql>
+
+	<!--部分字段（用于主页面的显示）：id主键、政策法规名称、文号、发文单位、关键词、行政地区（省市县）、调整类型、状态、申请时间、申请人ID、申请人姓名、发布时间-->
+	<sql id="someColumns">
+		re.ID_X,
+		re.POLOCY_NAME,
+		re.DOC_NUMBER,
+		re.UNIT_NAME,
+		re.KEY_WORDS,
+		re.UPT_TYPE,
+		re.DATA_STAUTS,
+		re.APPLY_TIME,
+		re.APPLICANT_ID,
+		re.APPLICANT_NAME,
+		re.RELEASE_TIME,
+		re.DATA_SOURCES,
+		re.ADM_REGION_PROVINCE_ID,
+		re.ADM_REGION_PROVINCE,
+		re.ADM_REGION_CITY_ID,
+		re.ADM_REGION_CITY,
+		re.ADM_REGION_COUNTY_ID,
+		re.ADM_REGION_COUNTY
+	</sql>
+
+	<!--所有的字段-->
+	<sql id="allColumns">
+		re.ID_X,
+		re.POLOCY_NAME,
+		re.DOC_NUMBER,
+		re.UNIT_NAME,
+		re.KEY_WORDS,
+		re.REMARK,
+		re.CONTENT,
+		re.DATA_RIGHTS,
+		re.DATA_STAUTS,
+		re.APPLICANT_ID,
+		re.APPLICANT_NAME,
+		re.APPLY_TIME,
+		re.APPLY_DESC,
+		re.UPT_TYPE,
+		re.CURR_CHECK_ID,
+		re.CURR_CHECK_NAME,
+		re.RELEASE_TIME,
+		re.DATA_SOURCES,
+		re.ADM_REGION_PROVINCE_ID,
+		re.ADM_REGION_PROVINCE,
+		re.ADM_REGION_CITY_ID,
+		re.ADM_REGION_CITY,
+		re.ADM_REGION_COUNTY_ID,
+		re.ADM_REGION_COUNTY
+	</sql>
+
+	<!--政策法规  开始  author：田鑫艳-->
+	<!--1.主页面分页显示 约束条件：默认不显示已经出库的，但是，出库审批中的是要显示的、入库已审核、修改已审核、法规不是私有-->
+
+	<select id="queryLibPolocyRegs" resultMap="BaseResultMap">
+		select <include refid="someColumns"/>
+		from t_library_polocy_regulation re
+		<where>
+			re.DATA_RIGHTS!='2' and ((re.UPT_TYPE='2' and  re.DATA_STAUTS='2') or (re.UPT_TYPE='3' and  re.DATA_STAUTS='2')
+			or (re.UPT_TYPE='1' and  re.DATA_STAUTS!='2'))
+			<include refid="queryIfTest"/>
+		</where>
+		order by re.RELEASE_TIME desc
+	</select>
+
+
+
+
+
+	<!--2.根据主键id 查看该法规的详情（
+	政策法规名、发文单位、文号、行政地区（省市县）、发布时间
+	text文本）-->
+	<select id="policyDetail" resultMap="BaseResultMap">
+		select ID_X,POLOCY_NAME,UNIT_NAME,DOC_NUMBER,
+		ADM_REGION_PROVINCE_ID,
+		ADM_REGION_PROVINCE,
+		ADM_REGION_CITY_ID,
+		ADM_REGION_CITY,
+		ADM_REGION_COUNTY_ID,
+		ADM_REGION_COUNTY,
+		RELEASE_TIME
+		from t_library_polocy_regulation
+		where ID_X=#{idX}
+	</select>
+
+	<!--政策法规 [结束]-->
+
+
+	<!--数据库更新 政策法规  [开始]-->
+	<!--1.数据库更新==》政策法规 主页面显示
+		约束条件：政策法规的调整类型不是出库 (UPT_TYPE='1')并且 出库的状态不为已审批(DATA_STAUTS='2')
+	-->
+	<select id="queryRenewPage" resultMap="BaseResultMap" >
+		select <include refid="someColumns"/>
+		from t_library_polocy_regulation re
+		<where>
+			<!--默认情况下是不查询已经出库的数据-->
+			<if test="(libraryPolocyRegulation.uptType ==null or libraryPolocyRegulation.uptType =='' ) and (libraryPolocyRegulation.dataStauts ==null or libraryPolocyRegulation.dataStauts !='')">
+				not EXISTS
+				(
+				select * from t_library_polocy_regulation r
+				where r.ID_X=re.ID_X
+				and r.UPT_TYPE='1' and  r.DATA_STAUTS='2'
+				)
+
+			</if>
+			<include refid="queryIfTest"/>
+
+			<!--查询的是共有的，默认都是共有的 [共有1  私有2]-->
+			and re.DATA_RIGHTS!='2'
+		</where>
+		order by re.APPLY_TIME desc,re.RELEASE_TIME
+
+	</select>
+
+	<!--2.根据政策法规名进行查询 该数据是否存在-->
+	<select id="queryByPolocyName" resultType="java.lang.Integer">
+		select count(ID_X) from t_library_polocy_regulation
+		where POLOCY_NAME=#{policyName}
+	</select>
+
+	<!--3.查询 修改和出库申请 选择要申请的政法数据列表
+		约束条件：调整类型不为出库 UPT_TYPE：1（出库）; 数据状态 DATA_STAUTS：2（已审批）;不为私有 DATA_RIGHTS!='2'
+	-->
+	<select id="queryUpdateOutPolicy" resultMap="BaseResultMap">
+		select <include refid="someColumns"/>
+		from t_library_polocy_regulation re
+		<where>
+			re.UPT_TYPE!='1' and re.DATA_STAUTS='2' and re.DATA_RIGHTS!='2'
+			<include refid="queryIfTest"/>
+		</where>
+		order by re.RELEASE_TIME desc
+	</select>
+
+	<!--4.修改 出库申请 的数据中的某些字段-->
+	<update id="updateOutPolicy">
+		update t_library_polocy_regulation
+		set APPLICANT_ID=#{libraryPolocyRegulation.applicantId},
+		APPLICANT_NAME=#{libraryPolocyRegulation.applicantName},
+		APPLY_TIME=#{libraryPolocyRegulation.applyTime},
+		DATA_STAUTS=#{libraryPolocyRegulation.dataStauts},
+		UPT_TYPE=#{libraryPolocyRegulation.uptType},
+		APPLY_DESC=#{libraryPolocyRegulation.applyDesc}
+		<if test="libraryPolocyRegulation.currCheckId!=null and libraryPolocyRegulation.currCheckId!=''">
+			,CURR_CHECK_ID=#{libraryPolocyRegulation.currCheckId}
+		</if>
+		<if test="libraryPolocyRegulation.currCheckName!=null and libraryPolocyRegulation.currCheckName!=''">
+			,CURR_CHECK_NAME=#{libraryPolocyRegulation.currCheckName}
+		</if>
+		where ID_X=#{libraryPolocyRegulation.idX}
+
+	</update>
+
+	<!--5.根据idX判断该数据是否存在（针对于 入库申请被退回的操作）-->
+	<select id="queryAlive" resultType="java.lang.Integer">
+		select count(ID_X)
+		from t_library_polocy_regulation
+		where ID_X=#{idX}
+	</select>
+
+	<!--根据政策法规主键id查询原来是否有数据-->
+	<select id="queryPolicyAlive" resultMap="BaseResultMap">
+		select <include refid="someColumns"/>
+		from t_library_polocy_regulation re
+		where re.POLOCY_NAME=#{polocyName}
+	</select>
+
+	<!--6.新增政法数据，并且返回主键-->
+	<insert id="insertBackKey"  useGeneratedKeys="true" keyProperty="libraryPolocyRegulation.idX" keyColumn="ID_X">
+		insert into t_library_polocy_regulation
+		(
+			POLOCY_NAME,
+			DOC_NUMBER,
+			UNIT_NAME,
+			KEY_WORDS,
+			ADM_REGION_PROVINCE_ID,
+			ADM_REGION_PROVINCE,
+			ADM_REGION_CITY_ID,
+			ADM_REGION_CITY,
+			ADM_REGION_COUNTY_ID,
+			ADM_REGION_COUNTY,
+			REMARK,
+			CONTENT,
+			DATA_RIGHTS,
+			DATA_STAUTS,
+			APPLICANT_ID,
+			APPLICANT_NAME,
+			APPLY_TIME,
+			APPLY_DESC,
+			UPT_TYPE,
+			CURR_CHECK_ID,
+			CURR_CHECK_NAME,
+			RELEASE_TIME,
+			DATA_SOURCES
+		)
+		values(
+			#{libraryPolocyRegulation.polocyName},
+			#{libraryPolocyRegulation.docNumber},
+			#{libraryPolocyRegulation.unitName},
+			#{libraryPolocyRegulation.keyWords},
+			#{libraryPolocyRegulation.admRegionProvinceId},
+			#{libraryPolocyRegulation.admRegionProvince},
+			#{libraryPolocyRegulation.admRegionCityId},
+			#{libraryPolocyRegulation.admRegionCity},
+			#{libraryPolocyRegulation.admRegionCountyId},
+			#{libraryPolocyRegulation.admRegionCounty},
+			#{libraryPolocyRegulation.remark},
+			#{libraryPolocyRegulation.content},
+			#{libraryPolocyRegulation.dataRights},
+			#{libraryPolocyRegulation.dataStauts},
+			#{libraryPolocyRegulation.applicantId},
+			#{libraryPolocyRegulation.applicantName},
+			#{libraryPolocyRegulation.applyTime},
+			#{libraryPolocyRegulation.applyDesc},
+			#{libraryPolocyRegulation.uptType},
+			#{libraryPolocyRegulation.currCheckId},
+			#{libraryPolocyRegulation.currCheckName},
+			#{libraryPolocyRegulation.releaseTime},
+			#{libraryPolocyRegulation.dataSources}
+		)
+	</insert>
+
+	<!--7.针对于修改申请，修改政法表中某些字段值-->
+	<update id="updateSome">
+		update t_library_polocy_regulation
+		set DATA_STAUTS=#{prolicyRegulation.dataStauts},
+		APPLICANT_ID=#{prolicyRegulation.applicantId},
+		APPLICANT_NAME=#{prolicyRegulation.applicantName},
+		APPLY_TIME=#{prolicyRegulation.applyTime},
+		APPLY_DESC=#{prolicyRegulation.applyDesc},
+		UPT_TYPE=#{prolicyRegulation.uptType},
+		CURR_CHECK_ID=#{prolicyRegulation.currCheckId},
+		CURR_CHECK_NAME=#{prolicyRegulation.currCheckName},
+        RELEASE_TIME=#{prolicyRegulation.releaseTime},
+        DATA_SOURCES=#{prolicyRegulation.dataSources}
+        where ID_X=#{prolicyRegulation.idX}
+	</update>
+
+	<!--8.针对于 修改、出库申请的删除操作，修改 已入库、已审核、当前审核人id及审核人姓名都为null-->
+	<update id="updateByIdX">
+		update t_library_polocy_regulation
+		set DATA_STAUTS=1,
+		UPT_TYPE=2,
+		CURR_CHECK_ID=null,
+		CURR_CHECK_NAME=null
+		where ID_X=#{idX}
+	</update>
+
+	<!--数据库更新：政策法规  [结束]-->
+
+	<!--数据库审核：政策法规审核  [开始]-->
+	<!--1.政策法规申请审核主界面显示:
+	约束：入库、修改、出库 已经提交 dataStauts=1，并且政法表中的当前申请人是当前登录人(且上个人的活跃状态为活跃,并且已完成。该约束不在sql里做)
+		[约束条件先不做，权限问题还没解决]约束条件：政法申请（包含：入库、修改、出库 申请）已经提交 dataStauts=1,
+				 针对于数据来源是项目的 dataSources=1，当前登录人是项目经理、或对应分所政务咨询部主任(或副主任)
+				 针对于数据来源是非项目的 dataSources=2，当前登录人是项目经理、或对应分所政务咨询部主任(或副主任)
+	-->
+	<select id="policyCheckPage" resultMap="BaseResultMap">
+		select
+		re.ID_X,
+		re.POLOCY_NAME,
+		re.DOC_NUMBER,
+		re.UNIT_NAME,
+		re.KEY_WORDS,
+		re.ADM_REGION_PROVINCE_ID,
+		re.ADM_REGION_PROVINCE,
+		re.ADM_REGION_CITY_ID,
+		re.ADM_REGION_CITY,
+		re.ADM_REGION_COUNTY_ID,
+		re.ADM_REGION_COUNTY,
+		re.UPT_TYPE,
+		re.DATA_STAUTS,
+		re.APPLY_TIME,
+		re.APPLICANT_ID,
+		re.APPLICANT_NAME,
+		re.RELEASE_TIME,
+		re.DATA_SOURCES
+		from t_library_polocy_regulation re left join t_library_polocy_regulation_check_rec  rec
+		on re.ID_X=rec.ID_X
+		<where>
+			(re.DATA_STAUTS='1' and re.CURR_CHECK_ID=#{userId})
+			or((re.DATA_STAUTS='1' or re.DATA_STAUTS='2' ) and rec.CHECK_USER_ID=#{userId} and rec.CHECK_DATA_STATUS='1')
+			<include refid="queryIfTest"/>
+		</where>
+		group by re.ID_X
+		order by re.APPLY_TIME desc ,re.RELEASE_TIME
+	</select>
+
+
+	<!--2.修改政法表的"数据状态"(DATA_STAUTS)的值（-1 退回  0-暂存  1-审批中  2-已审批）
+		  审批人id(CURR_CHECK_ID)和审批人姓名(CURR_CHECK_NAME)为null-->
+	<update id="updateStatus">
+		update  t_library_polocy_regulation
+		set DATA_STAUTS=#{status},CURR_CHECK_ID=null,CURR_CHECK_NAME=null
+		where ID_X=#{idX}
+	</update>
+
+	<!--3.修改政法表 当前审批人id(CURR_CHECK_ID)和审批人姓名(CURR_CHECK_NAME)为下级审批人的数据-->
+	<update id="updateLastCheck">
+		update  t_library_polocy_regulation
+		set CURR_CHECK_ID=#{checkUserId},CURR_CHECK_NAME=#{checkUser}
+		where ID_X=#{idX}
+	</update>
+
+	<!--4.根据政策法规主键值集合查询政策法规数据集合-->
+	<select id="queryByIdXs" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from t_library_polocy_regulation re
+		<where>
+			<if test="idXs!=null and idXs.size()>0">
+				and re.ID_X in
+				<foreach collection="idXs" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+
+
+
+
+</mapper>

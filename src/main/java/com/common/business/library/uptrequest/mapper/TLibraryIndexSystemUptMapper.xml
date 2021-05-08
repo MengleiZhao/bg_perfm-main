@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.uptrequest.mapper.TLibraryIndexSystemUptMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.uptrequest.entity.TLibraryIndexSystemUpt">
+		<id column="ID_U" property="idU" />
+		<result column="ID_X" property="idX" />
+		<result column="INDEX_CODE_3" property="indexCode3" />
+		<result column="INDEX_NAME_3" property="indexName3" />
+		<result column="INDEX_CODE_2" property="indexCode2" />
+		<result column="INDEX_NAME_2" property="indexName2" />
+		<result column="INDEX_CODE_1" property="indexCode1" />
+		<result column="INDEX_NAME_1" property="indexName1" />
+		<result column="INDEX_YEARS_1" property="indexYears1" />
+		<result column="INDEX_YEARS_2" property="indexYears2" />
+		<result column="INDEX_SCORE_3" property="indexScore3" />
+		<result column="INDEX_EXPLANATION" property="indexExplanation" />
+		<result column="DATA_SOURCES" property="dataSources" />
+		<result column="INDEX_REMARK" property="indexRemark" />
+		<result column="BUD_FUNCT_CLASS_ID" property="budFunctClassId" />
+		<result column="BUD_FUNCT_CLASS_NAME" property="budFunctClassName" />
+		<result column="NATION_ECO_INDUST_CLASS_ID" property="nationEcoIndustClassId" />
+		<result column="NATION_ECO_INDUST_CLASS_NAME" property="nationEcoIndustClassName" />
+	</resultMap>
+
+</mapper>

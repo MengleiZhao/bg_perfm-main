@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.system.sys.mapper.RcDictMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.system.sys.entity.RcDict">
+		<id column="id" property="id" />
+		<result column="dic_code" property="dicCode" />
+		<result column="dic_name" property="dicName" />
+		<result column="type" property="type" />
+		<result column="parent_code" property="parentCode" />
+		<result column="descript" property="descript" />
+		<result column="sort" property="sort" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+
+	<select id="getRcDictList" resultMap="BaseResultMap">
+	    SELECT * FROM rc_dict
+	  </select>
+</mapper>

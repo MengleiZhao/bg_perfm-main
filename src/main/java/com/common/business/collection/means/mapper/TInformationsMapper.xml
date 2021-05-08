@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.collection.means.mapper.TInformationsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.collection.means.entity.TInformations">
+		<id column="ID_C" property="idC" />
+		<result column="ID_B" property="idB" />
+		<result column="F_FILE_NAME" property="fileName" />
+		<result column="F_UPDATEOR_ID" property="updateorId" />
+		<result column="F_UPDATEOR" property="updateor" />
+		<result column="F_UPDATE_TIME" property="updateTime" />
+		<result column="F_DOWNLOADS_NUM" property="downloadsNum" />
+		<result column="F_PREVIEW_NUM" property="previewNum" />
+		<result column="F_FILE_PATH" property="filePath" />
+		<result column="F_FILE_SIZE" property="fileSize" />
+		<result column="CE_ID" property="ceId" />
+		<result column="CE_NAME" property="ceName" />
+		<result column="CE_DATE" property="ceDate" />
+		<result column="CE_REMARK" property="ceRemark" />
+		<result column="CE_RESULT" property="ceResult" />
+	</resultMap>
+
+	<sql id="selectColumns">
+		ID_C,
+		ID_B,
+		F_FILE_NAME,
+		F_UPDATEOR_ID,
+		F_UPDATEOR,
+		F_UPDATE_TIME,
+		F_DOWNLOADS_NUM,
+		F_PREVIEW_NUM,
+		F_FILE_PATH,
+		F_FILE_SIZE,
+		CE_ID,
+		CE_NAME,
+		CE_DATE,
+		CE_REMARK,
+		CE_RESULT
+	</sql>
+
+
+	<!--1.查询已经上传的资料 的集合  -->
+	<select id="informances" resultMap="BaseResultMap">
+		select n.*
+		from t_informations n
+		where n.ID_B in(
+		select d.ID_B
+		from relation_pro_list r left join  t_development_information_list d
+		on d.ID_R=r.ID_R
+		<where>
+			<!--版本号-->
+			<if test="versionNO != null and versionNO != ''">
+				and r.VERSION_NO=#{versionNO}
+			</if>
+			<!--项目资料清单关系表的主键id值-->
+			<if test="idR != null and idR != ''">
+				and r.ID_R=#{idR}
+			</if>
+		</where>
+		)
+	</select>
+
+
+	<!--2.根据资料清单拟定表的主键id值，查询该模块下是否有文件上传-->
+	<select id="getModuleInformances" resultMap="BaseResultMap">
+		select <include refid="selectColumns"/>
+		from t_informations
+		where ID_B=#{idB}
+		<if test="userId!=null">
+			and F_UPDATEOR_ID=#{userId}
+		</if>
+	</select>
+
+	<!--3.删除一个模块选中的资料信息-->
+	<delete id="chooseClassDelete">
+		delete from t_informations
+		where ID_B=#{idB}
+		<if test="deleteInformanceIds!=null and deleteInformanceIds.size()>0">
+			and ID_C in
+			<foreach collection="deleteInformanceIds" item="informanceId" open="(" separator="," close=")">
+				#{informanceId}
+			</foreach>
+		</if>
+
+	</delete>
+
+	<!--4.根据idC跟idB来查询-->
+	<select id="selectInformations" resultMap="BaseResultMap">
+		select <include refid="selectColumns"/>
+		from t_informations
+		<where>
+		<if test="idB!=null">
+			and ID_B=#{idB}
+		</if>
+
+		<if test="informanceIdCs!=null and informanceIdCs.size()>0">
+			and ID_C in
+			<foreach collection="informanceIdCs" item="informanceId" open="(" separator="," close=")">
+				#{informanceId}
+			</foreach>
+		</if>
+		</where>
+	</select>
+
+	<!--5.修改 资料中下载次数、预览次数，在原来的基础上加1-->
+	<update id="modifyAutoIncrement">
+		update t_informations
+		set ${autoIncrementColumn}=${autoIncrementColumn}+1
+		where ID_C=#{idC}
+	</update>
+
+	<!--6.根据 项目资料清单关系表的idR 查询 资料表中该idR下的上传的所有资料数据-->
+	<select id="selectInformationByIdR" resultMap="BaseResultMap">
+		select <include refid="selectColumns"/>
+		from t_informations
+		where ID_B in
+		(select ID_B
+		from t_development_information_list
+		where ID_R=#{idR} and TASK_STAUTS='1')
+	</select>
+
+	<!--1.资料收集审核：根据项目资料清单关系表的idR 查询 资料表中该idR下的上传的所有资料数据 是否有未认证的（未认证的状态为0）-->
+	<select id="selectIsNoAgree" resultType="java.lang.Integer">
+		select count(ID_C)
+		from t_informations
+		where ID_B in
+			(select ID_B
+			from t_development_information_list
+			where ID_R=#{idR})
+		and CE_RESULT=0
+	</select>
+
+	<!--2.资料收集审核：修改认证结果-->
+	<update id="updateAgreeFiles">
+		update t_informations
+		set CE_ID=#{information.ceId},
+		CE_NAME=#{information.ceName},
+		CE_DATE=#{information.ceDate},
+		CE_REMARK=#{information.ceRemark},
+		CE_RESULT=#{information.ceResult}
+		where ID_C=#{information.idC}
+	</update>
+
+	<!--根据资料拟定单的主键值查询该拟定单下上传的资料个数-->
+	<select id="queryInfoByIdB" resultType="java.lang.Integer">
+		select count(ID_C)
+		from t_informations
+		<where>
+			<if test="idB!=null">
+				and ID_B=#{idB}
+			</if>
+		</where>
+
+	</select>
+
+
+
+</mapper>

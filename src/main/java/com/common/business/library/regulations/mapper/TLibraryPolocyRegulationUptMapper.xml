@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.TLibraryPolocyRegulationUptMapper">
+
+	<!-- 通用查询映射结果  FILE_NAME FILE_PATH FILE_SIZE fileName  filePath  fileSize-->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.TLibraryPolocyRegulationUpt">
+		<id column="ID_U" property="idU" />
+		<result column="ID_X" property="idX" />
+		<result column="POLOCY_NAME" property="polocyName" />
+		<result column="DOC_NUMBER" property="docNumber" />
+		<result column="UNIT_NAME" property="unitName" />
+		<result column="KEY_WORDS" property="keyWords" />
+		<result column="REMARK" property="remark" />
+		<result column="CONTENT" property="content" />
+		<result column="ADM_REGION_PROVINCE_ID" property="admRegionProvinceId" />
+		<result column="ADM_REGION_PROVINCE" property="admRegionProvince" />
+		<result column="ADM_REGION_CITY_ID" property="admRegionCityId" />
+		<result column="ADM_REGION_CITY" property="admRegionCity" />
+		<result column="ADM_REGION_COUNTY_ID" property="admRegionCountyId" />
+		<result column="ADM_REGION_COUNTY" property="admRegionCounty" />
+	</resultMap>
+
+	<!--除去正文-->
+	<sql id="someColumns">
+		ID_U,
+		ID_X,
+		POLOCY_NAME,
+		DOC_NUMBER,
+		UNIT_NAME,
+		KEY_WORDS,
+		ADM_REGION_PROVINCE_ID,
+		ADM_REGION_PROVINCE,
+		ADM_REGION_CITY_ID,
+		ADM_REGION_CITY,
+		ADM_REGION_COUNTY_ID,
+		ADM_REGION_COUNTY,
+		REMARK
+	</sql>
+
+	<!--1.根据idX判断 数据至政策法规库修改申请表 中有没有之前该政法的数据-->
+	<select id="queryByIdX" resultMap="BaseResultMap">
+		select *
+		from t_library_polocy_regulation_upt
+		where ID_X=#{idX}
+	</select>
+
+	<!--2-新增修政法修改表，并返回主键值-->
+	<insert id="insertBackKey" useGeneratedKeys="true" keyColumn="ID_U" keyProperty="prolicyUpt.idU">
+		insert  into t_library_polocy_regulation_upt
+		(
+		ID_X,
+		POLOCY_NAME,
+		DOC_NUMBER,
+		UNIT_NAME,
+		KEY_WORDS,
+		REMARK,
+		CONTENT,
+		ADM_REGION_PROVINCE_ID,
+		ADM_REGION_PROVINCE,
+		ADM_REGION_CITY_ID,
+		ADM_REGION_CITY,
+		ADM_REGION_COUNTY_ID,
+		ADM_REGION_COUNTY
+		)
+		values
+		(
+		#{prolicyUpt.idX},
+		#{prolicyUpt.polocyName},
+		#{prolicyUpt.docNumber},
+		#{prolicyUpt.unitName},
+		#{prolicyUpt.keyWords},
+		#{prolicyUpt.remark},
+		#{prolicyUpt.content},
+		#{prolicyUpt.admRegionProvinceId},
+		#{prolicyUpt.admRegionProvince},
+		#{prolicyUpt.admRegionCityId},
+		#{prolicyUpt.admRegionCity},
+		#{prolicyUpt.admRegionCountyId},
+		#{prolicyUpt.admRegionCounty}
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.project.approval.mapper.TEvalUnitInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.project.approval.entity.TEvalUnitInfo">
+		<id column="ID_B" property="idB" />
+		<result column="ID_A" property="idA" />
+		<result column="EVA_PROJECT_NAME" property="evaProjectName" />
+		<result column="UNIT_NAME" property="unitName" />
+		<result column="LINK_MAN" property="linkMan" />
+		<result column="TEL" property="tel" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID_B,
+		ID_A,
+		EVA_PROJECT_NAME,
+		UNIT_NAME,
+		LINK_MAN,
+		TEL
+	</sql>
+	<sql id="Base_Column_List_As">
+		ID_B As idB,
+		ID_A As idA,
+		EVA_PROJECT_NAME As evaProjectName,
+		UNIT_NAME As unitName,
+		LINK_MAN As linkMan,
+		TEL As tel
+	</sql>
+	<sql id="Base_Query_Condition">
+		<if test="idB != null and idB != ''">
+			AND ID_B = #{idB,jdbcType=INTEGER}
+		</if>
+		<if test="idA != null and idA != ''">
+			AND ID_A = #{idA,jdbcType=INTEGER}
+		</if>
+		<if test="evaProjectName != null and evaProjectName != ''">
+			AND EVA_PROJECT_NAME = #{evaProjectName,jdbcType=VARCHAR}
+		</if>
+		<if test="unitName != null and unitName != ''">
+			AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+		</if>
+		<if test="linkMan != null and linkMan != ''">
+			AND LINK_MAN = #{linkMan,jdbcType=VARCHAR}
+		</if>
+		<if test="tel != null and tel != ''">
+			AND TEL = #{tel,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<select id="select" resultMap="BaseResultMap" parameterType="com.common.business.project.approval.entity.TEvalUnitInfo">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		t_eval_unit_info
+		<where>
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>
+	<select id="page" resultMap="BaseResultMap" parameterType="com.common.business.project.approval.entity.TEvalUnitInfo">
+		SELECT
+		<include refid="Base_Column_List_As" />
+		FROM
+		t_eval_unit_info
+		<where>
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>
+
+
+<!--==============================================================================================================-->
+		<!--组建专家组  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+	<!--3.查询“项目信息”==》根据idA主键，查询该主/子 项目的所有的被评单位信息 返回的是集合 -->
+	<select id="selectExceptEvaluatedInfo" resultMap="BaseResultMap">
+		select *
+		from t_eval_unit_info
+		where ID_A=#{idA}
+	</select>
+
+
+<!--==============================================================================================================-->
+		<!--组建专家组  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+
+</mapper>

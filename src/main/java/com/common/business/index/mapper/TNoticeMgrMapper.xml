@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.index.mapper.TNoticeMgrMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.index.entity.TNoticeMgr">
+		<id column="ID_X" property="idx" />
+		<result column="TITLE" property="title" />
+		<result column="SUBTITLE" property="subtitle" />
+		<result column="NOTICE_CONTENT" property="noticeContent" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATEOR" property="createor" />
+		<result column="IS_TOP" property="isTop" />
+	</resultMap>
+
+	<sql id="selectColumn">
+		ID_X,TITLE,SUBTITLE,NOTICE_CONTENT,CREATE_TIME,CREATEOR,IS_TOP
+	</sql>
+
+	<sql id="whereColumn">
+		<where>
+			<if test="title!=null and title!=''">
+				and TITLE like concat('%',#{title},'%')
+			</if>
+			<if test="subtitle!=null and subtitle!=''">
+				and SUBTITLE like concat('%',#{subtitle},'%')
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				and CREATE_TIME like concat('%',#{createTime},'%')
+			</if>
+			<if test="createor!=null and createor!=''">
+				and CREATEOR like concat('%',#{createor},'%')
+			</if>
+
+		</where>
+	</sql>
+	
+	<!-- 1.分页显示数据 -->
+	<select id="showTNoticeMgrs" resultMap="BaseResultMap">
+		 select
+        <include refid="selectColumn" />
+        from t_notice_mgr t
+		<include refid="whereColumn" />
+        ORDER BY
+			CASE
+			WHEN IS_TOP = 1 THEN
+				CREATE_TIME
+			END DESC,
+			CASE
+			WHEN IS_TOP = 0 THEN
+				CREATE_TIME
+			END ASC
+		,ID_X DESC
+	</select>
+	
+	<!-- 2.根据主键id来查询详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+	 select <include refid="selectColumn" /> from t_notice_mgr where ID_X=#{idx}
+	</select>
+
+	<!--3.根据主键id来删除数据-->
+	<delete id="tNoticeDeleteById" >
+		delete from t_notice_mgr where ID_X=#{idx}
+	</delete>
+
+	<!--4.新增一条数据-->
+	<insert id="tNoticeInsert">
+		insert into t_notice_mgr(TITLE,SUBTITLE,NOTICE_CONTENT,CREATE_TIME,CREATEOR,IS_TOP)
+		values (#{title},#{subtitle},#{noticeContent},now(),#{createor},#{isTop})
+	</insert>
+
+	<!--5.根据公告标题查询-->
+	<select id="selectByTitle" resultMap="BaseResultMap">
+		select <include refid="selectColumn"></include>
+		from t_notice_mgr
+		where TITLE=#{title}
+	</select>
+
+	<!--6.根据公告副标题查询-->
+	<select id="selectBySubtitle" resultMap="BaseResultMap">
+		select <include refid="selectColumn"></include>
+		from t_notice_mgr
+		where SUBTITLE=#{subtitle}
+	</select>
+
+	<!--7.根据“公告主键”修改数据-->
+	<update id="updateByPrimaryKey">
+		update t_notice_mgr set TITLE=#{title},SUBTITLE=#{subtitle},NOTICE_CONTENT=#{noticeContent},
+		CREATE_TIME=now(),CREATEOR=#{createor},IS_TOP=#{isTop}
+		where ID_X=#{idx}
+	</update>
+
+</mapper>

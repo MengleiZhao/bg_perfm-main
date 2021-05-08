@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkinvarrcheck.mapper.BussinessFlowProResearchScheduleMapper">
+	<!--业务流程表（项目调研安排审批）xml-->
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkinvarrcheck.entity.BussinessFlowProResearchSchedule">
+		<id column="ID_CHE" property="idChe" />
+		<result column="ID_R" property="idR" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="CHECK_USER_DEPT_ID" property="checkUserDeptId" />
+		<result column="CHECK_USER_DEPT_NAME" property="checkUserDeptName" />
+		<result column="DESIGNEE_ID" property="designeeId" />
+		<result column="DESIGNEE_NAME" property="designeeName" />
+		<result column="DESIGNEE_DEPT_ID" property="designeeDeptId" />
+		<result column="DESIGNEE_DEPT_NAME" property="designeeDeptName" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+		<result column="NODE_IS_ACTIVE" property="nodeIsActive" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="CHECK_USER_JOB_NUMBER" property="checkUserJobNumber" />
+		<result column="CURRENT_NODE_STATUS" property="currentNodeStatus" />
+	</resultMap>
+
+	<sql id="allColumns">
+	ID_CHE,
+	ID_R,
+	CHECK_USER_ID,
+	CHECK_USER,
+	CHECK_USER_DEPT_ID,
+	CHECK_USER_DEPT_NAME,
+	DESIGNEE_ID,
+	DESIGNEE_NAME,
+	DESIGNEE_DEPT_ID,
+	DESIGNEE_DEPT_NAME,
+	ORDER_OF_CURRENT_NODE,
+	NODE_IS_ACTIVE,
+	CREATEOR,
+	CREATE_TIME,
+	UPDATEOR,
+	UPDATE_TIME,
+	CHECK_USER_JOB_NUMBER,
+	CURRENT_NODE_STATUS
+	</sql>
+
+	<!--1.根据用户id值 跟 idR,和活跃状态为1-活跃，得到当前登录用户的审批节点顺序-->
+	<select id="queryOrderOfNode" resultType="java.lang.Integer">
+		select ORDER_OF_CURRENT_NODE
+		from bussiness_flow_pro_research_schedule
+		where (CHECK_USER_ID=#{userId} or DESIGNEE_ID=#{userId}) and ID_R=#{idR}
+		and NODE_IS_ACTIVE='1'
+	</select>
+
+	<!--2.根据idR和节点审批顺序 修改 “活跃状态”和“当前节点状态”-->
+	<update id="updateFlowStatus">
+		<if test="flow!=null">
+			update bussiness_flow_pro_research_schedule
+			set NODE_IS_ACTIVE=#{flow.nodeIsActive},
+			CURRENT_NODE_STATUS=#{flow.currentNodeStatus},
+			UPDATEOR=#{flow.updateor},
+			UPDATE_TIME=#{flow.updateTime}
+			where ID_R=#{flow.idR} and ORDER_OF_CURRENT_NODE=#{flow.orderOfCurrentNode}
+		</if>
+	</update>
+
+	<!--3.根据用户id值 跟 idR,得到当前登录用户的业务流数据-->
+	<select id="queryOrderOfNodeValue" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from bussiness_flow_pro_research_schedule
+		where (CHECK_USER_ID=#{userId} or DESIGNEE_ID=#{userId}) and ID_R=#{idR}
+		and NODE_IS_ACTIVE='1'
+	</select>
+
+	<!--4.修改业务表的被指派人数据-->
+	<update id="updateTransfer">
+		update bussiness_flow_pro_research_schedule
+		set DESIGNEE_ID=#{flow.designeeId},
+		DESIGNEE_NAME=#{flow.designeeName},
+		DESIGNEE_DEPT_ID=#{flow.designeeDeptId},
+		DESIGNEE_DEPT_NAME=#{flow.designeeDeptName},
+		UPDATEOR=#{flow.updateor},
+		UPDATE_TIME=#{flow.updateTime},
+		CHECK_USER_JOB_NUMBER=#{flow.checkUserJobNumber}
+		where ID_R=#{flow.idR} and ORDER_OF_CURRENT_NODE=#{flow.orderOfCurrentNode}
+	</update>
+
+	<!--5.根据idR查询 业务流数据，且根据 审批节点顺序进行排序-->
+	<select id="queryByIdR" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from bussiness_flow_pro_research_schedule
+		where ID_R=#{idR}
+		order by ORDER_OF_CURRENT_NODE
+	</select>
+
+</mapper>

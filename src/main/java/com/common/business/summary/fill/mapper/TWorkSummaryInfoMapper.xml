@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.summary.fill.mapper.TWorkSummaryInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.summary.fill.entity.TWorkSummaryInfo">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="PRO_IMPL_EXP" property="proImplExp" />
+		<result column="EXISTIONG_PROBLEM" property="existiongProblem" />
+		<result column="PROPOSAL" property="proposal" />
+		<result column="OTHER_INFO" property="otherInfo" />
+	</resultMap>
+
+</mapper>

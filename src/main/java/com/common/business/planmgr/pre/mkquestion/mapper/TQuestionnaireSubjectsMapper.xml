@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkquestion.mapper.TQuestionnaireSubjectsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkquestion.entity.TQuestionnaireSubjects">
+		<id column="ID_C" property="idC" />
+		<result column="ID_B" property="idB" />
+		<result column="SUB_TYPE" property="subType" />
+		<result column="SUB_NO" property="subNo" />
+		<result column="SUB_CONTENT" property="subContent" />
+		<result column="IS_CONTROL_TIME" property="isControlTime" />
+		<result column="TIME_LIMIT" property="timeLimit" />
+		<result column="IS_OPEN_STATISTICS" property="isOpenStatistics" />
+	</resultMap>
+
+</mapper>

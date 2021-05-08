@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.collection.meanslist.mapper.TDevelopmentInformationListMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.collection.meanslist.entity.TDevelopmentInformationList">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="INFO_TYPE1" property="infoType1" />
+		<result column="INFO_TYPE2" property="infoType2" />
+		<result column="INFO_NAME" property="infoName" />
+		<result column="DATA_COLLECTOR_ID" property="dataCollectorId" />
+		<result column="DATA_COLLECTOR_NAME" property="dataCollectorName" />
+		<result column="TASK_START_TIME" property="taskStartTime" />
+		<result column="TASK_END_TIME" property="taskEndTime" />
+		<result column="TASK_DURATION" property="taskDuration" />
+		<result column="TASK_STAUTS" property="taskStatus"/>
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		ID_B,
+		ID_R,
+		INFO_TYPE1,
+		INFO_TYPE2,
+		INFO_NAME,
+		DATA_COLLECTOR_ID,
+		DATA_COLLECTOR_NAME,
+		TASK_START_TIME,
+		TASK_END_TIME,
+		TASK_DURATION,
+		TASK_STAUTS
+	</sql>
+	<sql id="Base_Column_List_As">
+		ID_B As idB,
+		ID_R As idR,
+		INFO_TYPE1 As infoType1,
+		INFO_TYPE2 As infoType2,
+		INFO_NAME As infoName,
+		DATA_COLLECTOR_ID As dataCollectorId,
+		DATA_COLLECTOR_NAME As dataCollectorName,
+		TASK_START_TIME As taskStartTime,
+		TASK_END_TIME As taskEndTime,
+		TASK_DURATION As taskDuration,
+		TASK_STAUTS As taskStatus
+	</sql>
+	<sql id="Base_Query_Condition">
+		<if test="idB != null and idB != ''">
+			AND ID_B = #{idB,jdbcType=INTEGER}
+		</if>
+		<if test="idR != null and idR != ''">
+			AND ID_R = #{idR,jdbcType=INTEGER}
+		</if>
+		<if test="infoType1 != null and infoType1 != ''">
+			AND INFO_TYPE1 = #{infoType1,jdbcType=VARCHAR}
+		</if>
+		<if test="infoType2 != null and infoType2 != ''">
+			AND INFO_TYPE2 = #{infoType2,jdbcType=VARCHAR}
+		</if>
+		<if test="infoName != null and infoName != ''">
+			AND INFO_NAME = #{infoName,jdbcType=VARCHAR}
+		</if>
+		<if test="dataCollectorId != null and dataCollectorId != ''">
+			AND DATA_COLLECTOR_ID = #{dataCollectorId,jdbcType=VARCHAR}
+		</if>
+		<if test="dataCollectorName != null and dataCollectorName != ''">
+			AND DATA_COLLECTOR_NAME = #{dataCollectorName,jdbcType=VARCHAR}
+		</if>
+		<if test="taskStartTime != null and taskStartTime != ''">
+			AND TASK_START_TIME = #{taskStartTime,jdbcType=DATE}
+		</if>
+		<if test="taskEndTime != null and taskEndTime != ''">
+			AND TASK_END_TIME = #{taskEndTime,jdbcType=DATE}
+		</if>
+		<if test="taskDuration != null and taskDuration != ''">
+			AND TASK_DURATION = #{taskDuration,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<!--<select id="select" resultMap="BaseResultMap" parameterType="com.zjrc.imp.entity.biz.TDevelopmentInformationList">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		t_development_information_list
+		<where>
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>-->
+	<select id="findPageList" resultMap="BaseResultMap" parameterType="string">
+		SELECT
+		dil.*,
+		ppi.PRO_NAME proName，ppi.RISK_LEVEL riskLevel，ppi.BUD_FUNCT_CLASS_NAME budFunctClassName，
+		ppi.NATION_ECO_INDUST_CLASS_NAME nationEcoIndustClassName，ppi.PRO_APPROVAL_TIME proApprovalTime,
+		rpl.CREATE_TIME createTime,rpl.VERSION_NO versionNo,rpl.CREATE_STAUTS createStauts
+		FROM
+		t_development_information_list dil ,t_pro_performance_info ppi ,relation_pro_list rpl
+		<where>
+			AND dil.ID_R=rpl.ID_R AND ppi.ID_A=rpl.ID_A
+			AND concat(ppi.PRO_NAME,',',ppi.RISK_LEVEL,',',ppi.BUD_FUNCT_CLASS_NAME,',',
+		  	ppi.NATION_ECO_INDUST_CLASS_NAME,',',ppi.PRO_APPROVAL_TIME,',',rpl.CREATE_TIME,',',rpl.VERSION_NO) 
+		  	LIKE concat('%',#{search},'%')
+			<include refid="Base_Query_Condition" />
+		</where>
+	</select>
+<!--==============================================================================================================-->
+		<!--资料收集上传  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+	<!--1.得到该版本下需要上传的拟定清单（可以得到具体的资料收集人需要上传的拟定清单） -->
+	<select id="informanceLists" resultMap="BaseResultMap">
+		select DISTINCT d.*
+		from relation_pro_list r left join  t_development_information_list d
+		on d.ID_R=r.ID_R
+		<where>
+			<!--版本号-->
+			<if test="versionNO != null and versionNO != ''">
+				and r.VERSION_NO=#{versionNO}
+			</if>
+			<!--项目资料清单关系表的主键id值-->
+			<if test="idR != null">
+				and r.ID_R=#{idR}
+			</if>
+			<!--当前登录人是指定收集人-->
+			<if test="userId !=null">
+				and d.DATA_COLLECTOR_ID=#{userId}
+			</if>
+		</where>
+	</select>
+
+	<!--2.根据最新版号，和ID_R、当前登录人 查询所有拟定的资料清单关系表数据-->
+	<select id="selectEndStatus" resultMap="BaseResultMap">
+		select d.*
+		from relation_pro_list r left join  t_development_information_list d
+		on d.ID_R=r.ID_R
+		where r.VERSION_NO=#{versionNO} and d.ID_R=#{idR}
+		and d.DATA_COLLECTOR_ID=#{userId}
+
+	</select>
+
+	<!--3.根据主键id，修改资料清单拟定表中的一个字段的值-->
+	<update id="updateCoumnById" >
+		update  t_development_information_list
+		set ${updateColumn}=#{updateValue}
+		<where>
+			<if test="idB != null">
+				and ID_B=#{idB}
+			</if>
+			<if test="idA != null">
+				and ID_R in
+				(select ID_R from relation_pro_list
+				where ID_A=#{idA}
+				)
+			</if>
+			<if test="userId!=null">
+				and DATA_COLLECTOR_ID=#{userId}
+			</if>
+
+		</where>
+
+	</update>
+
+	<!--4.根据拟定关系表中的idR主键，查询该版本下拟定的清单-->
+	<select id="fileDetails" resultMap="BaseResultMap">
+		select d.*
+		from t_development_information_list d
+		where ID_R=#{idR}
+	</select>
+
+
+
+
+
+<!--==============================================================================================================-->
+		<!--资料收集上传  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+</mapper>

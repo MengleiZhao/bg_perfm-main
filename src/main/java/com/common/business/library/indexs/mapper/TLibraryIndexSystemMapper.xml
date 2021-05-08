@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.indexs.mapper.TLibraryIndexSystemMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.indexs.entity.TLibraryIndexSystem">
+		<id column="ID_X" property="idX" />
+		<result column="INDEX_TYPE" property="indexType" />
+		<result column="INDEX_CODE_1" property="indexCode1" />
+		<result column="INDEX_NAME_1" property="indexName1" />
+		<result column="INDEX_CODE_2" property="indexCode2" />
+		<result column="INDEX_NAME_2" property="indexName2" />
+		<result column="INDEX_CODE_3" property="indexCode3" />
+		<result column="INDEX_NAME_3" property="indexName3" />
+		<result column="INDEX_SCORE_3" property="indexScore3" />
+		<result column="INDEX_EXPLANATION" property="indexExplanation" />
+		<result column="BUD_FUNCT_CLASS_ID" property="budFunctClassId" />
+		<result column="BUD_FUNCT_CLASS_NAME" property="budFunctClassName" />
+		<result column="NATION_ECO_INDUST_CLASS_ID" property="nationEcoIndustClassId" />
+		<result column="NATION_ECO_INDUST_CLASS_NAME" property="nationEcoIndustClassName" />
+		<result column="DATA_RIGHTS" property="dataRights" />
+		<result column="DATA_STAUTS" property="dataStauts" />
+		<result column="INDEX_YEARS_1" property="indexYears1" />
+		<result column="INDEX_YEARS_2" property="indexYears2" />
+		<result column="DATA_SOURCES" property="dataSources" />
+		<result column="INDEX_REMARK" property="indexRemark" />
+		<result column="APPLICANT_ID" property="applicantId" />
+		<result column="APPLICANT_NAME" property="applicantName" />
+		<result column="APPLY_TIME" property="applyTime" />
+		<result column="APPLY_DESC" property="applyDesc" />
+		<result column="UPT_TYPE" property="uptType" />
+		<result column="CURR_CHECK_ID" property="currCheckId" />
+		<result column="CURR_CHECK_NAME" property="currCheckName" />
+		<result column="RELEASE_TIME" property="releaseTime" />
+	</resultMap>
+
+	<!--所有字段-->
+	<sql id="allColumns">
+		ins.ID_X,
+		ins.INDEX_TYPE,
+		ins.INDEX_CODE_1,
+		ins.INDEX_NAME_1,
+		ins.INDEX_CODE_2,
+		ins.INDEX_NAME_2,
+		ins.INDEX_CODE_3,
+		ins.INDEX_NAME_3,
+		ins.INDEX_SCORE_3,
+		ins.INDEX_EXPLANATION,
+		ins.BUD_FUNCT_CLASS_ID,
+		ins.BUD_FUNCT_CLASS_NAME,
+		ins.NATION_ECO_INDUST_CLASS_ID,
+		ins.NATION_ECO_INDUST_CLASS_NAME,
+		ins.DATA_RIGHTS,
+		ins.DATA_STAUTS,
+		ins.INDEX_YEARS_1,
+		ins.INDEX_YEARS_2,
+		ins.DATA_SOURCES,
+		ins.INDEX_REMARK,
+		ins.APPLICANT_ID,
+		ins.APPLICANT_NAME,
+		ins.APPLY_TIME,
+		ins.APPLY_DESC,
+		ins.UPT_TYPE,
+		ins.CURR_CHECK_ID,
+		ins.CURR_CHECK_NAME,
+		ins.RELEASE_TIME
+	</sql>
+
+	<!--精确查询和综合查询-->
+	<sql id="queryIfTest">
+		<!--一级指标名称-->
+		<if test="libraryIndexSystem.indexName1 !=null and libraryIndexSystem.indexName1 !='' ">
+			and ins.INDEX_NAME_1=#{libraryIndexSystem.indexName1}
+		</if>
+		<!--二级指标名称-->
+		<if test="libraryIndexSystem.indexName2 !=null and libraryIndexSystem.indexName2 !='' ">
+			and ins.INDEX_NAME_2=#{libraryIndexSystem.indexName2}
+		</if>
+		<!--三级指标名称-->
+		<if test="libraryIndexSystem.indexName3 !=null and libraryIndexSystem.indexName3 !='' ">
+			and ins.INDEX_NAME_3=#{libraryIndexSystem.indexName3}
+		</if>
+		<!--三级指标分值-->
+		<if test="libraryIndexSystem.indexScore3 !=null and libraryIndexSystem.indexScore3 !='' ">
+			and ins.INDEX_SCORE_3=#{libraryIndexSystem.indexScore3}
+		</if>
+		<!--releaseStartTime releaseEndTime 发布时间[releaseTime]-->
+		<choose>
+			<!--如果开始时间和结束时间都选择了，查询在此区间的指标-->
+			<when test="libraryIndexSystem.releaseStartTime!=null and libraryIndexSystem.releaseStartTime!=''
+						and libraryIndexSystem.releaseEndTime!=null and libraryIndexSystem.releaseEndTime!=''">
+				and ins.RELEASE_TIME between #{libraryIndexSystem.releaseStartTime} and #{libraryIndexSystem.releaseEndTime}
+			</when>
+			<!--如果只选择了开始时间，查询大于这个时间的 指标-->
+			<when test="libraryIndexSystem.releaseStartTime!=null and libraryIndexSystem.releaseStartTime!=''">
+				and ins.RELEASE_TIME &gt; #{libraryIndexSystem.releaseStartTime}
+			</when>
+			<!--如果只选择了结束时间，查询小于这个时间的 指标-->
+			<when test="libraryIndexSystem.releaseEndTime!=null and libraryIndexSystem.releaseEndTime!=''">
+				and ins.RELEASE_TIME &lt; #{libraryIndexSystem.releaseEndTime}
+			</when>
+		</choose>
+		<!--applyStartTime applyEndTime 申请时间[applyTime]-->
+		<choose>
+			<!--如果开始时间和结束时间都选择了，查询在此区间的指标-->
+			<when test="libraryIndexSystem.applyStartTime!=null and libraryIndexSystem.applyStartTime !=''
+			and libraryIndexSystem.applyEndTime!=null and libraryIndexSystem.applyEndTime!=''">
+				and ins.APPLY_TIME between #{libraryIndexSystem.applyStartTime} and #{libraryIndexSystem.applyEndTime}
+			</when>
+			<!--如果只选择了开始时间，查询大于这个时间的 指标-->
+			<when test="libraryIndexSystem.applyStartTime!=null and libraryIndexSystem.applyStartTime !=''">
+				and ins.APPLY_TIME &gt; #{libraryIndexSystem.releaseStartTime}
+			</when>
+			<!--如果只选择了结束时间，查询小于这个时间的 指标-->
+			<when test="libraryIndexSystem.applyEndTime!=null and libraryIndexSystem.applyEndTime!=''">
+				and ins.APPLY_TIME &lt; #{libraryIndexSystem.applyEndTime}
+			</when>
+		</choose>
+
+		<!--综合查询字段：一级/二级/三级 指标名称、三级指标分值、发布时间、申请时间-->
+		<if test="search!=null and search!='' ">
+			and concat(ins.INDEX_NAME_1,ins.INDEX_NAME_2,ins.INDEX_NAME_3,ins.INDEX_SCORE_3,
+			ins.RELEASE_TIME,ins.APPLY_TIME)
+			like concat('%',#{search},'%')
+		</if>
+
+	</sql>
+
+	<!--1-查询所有在库的绩效指标库数据
+	约束条件：默认不显示已经出库的，但是，出库审批中的是要显示的、入库已审核、修改已审核、绩效指标库不是私有
+	1-出库  2-入库  3-修改库
+	-->
+	<select id="indexSystemPage" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from t_library_index_system ins
+		<where>
+			ins.DATA_RIGHTS!='2' and ((ins.UPT_TYPE='2' and  ins.DATA_STAUTS='2') or (ins.UPT_TYPE='3' and  ins.DATA_STAUTS='2')
+			or (ins.UPT_TYPE='1' and  ins.DATA_STAUTS!='2'))
+			<include refid="queryIfTest"/>
+		</where>
+		order by ins.APPLY_TIME desc,ins.RELEASE_TIME
+	</select>
+
+
+	<!--1.申请主页面显示 按照申请时间倒序排序
+     查询调整状态不为出库并且状态不为已审批（UPT_TYPE='1' and  DATA_STAUTS='2'）的绩效指标-->
+	<select id="applicyPage" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from t_library_index_system ins
+		<where>
+			<!--默认情况下是不查询已经出库的数据-->
+			<if test="(libraryIndexSystem.uptType ==null or libraryIndexSystem.uptType =='' ) and (libraryIndexSystem.dataStauts ==null or libraryIndexSystem.dataStauts !='')">
+				not EXISTS
+				(
+				select re.* from t_library_index_system re
+				where re.ID_X=ins.ID_X
+				and re.UPT_TYPE='1' and  re.DATA_STAUTS='2'
+				)
+
+			</if>
+			<!--查询的是共有的，默认都是共有的 [共有1  私有2]-->
+			and ins.DATA_RIGHTS!='2'
+			<include refid="queryIfTest"/>
+		</where>
+		order by ins.APPLY_TIME desc,ins.RELEASE_TIME
+	</select>
+
+	<!--3-修改绩效指标库中的部分字段：
+        调整类型、数据状态、申请人、申请时间、申请描述、审核人、审核时间-->
+	<update id="updateSomeColumns">
+		update from t_library_index_system
+		(DATA_STAUTS,
+		UPT_TYPE,
+		APPLICANT_ID,
+		APPLICANT_NAME,
+		APPLY_TIME,
+		APPLY_DESC,
+		CURR_CHECK_ID,
+		CURR_CHECK_NAME)
+		values
+		(#{indexSystem.dataStauts},
+		#{indexSystem.uptType},
+		#{indexSystem.applicantId},
+		#{indexSystem.applicantName},
+		#{indexSystem.applyTime},
+		#{indexSystem.applyDesc},
+		#{indexSystem.currCheckId},
+		#{indexSystem.currCheckName}
+		)
+		where ID_X=#{indexSystem.idX}
+	</update>
+
+
+
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.otherdraftdesign.mapper.RelationProWorkingManuscriptDesignMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.otherdraftdesign.entity.RelationProWorkingManuscriptDesign">
+		<id column="ID_R" property="idR" />
+		<result column="ID_A" property="idA" />
+		<result column="VERSION_NO" property="versionNo" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="INDEX_WORKING_PAPER_TYPE" property="indexWorkingPaperType" />
+		<result column="CREATE_STAUTS" property="createStauts" />
+		<result column="CREATE_UASE_NAME" property="createUaseName" />
+		<result column="CURR_CHECK_ID" property="currCheckId" />
+		<result column="CURR_CHECK_NAME" property="currCheckName" />
+	</resultMap>
+
+</mapper>

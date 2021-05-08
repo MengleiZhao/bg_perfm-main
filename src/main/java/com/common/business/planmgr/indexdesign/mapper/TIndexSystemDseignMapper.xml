@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdesign.mapper.TIndexSystemDseignMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdesign.entity.TIndexSystemDseign">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="INDEX_CODE_3" property="indexCode3" />
+		<result column="INDEX_NAME_3" property="indexName3" />
+		<result column="INDEX_CODE_2" property="indexCode2" />
+		<result column="INDEX_NAME_2" property="indexName2" />
+		<result column="INDEX_CODE_1" property="indexCode1" />
+		<result column="INDEX_NAME_1" property="indexName1" />
+		<result column="INDEX_YEARS_1" property="indexYears1" />
+		<result column="INDEX_YEARS_2" property="indexYears2" />
+		<result column="INDEX_SCORE_3" property="indexScore3" />
+		<result column="ASSESSMENT_OBJECT" property="assessmentObject" />
+		<result column="DATA_SOURCES" property="dataSources" />
+		<result column="INDEX_REMARK" property="indexRemark" />
+		<result column="CREATEOR_ID" property="createorId" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR_ID" property="updateorId" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="EVALUATION_SCORE" property="evaluationScore" />
+		<result column="INDEX_EXPLANATION" property="indexExplanation" />
+		<result column="ASSESSMENT_OBJECT_ID" property="assessmentObjectId" />
+		<result column="FILL_USER_NAME" property="fillUserName" />
+		<result column="FILL_USER_ID" property="fillUserId" />
+	</resultMap>
+	
+	
+	<select id="selectGroupbyCode" resultMap="BaseResultMap">
+		SELECT INDEX_NAME_1,ROUND(sum(INDEX_SCORE_3)/100,2)
+		from T_INDEX_SYSTEM_DSEIGN
+		<where>
+			AND ID_R = #{idR}
+		</where>
+		GROUP BY INDEX_NAME_1
+		ORDER BY INDEX_NAME_1
+	</select>		
+	<select id="sumIndexScore3ByIndex1" resultMap="BaseResultMap">
+		SELECT INDEX_NAME_1,ROUND(sum(INDEX_SCORE_3),2)
+		from T_INDEX_SYSTEM_DSEIGN
+		<where>
+			AND ID_R = #{idR}
+		</where>
+		GROUP BY INDEX_NAME_1
+		ORDER BY INDEX_NAME_1,INDEX_NAME_2
+	</select>	
+	<select id="sumIndexScore3ByIndex2" resultMap="BaseResultMap">
+		SELECT INDEX_NAME_1,INDEX_NAME_2,ROUND(sum(INDEX_SCORE_3),2)
+		from T_INDEX_SYSTEM_DSEIGN
+		<where>
+			AND ID_R = #{idR}
+			AND INDEX_NAME_1 = #{indexName1}
+		</where>
+		ORDER BY INDEX_NAME_2
+	</select>	
+
+	
+</mapper>

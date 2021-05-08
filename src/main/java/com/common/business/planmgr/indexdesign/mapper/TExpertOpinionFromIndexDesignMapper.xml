@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdesign.mapper.TExpertOpinionFromIndexDesignMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdesign.entity.TExpertOpinionFromIndexDesign">
+		<id column="ID_C" property="idC" />
+		<result column="ID_B" property="idB" />
+		<result column="EXPERT_CODE" property="expertCode" />
+		<result column="EXPERT_NAME" property="expertName" />
+		<result column="EXPERT_OPINION" property="expertOpinion" />
+		<result column="OTHER_OPINION" property="otherOpinion" />
+		<result column="OVERALL_COMMENTS" property="overallComments" />
+		<result column="PROBLEMS_AND_SUGGEST" property="problemsAndSuggest" />
+		<result column="SUBMIT_DATE" property="submitDate" />
+	</resultMap>
+
+</mapper>

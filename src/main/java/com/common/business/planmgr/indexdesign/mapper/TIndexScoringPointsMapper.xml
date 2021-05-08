@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdesign.mapper.TIndexScoringPointsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdesign.entity.TIndexScoringPoints">
+		<id column="ID_C" property="idC" />
+		<result column="ID_B" property="idB" />
+		<result column="POINTS_NAME" property="pointsName" />
+		<result column="POINTS_YEARS_1" property="pointsYears1" />
+		<result column="POINTS_YEARS_2" property="pointsYears2" />
+		<result column="POINTS_SCORE" property="pointsScore" />
+		<result column="SCORING_METHOD_1_ID" property="scoringMethod1Id" />
+		<result column="SCORING_METHOD_1" property="scoringMethod1" />
+		<result column="SCORING_METHOD_2_ID" property="scoringMethod2Id" />
+		<result column="SCORING_METHOD_2" property="scoringMethod2" />
+		<result column="POINTS_REMARK" property="pointsRemark" />
+	</resultMap>
+
+</mapper>

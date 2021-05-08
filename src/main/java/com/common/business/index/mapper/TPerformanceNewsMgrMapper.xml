@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.index.mapper.TPerformanceNewsMgrMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.index.entity.TPerformanceNewsMgr">
+		<id column="ID_X" property="idX" />
+		<result column="TITLE" property="title" />
+		<result column="SUBTITLE" property="subtitle" />
+		<result column="NOTICE_CONTENT" property="noticeContent" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATEOR" property="createor" />
+		<result column="IS_TOP" property="isTop" />
+	</resultMap>
+
+	<!--查询的字段-->
+	<sql id="selectColumn">
+		ID_X,TITLE,SUBTITLE,NOTICE_CONTENT,CREATE_TIME,CREATEOR,IS_TOP
+	</sql>
+
+	<!--查询的条件-->
+	<sql id="whereColumn">
+		<where>
+			<if test="title!=null and title!=''">
+				and TITLE like concat('%',#{title},'%')
+			</if>
+			<if test="subtitle!=null and subtitle!=''">
+				and SUBTITLE like concat('%',#{subtitle},'%')
+			</if>
+			<if test="createTime!=null and createTime!=''">
+				and CREATE_TIME like =#{createTime}
+			</if>
+			<if test="createor!=null and createor!=''">
+				and CREATEOR like concat('%',#{createor},'%')
+			</if>
+
+		</where>
+	</sql>
+
+	<!--1.分页显示数据-->
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select
+		<include refid="selectColumn" />
+		from t_performance_news_mgr
+		<include refid="whereColumn" />
+		ORDER BY
+			CASE
+			WHEN IS_TOP = 1 THEN
+			CREATE_TIME
+			END DESC,
+			CASE
+			WHEN IS_TOP = 0 THEN
+			CREATE_TIME
+			END ASC
+		,ID_X DESC
+	</select>
+
+	<!-- 2.根据主键id来查询详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		select <include refid="selectColumn" /> from t_performance_news_mgr where ID_X=#{idX}
+	</select>
+
+	<!-- 3.根据绩效新闻的主键id来删除数据-->
+	<delete id="tPerformanceNewsDeleteById" >
+		DELETE mgr,atta FROM t_performance_news_mgr mgr LEFT JOIN t_performance_news_mgr_atta atta
+		ON mgr.ID_X = atta.ID_X
+		WHERE mgr.ID_X =#{idX}
+	</delete>
+
+	<!--4.新增一条数据-->
+	<insert id="tPerformanceNewsInsert">
+		insert into t_performance_news_mgr(TITLE,SUBTITLE,NOTICE_CONTENT,CREATE_TIME,CREATEOR,IS_TOP)
+		values (#{title},#{subtitle},#{noticeContent},now(),#{createor},#{isTop});
+	</insert>
+
+	<!--5.根据绩效新闻标题查询-->
+	<select id="selectByTitle" resultMap="BaseResultMap">
+		select <include refid="selectColumn"></include>
+		from t_performance_news_mgr
+		where TITLE=#{title}
+	</select>
+
+	<!--6.根据绩效新闻副标题查询-->
+	<select id="selectBySubtitle" resultMap="BaseResultMap">
+		select <include refid="selectColumn"></include>
+		from t_performance_news_mgr
+		where SUBTITLE=#{subtitle}
+	</select>
+
+	<!--7.根据主键id修改数据-->
+	<update id="updateByPrimaryKey">
+		update t_performance_news_mgr set TITLE=#{title},SUBTITLE=#{subtitle},NOTICE_CONTENT=#{noticeContent},
+		CREATE_TIME=now(),CREATEOR=#{createor},IS_TOP=#{isTop}
+		where ID_X=#{idX}
+	</update>
+
+
+
+</mapper>

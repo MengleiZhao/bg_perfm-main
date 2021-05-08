@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.workgroup.taskmgr.mapper.TPerformanceTaskAllocationMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.workgroup.taskmgr.entity.TPerformanceTaskAllocation">
+		<id column="ID_B" property="idB" />
+		<result column="ID_A" property="idA" />
+		<result column="TASK_CODE" property="taskCode" />
+		<result column="TASK_DESC" property="taskDesc" />
+		<result column="TASK_LEAVEL" property="taskLeavel" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="START_TIME_PLAN" property="startTimePlan" />
+		<result column="END_TIME_PLAN" property="endTimePlan" />
+		<result column="TASK_DURATION" property="taskDuration" />
+		<result column="TASK_RESOURCES" property="taskResources" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+	</resultMap>
+
+
+
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdesign.mapper.TScoringStandardsAndRuilesDetailMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdesign.entity.TScoringStandardsAndRuilesDetail">
+		<id column="ID_E" property="idE" />
+		<result column="ID_D" property="idD" />
+		<result column="INDEX_COMP_RATE1" property="indexCompRate1" />
+		<result column="INDEX_COMP_RATE2" property="indexCompRate2" />
+		<result column="SCORE1" property="score1" />
+		<result column="GROWTH_RATIO1" property="growthRatio1" />
+		<result column="GROWTH_RATIO2" property="growthRatio2" />
+		<result column="SCORE2" property="score2" />
+		<result column="DEVIATION_RATE1" property="deviationRate1" />
+		<result column="DEVIATION_RATE2" property="deviationRate2" />
+		<result column="SCORE3" property="score3" />
+	</resultMap>
+
+</mapper>

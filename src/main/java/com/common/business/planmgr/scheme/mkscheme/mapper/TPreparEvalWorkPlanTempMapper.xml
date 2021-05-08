@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.scheme.mkscheme.mapper.TPreparEvalWorkPlanTempMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.scheme.mkscheme.entity.TPreparEvalWorkPlanTemp">
+		<id column="F_HM_ID" property="fHmId" />
+		<result column="F_PLAN_NAME" property="fPlanName" />
+		<result column="F_FILE_PATH" property="fFilePath" />
+		<result column="F_FILE_SIZE" property="fFileSize" />
+		<result column="F_CREATE_TIME" property="fCreateTime" />
+		<result column="F_CREATEOR" property="fCreateor" />
+		<result column="F_REMARK" property="fRemark" />
+	</resultMap>
+
+</mapper>

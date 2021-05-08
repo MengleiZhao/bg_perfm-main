@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexcheck.mapper.TIndexSystemDseignCheckRecMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexcheck.entity.TIndexSystemDseignCheckRec">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="CHECK_TIME" property="checkTime" />
+		<result column="CHECK_RESULT" property="checkResult" />
+		<result column="CHECK_OPINION" property="checkOpinion" />
+		<result column="REMARK" property="remark" />
+		<result column="CHECK_DATA_STATUS" property="checkDataStatus" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+	</resultMap>
+
+</mapper>

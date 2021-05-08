@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.collection.meanslist.mapper.TDevelopmentInformationListTempMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap"
+               type="com.common.business.collection.meanslist.entity.TDevelopmentInformationListTemp">
+        <id column="IN_ID" property="inId"/>
+        <result column="INFO_TYPE1" property="infoType1"/>
+        <result column="INFO_TYPE2" property="infoType2"/>
+        <result column="INFO_NAME" property="infoName"/>
+        <result column="CREATEOR" property="createor"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATEOR" property="updateor"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                IN_ID,
+                INFO_TYPE1,
+                INFO_TYPE2,
+                INFO_NAME,
+                CREATEOR,
+                CREATE_TIME,
+                UPDATEOR,
+                UPDATE_TIME
+    </sql>
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_development_information_list_temp
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageListdata" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_development_information_list_temp
+        <where>
+            <if test="tDevelopmentInformationListTemp.infoType1 != null and tDevelopmentInformationListTemp.infoType1 !=''">
+                INFO_TYPE1 LIKE concat('%',#{tDevelopmentInformationListTemp.infoType1},'%')
+            </if>
+        </where>
+
+    </select>
+
+    <select id="pageListCount" resultMap="BaseResultMap">
+        SELECT count(1)
+        FROM t_development_information_list_temp
+    </select>
+    <select id="getTemplate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_development_information_list_temp
+        order by IN_ID,INFO_TYPE1,INFO_TYPE2
+    </select>
+
+
+</mapper>

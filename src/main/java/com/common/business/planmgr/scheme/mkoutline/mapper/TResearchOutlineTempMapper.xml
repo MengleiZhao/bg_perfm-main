@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.scheme.mkoutline.mapper.TResearchOutlineTempMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.scheme.mkoutline.entity.TResearchOutlineTemp">
+		<id column="ID_X" property="idX" />
+		<result column="ORDER_NO" property="orderNo" />
+		<result column="OUTLINE_NAME" property="outlineName" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATEOR" property="createor" />
+	</resultMap>
+
+	<!--查询的字段-->
+	<sql id="selectColumn">
+		ID_X,ORDER_NO,OUTLINE_NAME,CREATE_TIME,CREATEOR
+	</sql>
+
+	<!--查询的条件-->
+	<sql id="whereColumn">
+		<where>
+			<if test="outlineName!=null and outlineName!=''">
+				and OUTLINE_NAME like concat('%',#{outlineName},'%')
+			</if>
+		</where>
+	</sql>
+
+	<!--1.分页显示数据-->
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select
+		<include refid="selectColumn" />
+		from t_research_outline_temp
+		<where>
+			<if test="tResearchOutlineTemp!=null">
+				and OUTLINE_NAME like concat('%',#{tResearchOutlineTemp.outlineName},'%')
+			</if>
+		</where>
+		ORDER BY CREATE_TIME DESC
+	</select>
+
+	<!-- 2.根据主键id来查询详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		select <include refid="selectColumn" /> from t_research_outline_temp where ID_X=#{idX}
+	</select>
+
+	<!-- 3.根据主键id来删除数据-->
+	<delete id="deleteByIdx" >
+		DELETE FROM t_research_outline_temp
+		WHERE ID_X =#{idX}
+	</delete>
+
+	<!--4.新增一条数据-->
+	<insert id="insertNewsMgr">
+		insert into t_research_outline_temp(ORDER_NO,OUTLINE_NAME,CREATE_TIME,CREATEOR)
+		values (#{orderNo},#{outlineName},now(),#{createor});
+	</insert>
+
+	<!--5.根据调研提纲名称查询-->
+	<select id="selectByOutlineName" resultMap="BaseResultMap">
+		select <include refid="selectColumn"></include>
+		from t_research_outline_temp
+		where OUTLINE_NAME=#{outlineName}
+	</select>
+
+	<!--6.根据主键id修改数据-->
+	<update id="updateByPrimaryKey">
+		update t_research_outline_temp set OUTLINE_NAME=#{outlineName},CREATE_TIME=now(),
+		CREATEOR=#{createor}
+		where ID_X=#{idX}
+	</update>
+
+	<!--7.查询最大的序号值-->
+	<select id="selectOrderNoMax" resultType="Integer">
+		select max(ORDER_NO) from t_research_outline_temp
+	</select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.TAdministrativeRegionInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.TAdministrativeRegionInfo">
+		<result column="ID_X" property="idX" />
+		<result column="PARAENT_ID" property="paraentId" />
+		<result column="ORDER_NO" property="orderNo" />
+		<result column="AR_NAME" property="arName" />
+		<result column="LEVEL_DESC" property="levelDesc" />
+		<result column="AR_TOTAL" property="arTotal" />
+		<result column="REMARK" property="remark" />
+	</resultMap>
+
+	<!--所有字段-->
+	<sql id="allColumns">
+		ID_X,
+		PARAENT_ID,
+		ORDER_NO,
+		AR_NAME,
+		LEVEL_DESC,
+		AR_TOTAL,
+		REMARK
+	</sql>
+
+	<!--1-查询省市 (树状）-->
+	<select id="queryProvinceCity" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from t_administrative_region_info
+	</select>
+
+</mapper>

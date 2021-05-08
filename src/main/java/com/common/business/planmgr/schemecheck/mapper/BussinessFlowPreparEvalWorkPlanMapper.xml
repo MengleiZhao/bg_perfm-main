@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.schemecheck.mapper.BussinessFlowPreparEvalWorkPlanMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.schemecheck.entity.BussinessFlowPreparEvalWorkPlan">
+		<id column="ID_CHE" property="idChe" />
+		<result column="ID_R" property="idR" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="CHECK_USER_DEPT_ID" property="checkUserDeptId" />
+		<result column="CHECK_USER_DEPT_NAME" property="checkUserDeptName" />
+		<result column="DESIGNEE_ID" property="designeeId" />
+		<result column="DESIGNEE_NAME" property="designeeName" />
+		<result column="DESIGNEE_DEPT_ID" property="designeeDeptId" />
+		<result column="DESIGNEE_DEPT_NAME" property="designeeDeptName" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+		<result column="NODE_IS_ACTIVE" property="nodeIsActive" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="CHECK_USER_JOB_NUMBER" property="checkUserJobNumber" />
+		<result column="CURRENT_NODE_STATUS" property="currentNodeStatus" />
+	</resultMap>
+
+</mapper>

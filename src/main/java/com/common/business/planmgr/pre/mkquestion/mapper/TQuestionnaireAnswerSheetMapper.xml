@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkquestion.mapper.TQuestionnaireAnswerSheetMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkquestion.entity.TQuestionnaireAnswerSheet">
+		<id column="ID_C" property="idC" />
+		<result column="ID_B" property="idB" />
+		<result column="ANSWER_STATUS" property="answerStatus" />
+		<result column="SUBMIT_USER_ID" property="submitUserId" />
+		<result column="SUBMIT_USER_NAME" property="submitUserName" />
+		<result column="SUBMIT_UNIT_NAME" property="submitUnitName" />
+		<result column="SUBMIT_TIME" property="submitTime" />
+		<result column="WECHAT_ACCOUNT" property="wechatAccount" />
+		<result column="MOBILE_TEL" property="mobileTel" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID_C,
+		ID_B,
+		ANSWER_STATUS,
+		SUBMIT_USER_ID,
+		SUBMIT_USER_NAME,
+		SUBMIT_UNIT_NAME,
+		SUBMIT_TIME,
+		WECHAT_ACCOUNT,
+		MOBILE_TEL
+	</sql>
+    <select id="closeQuestionnaire" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT 
+		<include refid="Base_Column_List"/>
+		FROM
+		t_questionnaire_answer_sheet
+		<where>
+			AND ID_B = #{questionnaireAnswerSheet.idB}		
+			AND ANSWER_STATUS = 2	
+		</where>
+		ORDER BY SUBMIT_TIME DESC
+	</select>
+
+</mapper>

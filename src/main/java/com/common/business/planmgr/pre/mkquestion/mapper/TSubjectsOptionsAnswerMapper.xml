@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkquestion.mapper.TSubjectsOptionsAnswerMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkquestion.entity.TSubjectsOptionsAnswer">
+		<id column="ID_E" property="idE" />
+		<result column="ID_D" property="idD" />
+		<result column="OPTION_ORDER_NO" property="optionOrderNo" />
+		<result column="OPTION_CONTENT" property="optionContent" />
+	</resultMap>
+
+</mapper>

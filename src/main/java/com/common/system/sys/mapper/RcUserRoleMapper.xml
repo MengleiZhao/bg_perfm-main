@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.system.sys.mapper.RcUserRoleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.system.sys.entity.RcUserRole">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="role_id" property="roleId" />
+		<result column="create_time" property="createTime" />
+		<result column="create_by" property="createBy" />
+	</resultMap>
+
+
+	<!--根据用户id删除rc_user_role表中的数据-->
+	<delete id="deleteByUserId">
+		delete from rc_user_role
+		where user_id=#{userId}
+	</delete>
+
+	<!--根据项目idA删除rc_user_role表中的数据，idA对应的是create_by字段-->
+	<delete id="delectByIdA">
+		delete from rc_user_role
+		where create_by=#{idA}
+	</delete>
+</mapper>

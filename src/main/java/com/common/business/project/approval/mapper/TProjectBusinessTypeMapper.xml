@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.project.approval.mapper.TProjectBusinessTypeMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.project.approval.entity.TProjectBusinessType">
+		<result column="ID_X" property="idX" />
+		<result column="BUSS_NAME" property="bussName" />
+		<result column="BUSS_LEAVEL" property="bussLeavel" />
+		<result column="PARENT_ID" property="parentId" />
+	</resultMap>
+
+</mapper>

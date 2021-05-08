@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.system.userDemo.mapper.UserDemoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.system.userDemo.entity.UserDemo">
+		<id column="id" property="id" />
+		<result column="user_name" property="userName" />
+		<result column="user_age" property="userAge" />
+	</resultMap>
+	
+	<sql id="selectDatas">
+		select
+        *
+        from user_demo u
+        <where>
+
+            <if test="id != null and id != ''">
+                and u.id =#{id}
+            </if>
+             <if test="userName != null and userName != ''">
+                and u.user_name like concat('%',#{userName},'%')
+            </if>
+            <if test="userAge != null and userAge != ''">
+                and u.user_age like concat('%',#{userAge},'%')
+            </if>          
+        </where>
+	</sql>
+	
+	<!-- 1.主页面数据显示 -->
+	<select id="showUserDemo" resultMap="BaseResultMap">
+		<include refid="selectDatas"></include>
+	</select>
+	
+	<!-- 2.通过UserDemo的主键id来查询详细信息 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		select
+        *
+        from user_demo u
+        where u.id=#{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkinvarr.mapper.RelationProResearchScheduleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkinvarr.entity.RelationProResearchSchedule">
+		<id column="ID_R" property="idR" />
+		<result column="ID_A" property="idA" />
+		<result column="VERSION_NO" property="versionNo" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="CREATE_STAUTS" property="createStauts" />
+		<result column="CREATE_UASE_NAME" property="createUaseName" />
+		<result column="CURR_CHECK_ID" property="currCheckId" />
+		<result column="CURR_CHECK_NAME" property="currCheckName" />
+		<result column="PRE_OR_SCHEME" property="preOrScheme"/>
+
+		<!--一对多查询 该拟定表中的调研安排数据-->
+		<collection property="researchSchedules" ofType="com.common.business.planmgr.pre.mkinvarr.entity.TResearchSchedule">
+			<id column="ID_B" property="idB" />
+			<result column="ID_R" property="idR" />
+			<result column="RESEARCH_PLACE_PROVINCE" property="researchPlaceProvince" />
+			<result column="RESEARCH_PLACE_CITY" property="researchPlaceCity" />
+			<result column="RESEARCH_PLACE_COUNTY" property="researchPlaceCounty" />
+			<result column="DETAILED_ADDRESS" property="detailedAddress" />
+			<result column="RESEARCH_DATE" property="researchDate" />
+			<result column="RESEARCH_DAYS" property="researchDays" />
+			<result column="SPECIFIC_SHAPE" property="specificShape" />
+			<result column="GROUP_LEADER_ID" property="groupLeaderId" />
+			<result column="GROUP_LEADER" property="groupLeader" />
+			<result column="GROUP_MEMBERS" property="groupMembers" />
+			<result column="SELECTION_BASIS" property="selectionBasis" />
+			<result column="DATA_SOURCES" property="dataSources" />
+		</collection>
+
+	</resultMap>
+
+	<sql id="selectColumns">
+		ID_R,
+		ID_A,
+		VERSION_NO,
+		CREATE_TIME,
+		CREATE_STAUTS,
+		CREATE_UASE_NAME,
+		CURR_CHECK_ID,
+		CURR_CHECK_NAME
+	</sql>
+
+	<!--1.根据 项目的主键id值查询该项目的 调研安排-->
+	<select id="queryLatestVersion" resultMap="BaseResultMap">
+		select s.*
+		from relation_pro_research_schedule  s
+		inner join t_pro_performance_info p on s.ID_A=p.ID_A
+		where p.ID_A=#{idA}
+	</select>
+
+	<!--2.根据idA得到关系表跟调研安排表数据 一对多查询 最新版本下的-->
+	<select id="queryResearcheInfos" resultMap="BaseResultMap">
+		select *
+		from relation_pro_research_schedule s inner join t_research_schedule r
+		on s.ID_R=r.ID_R
+		where
+			NOT EXISTS (
+				SELECT
+					1
+				FROM
+					relation_pro_research_schedule
+				WHERE
+					ID_A = s.ID_A
+				AND CREATE_TIME > s.CREATE_TIME
+			)
+			and ID_A=#{idA}
+	</select>
+
+
+	<!--3.根据idA查询该项目下的最大版本号-->
+	<select id="queryMaxVersionNO" resultType="java.lang.String" >
+		select MAX(VERSION_NO) from relation_pro_research_schedule
+		where ID_A=#{idA}
+	</select>
+
+
+	<!--4.插入调研安排表数据，并返回主键值-->
+	<insert id="insertBackKey" useGeneratedKeys="true" keyProperty="proSchedule.idR" keyColumn="ID_R">
+		insert into relation_pro_research_schedule
+		(ID_A,
+		VERSION_NO,
+		CREATE_TIME,
+		CREATE_STAUTS,
+		CREATE_UASE_NAME,
+		CURR_CHECK_ID,
+		CURR_CHECK_NAME)
+		values
+		(#{proSchedule.idA},
+		#{proSchedule.versionNo},
+		#{proSchedule.createTime},
+		#{proSchedule.createStauts},
+		#{proSchedule.createUaseName},
+		#{proSchedule.currCheckId},
+		#{proSchedule.currCheckName})
+	</insert>
+
+
+	<!--5.修改关系表的状态为 -1 退回 / 2 已完成  审核人为空-->
+	<update id="updateStatus" >
+		update relation_pro_research_schedule
+		set CREATE_STAUTS=#{status},
+		CURR_CHECK_ID=null,
+		CURR_CHECK_NAME=null
+		where ID_R=#{idR}
+	</update>
+
+	<!--6.修改关系表的审批人为下级审批人-->
+	<update id="updateNextChecker">
+		update relation_pro_research_schedule
+		set
+		CURR_CHECK_ID=#{checkUserId},
+		CURR_CHECK_NAME=#{checkUser}
+		where ID_R=#{idR}
+	</update>
+
+
+</mapper>

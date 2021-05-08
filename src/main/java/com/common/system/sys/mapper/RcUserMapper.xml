@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.system.sys.mapper.RcUserMapper">
+  <resultMap id="BaseResultMap" type="com.common.system.sys.entity.RcUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="GROUP_MEMBER_ID" property="groupMemberId" />
+    <result column="GROUP_MEMBER_NAME" property="groupMemberName" />
+    <result column="GROUP_MEMBER_CODE" property="groupMemberCode" />
+    <result column="BRANCH_OFFICE_ID" property="branchOfficeId" />
+    <result column="BRANCH_OFFICE_NAME" property="branchOfficeName" />
+    <result column="USER_LEAVEL" property="userLeavel" />
+    <result column="GRADUATED_FROM" property="graduatedFrom" />
+    <result column="EDUCATION" property="education" />
+    <result column="MAJOR" property="major" />
+    <result column="IS_QUALIFIED_MAIN_REVIEWER" property="isQualifiedMainReviewer" />
+    <result column="PROJECT_TYPE" property="projectType" />
+    <result column="PREVIOUS_PROJECT_ROLE" property="previousProjectRole" />
+    <result column="YEARS_EXPERIENCE" property="yearsExperience" />
+    <result column="REMARK" property="remark" />
+    <result column="DATA_STAUTS" property="dataStauts" />
+    <result column="INSCREASE_DESC" property="inscreaseDesc" />
+    <result column="REDUCE_DESC" property="reduceDesc" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="DEPT_ID" property="deptId" />
+    <result column="DEPT_NAME" property="deptName" />
+  </resultMap>
+
+  <!--部分字段：除去 密码、盐值、创建时间、修改时间-->
+  <sql id="someColumns">
+    id,
+    username,
+    name,
+    status,
+    GROUP_MEMBER_ID,
+    GROUP_MEMBER_NAME,
+    GROUP_MEMBER_CODE,
+    BRANCH_OFFICE_ID,
+    BRANCH_OFFICE_NAME,
+    USER_LEAVEL,
+    GRADUATED_FROM,
+    EDUCATION,
+    MAJOR,
+    IS_QUALIFIED_MAIN_REVIEWER,
+    PROJECT_TYPE,
+    PREVIOUS_PROJECT_ROLE,
+    YEARS_EXPERIENCE,
+    REMARK,
+    DATA_STAUTS,
+    INSCREASE_DESC,
+    REDUCE_DESC,
+    DEPT_ID,
+    DEPT_NAME
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from rc_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.common.system.sys.entity.RcUser">
+    update rc_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="groupMemberId != null">
+        GROUP_MEMBER_ID = #{groupMemberId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupMemberName != null">
+        GROUP_MEMBER_NAME = #{groupMemberName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupMemberCode != null">
+        GROUP_MEMBER_CODE = #{groupMemberCode,jdbcType=VARCHAR},
+      </if>
+      <if test="branchOfficeId != null">
+        BRANCH_OFFICE_ID = #{branchOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="branchOfficeName != null">
+        BRANCH_OFFICE_NAME = #{branchOfficeName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLeavel != null">
+        USER_LEAVEL = #{userLeavel,jdbcType=VARCHAR},
+      </if>
+      <if test="graduatedFrom != null">
+        GRADUATED_FROM = #{graduatedFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        EDUCATION = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null">
+        MAJOR = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="isQualifiedMainReviewer != null">
+        IS_QUALIFIED_MAIN_REVIEWER = #{isQualifiedMainReviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="previousProjectRole != null">
+        PREVIOUS_PROJECT_ROLE = #{previousProjectRole,jdbcType=VARCHAR},
+      </if>
+      <if test="yearsExperience != null">
+        YEARS_EXPERIENCE = #{yearsExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="dataStauts != null">
+        DATA_STAUTS = #{dataStauts,jdbcType=VARCHAR},
+      </if>
+      <if test="inscreaseDesc != null">
+        INSCREASE_DESC = #{inscreaseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="reduceDesc != null">
+        REDUCE_DESC = #{reduceDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getUserByName" parameterType="string" resultMap="BaseResultMap">
+    SELECT * FROM rc_user WHERE username=#{username}
+  </select>
+
+
+<!--==============================================================================================================-->
+      <!--组建专家组  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+  <!--查询该专家账号是否存在-->
+  <select id="selectExpertCount" resultType="java.lang.Integer">
+    select count(GROUP_MEMBER_CODE) from rc_user WHERE GROUP_MEMBER_CODE=#{exCode}
+  </select>
+
+  <!---根据专家的账号删除用户表中的数据-->
+  <delete id="deleteExpertAccount">
+    delete from rc_user where username=#{expAccount}
+  </delete>
+
+  <!--判断该专家是否已经开通账号，根据专家的编号查询-->
+  <select id="selectGroupMemberId" resultType="java.lang.Integer">
+    select count(GROUP_MEMBER_ID) from rc_user WHERE GROUP_MEMBER_CODE=#{expCode}
+  </select>
+
+  <!--根据专家编号查询专家账号-->
+  <select id="selectExpertAccount" resultType="java.lang.String">
+    select username from rc_user WHERE GROUP_MEMBER_CODE=#{expCode}
+  </select>
+
+<!--==============================================================================================================-->
+      <!--组建专家组  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+  <!--1.根据用户主键id集合查询用户结果集（用户id、用户姓名、部门id、部门名称、用户编号）-->
+  <select id="queryByIds" resultMap="BaseResultMap">
+    select id,name,DEPT_ID,DEPT_NAME,GROUP_MEMBER_CODE
+    from rc_user
+    <where>
+      <if test="ids != null and ids.size()>0" >
+        and id in
+        <foreach collection="ids" item="item" open="(" close=")" separator="," >
+          #{item}
+        </foreach>
+        order by
+        field(id
+        <foreach collection="ids" item="item" open="," close=")" separator="," >
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
+  <!--根据专家账号（username）得到该专家账号的用户主键id值-->
+  <select id="queryByUserName" resultType="java.lang.Integer">
+    select id from rc_user where username=#{exCode}
+  </select>
+
+
+  <!--根据专家账号查询该专家的信息
+  id:用户表主键id值
+  username:专家账号
+  name:专家姓名
+  -->
+  <select id="queryByExpCode" resultMap="BaseResultMap">
+    select id,username,name
+    from rc_user
+    where GROUP_MEMBER_CODE=#{expCode}
+  </select>
+
+  <!--根据idA查询该项目的项目经理相关信息-->
+  <select id="managerUser" resultMap="BaseResultMap">
+    select <include refid="someColumns"/>
+    from rc_user rc inner join t_pro_performance_info p
+    on rc.id=p.PRO_MANAGER_ID
+    where rc.id=#{userId} and p.ID_A=#{idA}
+  </select>
+
+</mapper>

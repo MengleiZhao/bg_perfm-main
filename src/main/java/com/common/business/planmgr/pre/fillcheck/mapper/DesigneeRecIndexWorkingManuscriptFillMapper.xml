@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.fillcheck.mapper.DesigneeRecIndexWorkingManuscriptFillMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.fillcheck.entity.DesigneeRecIndexWorkingManuscriptFill">
+		<id column="ID_DESI" property="idDesi" />
+		<result column="ID_D" property="idD" />
+		<result column="DESIGNEE" property="designee" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="DESIGNEE_ID" property="designeeId" />
+		<result column="DESIGNEE_NAME" property="designeeName" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+	</resultMap>
+
+</mapper>

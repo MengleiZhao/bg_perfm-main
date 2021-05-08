@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkoutline.mapper.TResearchOutlineMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkoutline.entity.TResearchOutline">
+		<id column="ID_B" property="idB" />
+		<result column="ID_A" property="idA" />
+		<result column="ORDER_NO" property="orderNo" />
+		<result column="OUTLINE_NAME" property="outlineName" />
+	</resultMap>
+
+	<!--1.批量新增 拟定调研提纲数据-->
+	<insert id="insertBatches">
+		insert into t_research_outline
+		(
+		ID_A,
+		ORDER_NO,
+		OUTLINE_NAME
+		)
+		<if test="researchOutlines!=null and researchOutlines.size()>0">
+			values
+			<foreach collection="researchOutlines" item="item" separator=",">
+				(
+				#{item.idA},
+				#{item.orderNo},
+				#{item.outlineName}
+				)
+			</foreach>
+		</if>
+
+	</insert>
+
+
+
+
+
+
+
+
+
+</mapper>

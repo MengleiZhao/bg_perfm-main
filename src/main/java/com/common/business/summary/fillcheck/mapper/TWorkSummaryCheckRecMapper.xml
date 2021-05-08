@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.summary.fillcheck.mapper.TWorkSummaryCheckRecMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.summary.fillcheck.entity.TWorkSummaryCheckRec">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="CHECK_TIME" property="checkTime" />
+		<result column="CHECK_RESULT" property="checkResult" />
+		<result column="CHECK_OPINION" property="checkOpinion" />
+		<result column="REMARK" property="remark" />
+		<result column="CHECK_DATA_STATUS" property="checkDataStatus" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+	</resultMap>
+
+	<!--所有字段-->
+	<sql id="allColumns">
+		ID_B,
+		ID_R,
+		CHECK_USER_ID,
+		CHECK_USER,
+		CHECK_TIME,
+		CHECK_RESULT,
+		CHECK_OPINION,
+		REMARK,
+		CHECK_DATA_STATUS,
+		ORDER_OF_CURRENT_NODE
+	</sql>
+	<!--1-根据idR查询审批记录数据，并以审批时间进行正序排序-->
+	<select id="queryByIdR" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from t_work_summary_check_rec
+		order by CHECK_TIME
+	</select>
+
+	<!--2-根据idR判断这个人原来是否有审批数据，如果有，则将原来的 审批数据状态改为 0-历史记录-->
+	<update id="updateIfOld">
+		update t_work_summary_check_rec
+		set CHECK_DATA_STATUS="0"
+		where ID_B = (
+		select s.ID_B from (
+			select r.ID_B
+			from t_work_summary_check_rec r
+			where r.CHECK_DATA_STATUS="1"
+			and r.CHECK_USER_ID=#{userId}
+			and ID_R=#{idR}
+			) as s
+		)
+	</update>
+
+</mapper>

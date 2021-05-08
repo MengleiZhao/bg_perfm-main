@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.TLibraryPolocyRegulationAttaMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.TLibraryPolocyRegulationAtta">
+		<id column="ID_C" property="idC" />
+		<result column="ID_X" property="idX" />
+		<result column="FILE_NAME" property="fileName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="CREATEOR_ID" property="createorId" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+	</resultMap>
+
+	<!--所有字段-->
+	<sql id="allColumns">
+		ID_C,
+		ID_X,
+		FILE_NAME,
+		FILE_PATH,
+		FILE_SIZE,
+		CREATEOR_ID,
+		CREATEOR,
+		CREATE_TIME
+	</sql>
+
+	<!--1-批量插入政法 附件表-->
+	<insert id="insertBatches">
+		<if test="policyAttas!=null and policyAttas.size()>0">
+			insert into t_library_polocy_regulation_atta
+			(
+			ID_X,
+			FILE_NAME,
+			FILE_PATH,
+			FILE_SIZE,
+			CREATEOR_ID,
+			CREATEOR,
+			CREATE_TIME
+			)
+			values
+			<foreach collection="policyAttas" item="item" separator=",">
+				(
+				#{item.idX},
+				#{item.fileName},
+				#{item.filePath},
+				#{item.fileSize},
+				#{item.createorId},
+				#{item.createor},
+				#{item.createTime}
+				)
+			</foreach>
+		</if>
+	</insert>
+
+	<!--2-查询原来的政法文件（去除前端删除的文件）-->
+	<select id="queryAttas" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from t_library_polocy_regulation_atta
+		<if test="deleteIdcList!=null and deleteIdcList.size()>0">
+			<where>
+				ID_X=#{idX}
+				and ID_C not in
+				<foreach collection="deleteIdcList" open="(" separator="," close=")" item="item">
+					#{item}
+				</foreach>
+			</where>
+		</if>
+	</select>
+
+	<!--3-查询传进来的idX集合下的附件集合-->
+	<select id="queryByIdXs" resultMap="BaseResultMap">
+		<if test="chooseIdXs!=null and chooseIdXs.size()>0">
+			select  <include refid="allColumns"/>
+			from t_library_polocy_regulation_atta
+			<where>
+				and ID_X in
+				<foreach collection="chooseIdXs" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</where>
+		</if>
+	</select>
+
+
+	<!--批量插入，并返回主键id值-->
+	<insert id="insertBatchesBackKeys" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="idC">
+		<if test="attaList!=null and attaList.size()>0">
+			insert into t_library_polocy_regulation_atta
+			(
+			FILE_NAME,
+			FILE_PATH,
+			FILE_SIZE,
+			CREATEOR_ID,
+			CREATEOR,
+			CREATE_TIME
+			)
+			values 
+			<foreach collection="list" separator="," item="item">
+				(
+				#{item.fileName},
+				#{item.filePath},
+				#{item.fileSize},
+				#{item.createorId},
+				#{item.createor},
+				#{item.createTime}
+				)
+			</foreach>
+		</if>
+	</insert>
+
+
+
+</mapper>

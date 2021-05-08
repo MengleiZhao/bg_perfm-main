@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.fillcheck.mapper.WorkingManuscriptFillMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.fillcheck.entity.WorkingManuscriptFill">
+		<id column="ID_D" property="idD" />
+		<result column="ID_R" property="idR" />
+		<result column="WORKING_PAPER_FILL_STAUTS" property="workingPaperFillStauts" />
+		<result column="WORKING_PAPER_FILL_TIME" property="workingPaperFillTime" />
+		<result column="WORKING_PAPER_FILL_USER_NAME" property="workingPaperFillUserName" />
+		<result column="WORKING_PAPER_FILL_USER_ID" property="workingPaperFillUserId" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.BussinessFlowLibraryPolocyRegulationMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.BussinessFlowLibraryPolocyRegulation">
+		<id column="ID_CHE" property="idChe" />
+		<result column="ID_X" property="idX" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="CHECK_USER_DEPT_ID" property="checkUserDeptId" />
+		<result column="CHECK_USER_DEPT_NAME" property="checkUserDeptName" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+		<result column="NODE_IS_ACTIVE" property="nodeIsActive" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="CHECK_USER_JOB_NUMBER" property="checkUserJobNumber" />
+		<result column="CURRENT_NODE_STATUS" property="currentNodeStatus" />
+	</resultMap>
+
+
+
+	<!--除去ID_CHE、修改人、修改时间-->
+	<sql id="someColumns">
+		ID_X,
+		CHECK_USER_ID,
+		CHECK_USER,
+		CHECK_USER_DEPT_ID,
+		CHECK_USER_DEPT_NAME,
+		ORDER_OF_CURRENT_NODE,
+		NODE_IS_ACTIVE,
+		CREATEOR,
+		CREATE_TIME,
+		CHECK_USER_JOB_NUMBER,
+		CURRENT_NODE_STATUS
+	</sql>
+	<sql id="allColumns">
+		ID_CHE,
+		ID_X,
+		CHECK_USER_ID,
+		CHECK_USER,
+		CHECK_USER_DEPT_ID,
+		CHECK_USER_DEPT_NAME,
+		ORDER_OF_CURRENT_NODE,
+		NODE_IS_ACTIVE,
+		CREATEOR,
+		CREATE_TIME,
+		UPDATEOR,
+		UPDATE_TIME,
+		CHECK_USER_JOB_NUMBER,
+		CURRENT_NODE_STATUS
+	</sql>
+
+	<!--1.根据政法主键idX判断是否有数据-->
+	<select id="queryAliveByIdX" resultType="java.lang.Integer">
+		select count(ID_CHE)
+		from bussiness_flow_library_polocy_regulation
+		where ID_X=#{idX}
+	</select>
+
+	<!--2.根据穿过来的值，判断发起人和审批人的节点顺序是否一样-->
+	<select id="queryCherkerAlive" resultType="java.lang.Integer">
+		select ID_CHE
+		from bussiness_flow_library_polocy_regulation
+		where ID_X=#{idX}
+		and (CHECK_USER_ID,ORDER_OF_CURRENT_NODE)
+		in ((#{userId},1),(#{firstId},2),(#{secondId},3))
+		order by FIELD(ORDER_OF_CURRENT_NODE,1,2,3)
+	</select>
+
+
+	<!--3.批量插入数据到 政法业务审批流程表中-->
+	<insert id="insertBath">
+		INSERT INTO
+		bussiness_flow_library_polocy_regulation(<include refid="someColumns"/>)
+		VALUES
+		<foreach collection="flowLibraryPolocyRegulations" item="item" separator=",">
+			(
+			#{item.idX},
+			#{item.checkUserId},
+			#{item.checkUser},
+			#{item.checkUserDeptId},
+			#{item.checkUserDeptName},
+			#{item.orderOfCurrentNode},
+			#{item.nodeIsActive},
+			#{item.createor},
+			#{item.createTime},
+			#{item.checkUserJobNumber},
+			#{item.currentNodeStatus}
+			)
+		</foreach>
+	</insert>
+
+	<!--4.根据主键idChe值 修改部分数据（针对于 政法申请被退回，且设置的审批人(包括发起人)的顺序相同时，才回调用此方法）
+	修改：是否活跃(NODE_IS_ACTIVE)、修改人(UPDATEOR)、修改时间(UPDATE_TIME)、当前节点状态(CURRENT_NODE_STATUS)
+	-->
+	<update id="updateSome">
+		update bussiness_flow_library_polocy_regulation
+		set NODE_IS_ACTIVE=#{flowLibraryPolicy.nodeIsActive},
+		UPDATEOR=#{flowLibraryPolicy.updateor},
+		UPDATE_TIME=#{flowLibraryPolicy.updateTime},
+		CURRENT_NODE_STATUS=#{flowLibraryPolicy.currentNodeStatus}
+		<where>
+			<if test="idChe!=null">
+				and ID_CHE=#{idChe}
+			</if>
+		</where>
+	</update>
+
+	<!--5.根据当前登录人（是审批人员）的id值查询上一级别的 活跃状态和完成状态-->
+	<select id="previousLevelStatus" resultMap="BaseResultMap">
+		select NODE_IS_ACTIVE,CURRENT_NODE_STATUS
+		from bussiness_flow_library_polocy_regulation
+		where ORDER_OF_CURRENT_NODE=(
+		(select ORDER_OF_CURRENT_NODE from bussiness_flow_library_polocy_regulation
+		where CHECK_USER_ID=#{userId})-1
+		)
+	</select>
+
+	<!--6.根据当前审批人的id从业务表中得到审批节点-->
+	<select id="selectOrderOfCurrentNode" resultType="java.lang.Integer">
+		select ORDER_OF_CURRENT_NODE
+		from bussiness_flow_library_polocy_regulation
+		where CHECK_USER_ID=#{userId} and ID_X=#{idX} and CHECK_USER_DEPT_ID=#{deptId}
+		and CURRENT_NODE_STATUS=0
+	</select>
+
+	<!--7.查询当前审批人的下级节点(大于)/上级节点（小于）
+	下一级(&gt;大于)、上一级(&lt;小于)
+	-->
+	<select id="selectFlow" resultMap="BaseResultMap">
+		select ID_CHE,ID_X,ORDER_OF_CURRENT_NODE,CHECK_USER_ID,CHECK_USER
+		from bussiness_flow_library_polocy_regulation
+		where ORDER_OF_CURRENT_NODE #{compare}
+		(
+		select ORDER_OF_CURRENT_NODE from bussiness_flow_library_polocy_regulation
+		where CHECK_USER_ID=#{userId}
+		)
+		<!--如果是下一级，就正序排序 ，取第一条-->
+		<if test="compare==&gt;">
+			ORDER BY ORDER_OF_CURRENT_NODE
+		</if>
+		<!--如果是上一级，就倒序排序 ，取第一条-->
+		<if test="compare==&lt;">
+			ORDER BY ORDER_OF_CURRENT_NODE  desc
+		</if>
+		limit 1
+	</select>
+
+	<!--8.查询当前节点-->
+	<select id="selectNowFlow" resultMap="BaseResultMap">
+		select ID_CHE,ID_X,ORDER_OF_CURRENT_NODE,CHECK_USER_ID,CHECK_USER
+		from bussiness_flow_library_polocy_regulation
+		where CHECK_USER_ID=#{userId}
+	</select>
+
+	<!--9.查询该政法的所有业务审批节点-->
+	<select id="queryAllFlowsByIdX" resultMap="BaseResultMap">
+		select <include refid="allColumns"/>
+		from bussiness_flow_library_polocy_regulation
+		where ID_X=#{idX}
+		order by ORDER_OF_CURRENT_NODE
+	</select>
+
+	<!--10.修改业务表的 活跃状态 NODE_IS_ACTIVE、 节点状态 CURRENT_NODE_STATUS、修改人 UPDATEOR和修改时间 UPDATE_TIME（是当前审批人）
+		针对于
+       		1）审批通过时，
+      			上一级审批人(可能是发起人)的修改： 活跃状态为 0-不活跃
+      			当前审批人的修改：活跃状态为1-活跃 节点状态为 1-已完成
+      		2）不通过时，所有该政法的状态都为 	0-不活跃、0-已完成
+	-->
+	<update id="updateFlow">
+		update bussiness_flow_library_polocy_regulation
+		<!--活跃状态-->
+		set NODE_IS_ACTIVE=#{flow.nodeIsActive},
+		<!--节点状态-->
+		<if test="flow.currentNodeStatus!=null and flow.currentNodeStatus!=''">
+			CURRENT_NODE_STATUS=#{flow.currentNodeStatus},
+		</if>
+		UPDATEOR=#{flow.updateor},
+		UPDATE_TIME=#{flow.updateTime}
+		<where>
+			<choose>
+				<when test="idX!=null">
+					and ID_X=#{idX}
+				</when>
+				<when test="flow.idChe!=null">
+					and ID_CHE=#{flow.idChe}
+				</when>
+			</choose>
+		</where>
+
+	</update>
+
+</mapper>

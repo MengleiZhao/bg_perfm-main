@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.workgroup.expert.mapper.TPerformanceExpertGroupInfoMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="TPerformanceExpertGroupInfoResultMap" type="com.common.business.workgroup.expert.entity.TPerformanceExpertGroupInfo">
+		<id column="ID_B" property="idB" />
+		<result column="ID_A" property="idA" />
+		<result column="EXP_CODE" property="expCode" />
+		<result column="EXP_NAME" property="expName" />
+		<result column="ID_NUMBER" property="idNumber" />
+		<result column="EXP_LEAVEL" property="expLeavel" />
+		<result column="EXP_TITLE" property="expTitle" />
+		<result column="EDUCATION" property="education" />
+		<result column="GRADUATED_FROM" property="graduatedFrom" />
+		<result column="TEL_NUMBER" property="telNumber" />
+		<result column="EMAIL_ADDRESS" property="emailAddress" />
+		<result column="PERMANENT_RESIDENCE_PROVINCE" property="permanentResidenceProvince" />
+		<result column="PERMANENT_RESIDENCE_CITY" property="permanentResidenceCity" />
+		<result column="PERMANENT_RESIDENCE_COUNTY" property="permanentResidenceCounty" />
+		<result column="MAIN_RESEARCH_DIRECTIONS" property="mainResearchDirections" />
+		<result column="MAIN_WORKS" property="mainWorks" />
+		<result column="RESEARCH_ACHIEVEMENTS" property="researchAchievements" />
+		<result column="PARTIC_PROJECT_NUMBER" property="particProjectNumber" />
+		<result column="MAIN_SERVICE_BRANCH" property="mainServiceBranch" />
+		<result column="INDUSTRY_ZFYS_LEVEL1" property="industryZfysLevel1" />
+		<result column="INDUSTRY_ZFYS_LEVEL2" property="industryZfysLevel2" />
+		<result column="INDUSTRY_GMJJ_LEVEL1" property="industryGmjjLevel1" />
+		<result column="INDUSTRY_GMJJ_LEVEL2" property="industryGmjjLevel2" />
+		<result column="SERV_REG_ASSE" property="servRegAsse" />
+		<result column="AUTHORITY_OF_EXPERTS" property="authorityOfExperts" />
+		<result column="IS_CREATE_ACCOUNT" property="isCreateAccount" />
+		<result column="EXP_ACCOUNT" property="expAccount" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+	</resultMap>
+
+
+	<!--1.查询“专家组信息”-->
+	<select id="selectExpertGroup" resultMap="TPerformanceExpertGroupInfoResultMap">
+		select *
+		from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</select>
+
+
+	<!--组建专家组的插入字段-->
+	<sql id="insertField">
+		(ID_A,
+		EXP_CODE,
+		EXP_NAME,
+		ID_NUMBER,
+		EXP_LEAVEL,
+		EXP_TITLE,
+		EDUCATION,
+		GRADUATED_FROM,
+		TEL_NUMBER,
+		EMAIL_ADDRESS,
+		PERMANENT_RESIDENCE_PROVINCE,
+		PERMANENT_RESIDENCE_CITY,
+		PERMANENT_RESIDENCE_COUNTY,
+		MAIN_RESEARCH_DIRECTIONS,
+		MAIN_WORKS,
+		RESEARCH_ACHIEVEMENTS,
+		PARTIC_PROJECT_NUMBER,
+		MAIN_SERVICE_BRANCH,
+		INDUSTRY_ZFYS_LEVEL1,
+		INDUSTRY_ZFYS_LEVEL2,
+		INDUSTRY_GMJJ_LEVEL1,
+		INDUSTRY_GMJJ_LEVEL2,
+		SERV_REG_ASSE,
+		AUTHORITY_OF_EXPERTS,
+		CREATEOR,
+		CREATE_TIME,
+		IS_CREATE_ACCOUNT,
+		EXP_ACCOUNT)
+	</sql>
+
+
+
+
+
+	<!--4.根据主/子项目的主键id查询该专家表中的专家编号-->
+	<select id="selectExceptCode" resultType="java.lang.String">
+		select EXP_CODE from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</select>
+
+	<!--5.根据专家编号删除-->
+	<delete id="deleteByExpCode">
+		delete from t_performance_expert_group_info
+		where EXP_CODE=#{expCode}
+	</delete>
+
+	<!--6.删除该子项目中的所有专家表中的数据信息-->
+	<delete id="deleteAllDatas">
+		delete from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</delete>
+
+	<select id="selectExpertAccount" resultType="java.lang.String">
+		select EXP_ACCOUNT from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</select>
+
+	<!--得到原有的专家集合-->
+	<select id="getOldExpertInfo" resultMap="TPerformanceExpertGroupInfoResultMap">
+		select * from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</select>
+
+	<!--修改原来的专家账号-->
+	<update id="updateAccount" >
+		update t_performance_expert_group_info
+		set
+		<choose>
+			<when test="performanceExpertGroupInfo.isCreateAccount!=null and performanceExpertGroupInfo.isCreateAccount!=''">
+				IS_CREATE_ACCOUNT=#{performanceExpertGroupInfo.isCreateAccount},
+			</when>
+			<otherwise>
+				IS_CREATE_ACCOUNT=null,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="performanceExpertGroupInfo.expAccount!=null and performanceExpertGroupInfo.expAccount!=''">
+				IS_CREATE_ACCOUNT=#{performanceExpertGroupInfo.isCreateAccount},
+			</when>
+			<otherwise>
+				IS_CREATE_ACCOUNT=null,
+			</otherwise>
+		</choose>
+		UPDATEOR=#{performanceExpertGroupInfo.createor},
+		UPDATE_TIME=now()
+		where ID_A=#{performanceExpertGroupInfo.idA} and EXP_CODE=#{performanceExpertGroupInfo.expCode}
+	</update>
+
+	<!--根据专家编号删除-->
+	<delete id="deleteExperts">
+		delete from t_performance_expert_group_info
+		where ID_A=#{idA} and EXP_CODE in
+		<foreach collection="oldExpCodes" item="expCode" open="(" separator="," close=")">
+			#{expCode}
+		</foreach>
+	</delete>
+
+
+	<!--查询该专家账号是否在其他项目中使用，如果其他项目中也没有使用该专家账号，则删除用户表中该专家账号-->
+	<select id="queryExprtAccountIsUsed" resultType="java.lang.Integer">
+		select count(expert.ID_B)
+		from t_performance_expert_group_info expert
+		inner join t_pro_performance_info p
+		on p.ID_A=expert.ID_A
+		where expert.EXP_ACCOUNT=#{expAccount} and expert.IS_CREATE_ACCOUNT=1
+	</select>
+
+
+
+
+<!--==============================================================================================================-->
+		<!--工作组台账  开始   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+	<!--1.查询创建工作组的最晚时间-->
+	<select id="selectExpertTime" resultType="java.util.Date">
+		select max(UPDATE_TIME) from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</select>
+
+	<!--2.查询专家组的成员数量-->
+	<select id="selectExpertNum" resultType="java.lang.Integer">
+		select count(*) from t_performance_expert_group_info
+		where ID_A=#{idA}
+	</select>
+
+
+
+<!--==============================================================================================================-->
+		<!--工作组台账  结束   author: 田鑫艳-->
+<!--==============================================================================================================-->
+
+
+</mapper>

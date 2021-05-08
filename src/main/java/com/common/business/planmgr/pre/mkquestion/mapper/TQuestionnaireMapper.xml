@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.pre.mkquestion.mapper.TQuestionnaireMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.pre.mkquestion.entity.TQuestionnaire">
+		<id column="ID_B" property="idB" />
+		<result column="ID_R" property="idR" />
+		<result column="QUES_ID" property="quesId" />
+		<result column="QUES_TITLE" property="quesTitle" />
+		<result column="QUES_DESC" property="quesDesc" />
+		<result column="QUES_STATUS" property="quesStatus" />
+		<result column="TOTAL_ANSWER" property="totalAnswer" />
+		<result column="QUES_CREATE_TIME" property="quesCreateTime" />
+		<result column="QUES_CREATEOR" property="quesCreateor" />
+		<result column="QUES_RELEASE_TIME" property="quesReleaseTime" />
+		<result column="IS_TIME_CONTROL" property="isTimeControl" />
+		<result column="QUES_START_TIME" property="quesStartTime" />
+		<result column="QUES_END_TIME" property="quesEndTime" />
+		<result column="IS_SET_PASSWORD" property="isSetPassword" />
+		<result column="PASSWORD" property="password" />
+		<result column="END_TIP" property="endTip" />
+		<result column="NUM_OF_ANSWER" property="numOfAnswer" />
+		<result column="TOTAL_OF_ANSWER" property="totalOfAnswer" />
+		<result column="IS_ALLOW_CONTINUE" property="isAllowContinue" />
+		<result column="IS_ALLOW_PREVIEW" property="isAllowPreview" />
+		<result column="URL_FOR_2DCODR" property="urlFor2dcodr" />
+	</resultMap>
+
+</mapper>

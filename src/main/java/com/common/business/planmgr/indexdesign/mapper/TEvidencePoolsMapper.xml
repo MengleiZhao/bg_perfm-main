@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.planmgr.indexdesign.mapper.TEvidencePoolsMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.planmgr.indexdesign.entity.TEvidencePools">
+		<id column="ID_C" property="idC" />
+		<result column="ID_B" property="idB" />
+		<result column="ID_F" property="idF" />
+		<result column="INFO_TYPE1" property="infoType1" />
+		<result column="INFO_TYPE2" property="infoType2" />
+		<result column="INFO_NAME" property="infoName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="F_UPDATEOR" property="updateor" />
+		<result column="F_UPDATEOR" property="updateor" />
+	</resultMap>
+
+
+	<!--根据idA查询资料清单集合，且把资料清单转换为佐证材料池对象-->
+	<select id="findTEvidencePoolsListByIdA" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select t1.INFO_TYPE1,t1.INFO_TYPE2,t2.ID_C as ID_F,t2.F_FILE_NAME as INFO_NAME,t2.F_UPDATEOR,t2.F_FILE_SIZE
+		from t_development_information_list t1
+		right join T_INFORMATIONS t2 on t1.id_b=t2.id_b
+		where  t1.id_R in
+			(
+				select id_R
+				from RELATION_PRO_LIST t3
+				where t3.CREATE_STAUTS='2' and  t3.ID_A =#{idA}
+			)
+	</select>
+</mapper>

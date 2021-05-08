@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.TLibraryPolocyRegulationUptAttaMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.TLibraryPolocyRegulationUptAtta">
+		<id column="ID_U_A" property="idUA" />
+		<result column="ID_U" property="idU" />
+		<result column="FILE_NAME" property="fileName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="FILE_SIZE" property="fileSize" />
+		<result column="CREATEOR_ID" property="createorId" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+	</resultMap>
+
+	<!--所有字段-->
+	<sql id="allCoumns">
+		ID_U_A,
+		ID_U,
+		FILE_NAME,
+		FILE_PATH,
+		FILE_SIZE,
+		CREATEOR_ID,
+		CREATEOR,
+		CREATE_TIME
+	</sql>
+	<insert id="insertBatches">
+		<if test="uptAttas!=null and uptAttas.size()>0">
+			insert into t_library_polocy_regulation_upt_atta
+			(ID_U,
+			FILE_NAME,
+			FILE_PATH,
+			FILE_SIZE,
+			CREATEOR_ID,
+			CREATEOR,
+			CREATE_TIME
+			)
+			values
+			<foreach collection="uptAttas" item="item" separator=",">
+				(#{item.idU},
+				#{item.fileName},
+				#{item.filePath},
+				#{item.fileSize},
+				#{item.createorId},
+				#{item.createor},
+				#{item.createTime})
+			</foreach>
+		</if>
+	</insert>
+
+
+	<!--2-查询修改政法附件表（去除删除）-->
+	<select id="queryUptAttas" resultMap="BaseResultMap">
+		select <include refid="allCoumns"/>
+		from t_library_polocy_regulation_upt_atta
+		<if test="deleteUptAttaIduaList!=null and deleteUptAttaIduaList.size()>0">
+			<where>
+				ID_U_A not in
+				<foreach collection="deleteUptAttaIduaList" item="item" open="(" separator="," close="">
+					#{item}
+				</foreach>
+			</where>
+		</if>
+	</select>
+
+
+	<!--批量插入，并返回主键id值-->
+	<insert id="insertBatchesBackKeys" useGeneratedKeys="true" keyProperty="idUA" parameterType="java.util.List">
+		<if test="uptAttaList!=null and uptAttaList.size()>0">
+			insert into t_library_polocy_regulation_upt_atta
+			(
+				FILE_NAME,
+				FILE_PATH,
+				FILE_SIZE,
+				CREATEOR_ID,
+				CREATEOR,
+				CREATE_TIME
+			)
+			values
+			<foreach collection="list" item="item" separator=",">
+				(
+					#{item.fileName},
+					#{item.filePath},
+					#{item.fileSize},
+					#{item.createorId},
+					#{item.createor},
+					#{item.createTime}
+				)
+			</foreach>
+		</if>
+	</insert>
+
+</mapper>

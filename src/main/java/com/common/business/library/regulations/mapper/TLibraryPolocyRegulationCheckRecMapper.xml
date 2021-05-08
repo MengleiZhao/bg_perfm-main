@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.regulations.mapper.TLibraryPolocyRegulationCheckRecMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.regulations.entity.LibraryPolocyRegulationCheckRec">
+		<id column="ID_B" property="idB" />
+		<result column="ID_X" property="idX" />
+		<result column="CHECK_USER_ID" property="checkUserId" />
+		<result column="CHECK_USER" property="checkUser" />
+		<result column="CHECK_TIME" property="checkTime" />
+		<result column="CHECK_RESULT" property="checkResult" />
+		<result column="CHECK_OPINION" property="checkOpinion" />
+		<result column="REMARK" property="remark" />
+		<result column="CHECK_DATA_STATUS" property="checkDataStatus" />
+		<result column="ORDER_OF_CURRENT_NODE" property="orderOfCurrentNode" />
+	</resultMap>
+
+
+
+	<!--1.查询原来上一批该人的审批记录(目的是将上一批的状态改为 历史状态)-->
+	<select id="selectCheckDataStatus" resultType="java.lang.Integer">
+		select ID_B
+		from t_library_polocy_regulation_check_rec
+		where ID_X=#{idX} and CHECK_USER_ID=#{userId} and  CHECK_DATA_STATUS=1
+	</select>
+
+	<!--2.将该审批人的上一批的 审批数据状态 改为 0-历史记录-->
+	<update id="updateLastBatch">
+		update t_library_polocy_regulation_check_rec
+		set CHECK_DATA_STATUS=0
+		where ID_B in
+		<foreach collection="lastBatch" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<!--新增审批数据，并返回新增后的主键id值-->
+	<insert id="insertCheckBackKey" useGeneratedKeys="true" keyProperty="id">
+		insert into t_library_polocy_regulation_check_rec
+			(
+				ID_X,
+				CHECK_USER_ID,
+				CHECK_USER,
+				CHECK_TIME,
+				CHECK_RESULT,
+				CHECK_OPINION,
+				REMARK,
+				CHECK_DATA_STATUS,
+				ORDER_OF_CURRENT_NODE
+			)
+		values
+			(
+				#{libraryPolocyRegulationCheckRec.idX},
+				#{libraryPolocyRegulationCheckRec.checkUserId},
+				#{libraryPolocyRegulationCheckRec.checkUser},
+				#{libraryPolocyRegulationCheckRec.checkTime},
+				#{libraryPolocyRegulationCheckRec.checkResult},
+				#{libraryPolocyRegulationCheckRec.checkOpinion},
+				#{libraryPolocyRegulationCheckRec.remark},
+				#{libraryPolocyRegulationCheckRec.checkDataStatus},
+				#{libraryPolocyRegulationCheckRec.orderOfCurrentNode}
+			)
+	</insert>
+
+	<!--4.根据政法主键id值查询政法记录id集合-->
+	<select id="queryIdBsByIdX" resultType="java.lang.Integer">
+		select ID_B
+		from t_library_polocy_regulation_check_rec
+		where ID_X=#{idX}
+	</select>
+</mapper>

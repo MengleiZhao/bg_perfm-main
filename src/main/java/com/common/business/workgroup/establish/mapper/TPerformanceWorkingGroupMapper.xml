@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.workgroup.establish.mapper.TPerformanceWorkingGroupMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.workgroup.establish.entity.TPerformanceWorkingGroup">
+		<id column="ID_B" property="idB" />
+		<result column="ID_A" property="idA" />
+		<result column="GROUP_MEMBER_ID" property="groupMemberId" />
+		<result column="GROUP_MEMBER_NAME" property="groupMemberName" />
+		<result column="GROUP_MEMBER_CODE" property="groupMemberCode" />
+		<result column="BRANCH_OFFICE_ID" property="branchOfficeId" />
+		<result column="BRANCH_OFFICE_NAME" property="branchOfficeName" />
+		<result column="DEPT_ID" property="deptName"/>
+		<result column="DEPT_NAME" property="deptName"/>
+		<result column="USER_LEAVEL" property="userLeavel" />
+		<result column="GRADUATED_FROM" property="graduatedFrom" />
+		<result column="EDUCATION" property="education" />
+		<result column="MAJOR" property="major" />
+		<result column="IS_QUALIFIED_MAIN_REVIEWER" property="isQualifiedMainReviewer" />
+		<result column="PROJECT_TYPE" property="projectType" />
+		<result column="PREVIOUS_PROJECT_ROLE" property="previousProjectRole" />
+		<result column="YEARS_EXPERIENCE" property="yearsExperience" />
+		<result column="REMARK" property="remark" />
+		<result column="IS_WORK_CHARGE" property="isWorkCharge" />
+		<result column="CREATEOR" property="createor" />
+		<result column="CREATE_TIME" property="createTime" />
+		<result column="UPDATEOR" property="updateor" />
+		<result column="UPDATE_TIME" property="updateTime" />
+	</resultMap>
+
+	<!--所有的字段-->
+	<sql id="allColumns">
+		ID_B,
+		ID_A,
+		GROUP_MEMBER_ID,
+		GROUP_MEMBER_NAME,
+		GROUP_MEMBER_CODE,
+		BRANCH_OFFICE_ID,
+		BRANCH_OFFICE_NAME,
+		DEPT_ID,
+		DEPT_NAME,
+		USER_LEAVEL,
+		GRADUATED_FROM,
+		EDUCATION,
+		MAJOR,
+		IS_QUALIFIED_MAIN_REVIEWER,
+		PROJECT_TYPE,
+		PREVIOUS_PROJECT_ROLE,
+		YEARS_EXPERIENCE,
+		REMARK,
+		IS_WORK_CHARGE,
+		CREATEOR,
+		CREATE_TIME,
+		UPDATEOR,
+		UPDATE_TIME
+	</sql>
+
+	<!--部分字段:去掉 创建人、创建时间、修改人、修改时间-->
+	<sql id="someColumns">
+		ID_B,
+		ID_A,
+		GROUP_MEMBER_ID,
+		GROUP_MEMBER_NAME,
+		GROUP_MEMBER_CODE,
+		BRANCH_OFFICE_ID,
+		BRANCH_OFFICE_NAME,
+		DEPT_ID,
+		DEPT_NAME,
+		USER_LEAVEL,
+		GRADUATED_FROM,
+		EDUCATION,
+		MAJOR,
+		IS_QUALIFIED_MAIN_REVIEWER,
+		PROJECT_TYPE,
+		PREVIOUS_PROJECT_ROLE,
+		YEARS_EXPERIENCE,
+		REMARK,
+		IS_WORK_CHARGE
+	</sql>
+
+	<!--==============================================================================================================-->
+	<!--组建专家组  开始   author: 田鑫艳-->
+	<!--==============================================================================================================-->
+
+	<!--1.查询主/子项目的组员信息  返回的是集合-->
+	<select id="selectExceptMembers" resultMap="BaseResultMap">
+		select <include refid="someColumns"/>
+		from t_performance_working_group
+		where ID_A=#{idA}
+	</select>
+
+	<!--==============================================================================================================-->
+	<!--组建专家组  结束   author: 田鑫艳-->
+	<!--==============================================================================================================-->
+
+
+
+	<!--==============================================================================================================-->
+	<!--工作组台账  开始   author: 田鑫艳-->
+	<!--==============================================================================================================-->
+
+	<!--查询该项目中组建人员的最晚时间-->
+	<select id="selectMemberTime" resultType="java.util.Date">
+		select max(UPDATE_TIME) from t_performance_working_group
+		where ID_A=#{idA}
+	</select>
+
+	<!--查询该项目中员工的人数-->
+	<select id="selectMemberNum" resultType="java.lang.Integer">
+		select count(*) from t_performance_working_group
+		where ID_A=#{idA}
+	</select>
+
+	<!--==============================================================================================================-->
+	<!--工作组台账  结束   author: 田鑫艳-->
+	<!--==============================================================================================================-->
+
+	<select id="findWorkGroupByStatus" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select tpwg.*
+		from t_performance_working_group tpwg left join rc_user ru on tpwg.GROUP_MEMBER_ID = ru.id
+		<where>
+			AND tpwg.ID_A = #{idA}
+			AND ru.status in (#{status})
+		</where> 
+		
+	</select>
+
+	<!--4.根据主子项目id主键值，查询该项目下的员工姓名集合-->
+	<select id="selectMemberName" resultType="java.lang.String">
+		select GROUP_MEMBER_NAME
+		from t_performance_working_group
+		where ID_A=#{idA}
+	</select>
+
+	<!--5.得到该项目下组建的员工信息-->
+	<select id="queryLiveMemeber" resultMap="BaseResultMap">
+		select <include refid="someColumns"/>
+		 from t_performance_working_group
+		<where>
+			<!--员工编号-->
+			<if test="performanceWorkingGroup.groupMemberCode!=null and performanceWorkingGroup.groupMemberCode !=''">
+				and GROUP_MEMBER_CODE=#{performanceWorkingGroup.groupMemberCode}
+			</if>
+			<!--员工姓名-->
+			<if test="performanceWorkingGroup.groupMemberName!=null and performanceWorkingGroup.groupMemberName!=''">
+				and GROUP_MEMBER_NAME=#{performanceWorkingGroup.groupMemberName}
+			</if>
+			<!--员工所在分所-->
+			<if test="performanceWorkingGroup.branchOfficeName!=null and performanceWorkingGroup.branchOfficeName!=''">
+				and BRANCH_OFFICE_NAME=#{performanceWorkingGroup.branchOfficeName}
+			</if>
+			<!--综合查询字段:员工编号\员工姓名\员工所在分所-->
+			<if test="search!=null and search!=''">
+				and concat(GROUP_MEMBER_CODE,GROUP_MEMBER_NAME,BRANCH_OFFICE_NAME)
+				like concat('%',#{search},'%')
+			</if>
+			<if test="idA!=null">
+				and ID_A=#{idA}
+			</if>
+		</where>
+	</select>
+
+
+
+	<!--6.根据idA查询外勤主管-->
+	<select id="queryWorkCharge" resultMap="BaseResultMap">
+		select <include refid="someColumns"/>
+		from t_performance_working_group
+		where ID_A=#{idA} and IS_WORK_CHARGE='Y'
+	</select>
+
+</mapper>

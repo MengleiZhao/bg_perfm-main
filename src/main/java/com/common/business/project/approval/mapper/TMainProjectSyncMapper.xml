@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.project.approval.mapper.TMainProjectSyncMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.project.approval.entity.TMainProjectSync">
+		<id column="ID_A" property="idA" />
+		<result column="PRO_STATUS" property="proStatus" />
+		<result column="MAIN_PRO_CODE" property="mainProCode" />
+		<result column="MAIN_PRO_NAME" property="mainProName" />
+		<result column="BUSSINESS_TYPE" property="bussinessType" />
+		<result column="PRO_LEVEL4_CLASS_ID" property="proLevel4ClassId" />
+		<result column="PRO_LEVEL4_CLASS_NAME" property="proLevel4ClassName" />
+		<result column="PRO_PARTEN_ID" property="proPartenId" />
+		<result column="PRO_PARTEN_NAME" property="proPartenName" />
+		<result column="PRO_MANAGER_ID" property="proManagerId" />
+		<result column="PRO_MANAGER_NAME" property="proManagerName" />
+		<result column="MPRO_APPROVAL_TIME" property="mproApprovalTime" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID_A,
+		PRO_STATUS,
+		MAIN_PRO_CODE,
+		MAIN_PRO_NAME,
+		BUSSINESS_TYPE,
+		PRO_LEVEL4_CLASS_ID,
+		PRO_LEVEL4_CLASS_NAME,
+		PRO_PARTEN_ID,
+		PRO_PARTEN_NAME,
+		PRO_MANAGER_ID,
+		PRO_MANAGER_NAME,
+		MPRO_APPROVAL_TIME
+	</sql>
+	<update id="updateProStatusById">
+		UPDATE T_MAIN_PROJECT_SYNC
+		<set>
+			<if test="proStatus != null || proStatus != ''">pro_status = #{proStatus}</if>
+		</set>
+		WHERE id_a = #{idA}
+	</update>
+	<update id="updateProStatusByCloumn" parameterType="java.lang.String">
+		UPDATE T_MAIN_PROJECT_SYNC
+		<set>
+			<if test="proStatus != null || proStatus != ''">pro_status = #{proStatus}</if>
+		</set>
+		WHERE ${cloumn} = #{val}
+	</update>
+
+	<select id="selectPageList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		FROM T_MAIN_PROJECT_SYNC
+		<where>
+			AND PRO_STATUS = 0
+			AND PRO_MANAGER_ID = #{tMainProjectSync.proManagerId}
+		</where>
+	</select>
+
+	<select id="selectLikePageList" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT <include refid="Base_Column_List" />
+		FROM T_MAIN_PROJECT_SYNC
+		<where>
+			AND PRO_STATUS = 0
+			AND PRO_MANAGER_ID = #{tMainProjectSync.proManagerId}
+			<if test="search != null || search != ''">
+				AND concat(
+				MAIN_PRO_CODE,
+				MAIN_PRO_NAME,
+				PRO_MANAGER_NAME) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="countLikePage" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		count(1)
+		FROM T_MAIN_PROJECT_SYNC
+		<where>
+			AND PRO_STATUS = 0
+			AND PRO_MANAGER_ID = #{tMainProjectSync.proManagerId}
+			<if test="search != null || search != ''">
+				AND concat(
+				MAIN_PRO_CODE,
+				MAIN_PRO_NAME,
+				PRO_MANAGER_NAME) LIKE concat('%',IFNULL(#{search},''),'%')
+			</if>
+		</where>
+	</select>
+	<select id="findByCloumnList" resultMap="BaseResultMap" parameterType="string">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_MAIN_PROJECT_SYNC
+		<where>
+			AND ${cloumn} = #{val}
+		</where>
+	</select>
+	<select id="findByCloumn" resultMap="BaseResultMap" parameterType="string">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_MAIN_PROJECT_SYNC
+		<where>
+			AND ${cloumn} = #{val}
+		</where>
+	</select>
+</mapper>

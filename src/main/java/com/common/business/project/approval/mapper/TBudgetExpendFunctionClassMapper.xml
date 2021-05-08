@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.project.approval.mapper.TBudgetExpendFunctionClassMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.project.approval.entity.TBudgetExpendFunctionClass">
+		<id column="B_ID" property="bId" />
+		<result column="FUNC_CODE" property="funcCode" />
+		<result column="FUNC_NAME" property="funcName" />
+		<result column="PARAENT_ID" property="paraentId" />
+		<result column="REMARK" property="remark" />
+		<result column="paraentName" property="paraentName" />
+		<result column="LEVEL" property="level" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+                B_ID,
+                FUNC_CODE,
+                FUNC_NAME,
+                PARAENT_ID,
+                LEVEL,
+                REMARK
+    </sql>
+    <select id="selectPageList" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List" />
+		FROM t_budget_expend_function_class
+		<where>
+			<if test="tBudgetExpendFunctionClass.funcCode != null and tBudgetExpendFunctionClass.funcCode !=''">
+				and FUNC_CODE LIKE concat('%',#{tBudgetExpendFunctionClass.funcCode},'%')
+			</if><if test="funcName != null and funcName !=''">
+				and FUNC_NAME LIKE concat('%',#{tBudgetExpendFunctionClass.funcName},'%')
+			</if>
+		</where>
+
+
+	</select>
+	<select id="selectBudgetExpendList" resultMap="BaseResultMap" >
+		SELECT <include refid="Base_Column_List" />
+		FROM t_budget_expend_function_class
+	</select>
+	<select id="selectBudgetExpendListLeftJion" resultMap="BaseResultMap" >
+		SELECT  t1.B_ID,
+                t1.FUNC_CODE,
+                t1.FUNC_NAME,
+                t1.PARAENT_ID,
+                t1.LEVEL,
+                t1.REMARK,
+                t2.FUNC_NAME paraentName
+		FROM t_budget_expend_function_class t1 LEFT JOIN t_budget_expend_function_class t2 ON t1.PARAENT_ID=t2.B_ID
+		<where>
+			<if test="bId != null and bId != ''">
+				AND t1.B_ID=#{bId}
+			</if>
+
+		</where>
+	</select>
+	<select id="selectListLeftJion" resultMap="BaseResultMap" >
+		SELECT  t1.B_ID,
+		t1.FUNC_CODE,
+		t1.FUNC_NAME,
+		t1.PARAENT_ID,
+		t1.LEVEL,
+		t1.REMARK,
+		t2.FUNC_NAME paraentName
+		FROM t_budget_expend_function_class t1 LEFT JOIN t_budget_expend_function_class t2 ON t1.PARAENT_ID=t2.B_ID
+		<where>
+			<if test="fvalue != null and fvalue != ''">
+				AND t1.B_ID=#{fvalue}
+			</if>
+
+		</where>
+	</select>
+
+	
+	
+	
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.common.business.library.cases.mapper.TLibraryProjectCaseMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.common.business.library.cases.entity.TLibraryProjectCase">
+		<id column="ID_X" property="idX" />
+		<result column="PRO_CODE" property="proCode" />
+		<result column="PRO_NAME" property="proName" />
+		<result column="BUSSINESS_TYPE" property="bussinessType" />
+		<result column="BUSSINESS_LEVEL" property="bussinessLevel" />
+		<result column="CUSTOMER_REGION" property="customerRegion" />
+		<result column="REMARK" property="remark" />
+		<result column="INDUSTRY_ZFYS_LEVEL1" property="industryZfysLevel1" />
+		<result column="INDUSTRY_ZFYS_LEVEL2" property="industryZfysLevel2" />
+		<result column="INDUSTRY_GMJJ_LEVEL1" property="industryGmjjLevel1" />
+		<result column="INDUSTRY_GMJJ_LEVEL2" property="industryGmjjLevel2" />
+		<result column="DATA_STAUTS" property="dataStauts" />
+		<result column="INSCREASE_DESC" property="inscreaseDesc" />
+		<result column="REDUCE_DESC" property="reduceDesc" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID_X,
+		PRO_CODE,
+		PRO_NAME,
+		BUSSINESS_TYPE,
+		BUSSINESS_LEVEL,
+		CUSTOMER_REGION,
+		REMARK,
+		INDUSTRY_ZFYS_LEVEL1,
+		INDUSTRY_ZFYS_LEVEL2,
+		INDUSTRY_GMJJ_LEVEL1,
+		INDUSTRY_GMJJ_LEVEL2,
+		DATA_STAUTS,
+		INSCREASE_DESC,
+		REDUCE_DESC
+	</sql>
+	<sql id="Base_Column_List_As">
+		ID_X As idX,
+		PRO_CODE As proCode,
+		PRO_NAME As proName,
+		BUSSINESS_TYPE As bussinessType,
+		BUSSINESS_LEVEL As bussinessLevel,
+		CUSTOMER_REGION As customerRegion,
+		REMARK As remark,
+		INDUSTRY_ZFYS_LEVEL1 As industryZfysLevel1,
+		INDUSTRY_ZFYS_LEVEL2 As industryZfysLevel2,
+		INDUSTRY_GMJJ_LEVEL1 As industryGmjjLevel1,
+		INDUSTRY_GMJJ_LEVEL2 As industryGmjjLevel2,
+		DATA_STAUTS As dataStauts,
+		INSCREASE_DESC As inscreaseDesc,
+		REDUCE_DESC As reduceDesc
+	</sql>
+	<sql id="Base_Query_Condition">
+		<if test="idX != null and idX != ''">
+			AND ID_X = #{idX,jdbcType=INTEGER}
+		</if>
+		<if test="proCode != null and proCode != ''">
+			AND PRO_CODE = #{proCode,jdbcType=VARCHAR}
+		</if>
+		<if test="proName != null and proName != ''">
+			AND PRO_NAME = #{proName,jdbcType=VARCHAR}
+		</if>
+		<if test="bussinessType != null and bussinessType != ''">
+			AND BUSSINESS_TYPE = #{bussinessType,jdbcType=VARCHAR}
+		</if>
+		<if test="bussinessLevel != null and bussinessLevel != ''">
+			AND BUSSINESS_LEVEL = #{bussinessLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="customerRegion != null and customerRegion != ''">
+			AND CUSTOMER_REGION = #{customerRegion,jdbcType=VARCHAR}
+		</if>
+		<if test="remark != null and remark != ''">
+			AND REMARK = #{remark,jdbcType=VARCHAR}
+		</if>
+		<if test="industryZfysLevel1 != null and industryZfysLevel1 != ''">
+			AND INDUSTRY_ZFYS_LEVEL1 = #{industryZfysLevel1,jdbcType=VARCHAR}
+		</if>
+		<if test="industryZfysLevel2 != null and industryZfysLevel2 != ''">
+			AND INDUSTRY_ZFYS_LEVEL2 = #{industryZfysLevel2,jdbcType=VARCHAR}
+		</if>
+		<if test="industryGmjjLevel1 != null and industryGmjjLevel1 != ''">
+			AND INDUSTRY_GMJJ_LEVEL1 = #{industryGmjjLevel1,jdbcType=VARCHAR}
+		</if>
+		<if test="industryGmjjLevel2 != null and industryGmjjLevel2 != ''">
+			AND INDUSTRY_GMJJ_LEVEL2 = #{industryGmjjLevel2,jdbcType=VARCHAR}
+		</if>
+		<if test="dataStauts != null and dataStauts != ''">
+			AND DATA_STAUTS = #{dataStauts,jdbcType=VARCHAR}
+		</if>
+		<if test="inscreaseDesc != null and inscreaseDesc != ''">
+			AND INSCREASE_DESC = #{inscreaseDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="reduceDesc != null and reduceDesc != ''">
+			AND REDUCE_DESC = #{reduceDesc,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<sql id="Base_Query_Condition_bean">
+		<if test="bean.idX != null and bean.idX != ''">
+			AND ID_X = #{bean.idX,jdbcType=INTEGER}
+		</if>
+		<if test="bean.proCode != null and bean.proCode != ''">
+			AND PRO_CODE = #{bean.proCode,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.proName != null and bean.proName != ''">
+			AND PRO_NAME = #{bean.proName,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.bussinessType != null and bean.bussinessType != ''">
+			AND BUSSINESS_TYPE = #{bean.bussinessType,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.bussinessLevel != null and bean.bussinessLevel != ''">
+			AND BUSSINESS_LEVEL = #{bean.bussinessLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.customerRegion != null and bean.customerRegion != ''">
+			AND CUSTOMER_REGION = #{bean.customerRegion,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.remark != null and bean.remark != ''">
+			AND REMARK = #{bean.remark,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.industryZfysLevel1 != null and bean.industryZfysLevel1 != ''">
+			AND INDUSTRY_ZFYS_LEVEL1 = #{bean.industryZfysLevel1,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.industryZfysLevel2 != null and bean.industryZfysLevel2 != ''">
+			AND INDUSTRY_ZFYS_LEVEL2 = #{bean.industryZfysLevel2,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.industryGmjjLevel1 != null and bean.industryGmjjLevel1 != ''">
+			AND INDUSTRY_GMJJ_LEVEL1 = #{bean.industryGmjjLevel1,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.industryGmjjLevel2 != null and bean.industryGmjjLevel2 != ''">
+			AND INDUSTRY_GMJJ_LEVEL2 = #{bean.industryGmjjLevel2,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.dataStauts != null and bean.dataStauts != ''">
+			AND DATA_STAUTS = #{bean.dataStauts,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.inscreaseDesc != null and bean.inscreaseDesc != ''">
+			AND INSCREASE_DESC = #{bean.inscreaseDesc,jdbcType=VARCHAR}
+		</if>
+		<if test="bean.reduceDesc != null and bean.reduceDesc != ''">
+			AND REDUCE_DESC = #{bean.reduceDesc,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<select id="findPageList" resultMap="BaseResultMap" parameterType="String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_LIBRARY_PROJECT_CASE
+		<where>
+			<include refid="Base_Query_Condition_bean" />
+		</where>
+	</select>
+	
+	
+</mapper>
